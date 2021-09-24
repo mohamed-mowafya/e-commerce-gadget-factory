@@ -1,0 +1,62 @@
+.navbar-modifier{
+    background-color: #36213e;
+}
+.navbar-brand{
+    margin-left: 0.5%;
+}
+.d-flex{
+    margin-right:0.8%;
+}
+.nav-item{
+    font-family: "Montserrat" sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: white;
+}
+.header-inscription{
+    font-family: "Montserrat" sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: black;
+    text-align: center;
+    margin-top: 3%;
+}
+.paragraph-inscription{
+    font-family: "Montserrat" sans-serif;
+    font-weight: 200;
+    font-size: 14px;
+    color: black;
+    text-align: center;
+}
+.section-inscription{
+    border: 2px solid #36213e;
+    height: 480px;
+    width: 25%;
+    margin-top: 6%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+}
+.bg-inscription{
+    background-color: lightgray;
+}
+.flex-inscription{
+    display: flex;
+    flex-direction: column;
+    gap : 20px;
+}
+.form-inscription{
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.btn-inscription{
+    align-self: center;
+    width: 50%;
+    background-color: black;
+    color:white;
+}
+.btn-inscription:hover{
+    background-color: #36213e;
+    color: white;
+}

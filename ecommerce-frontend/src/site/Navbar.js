@@ -1,27 +1,30 @@
 import React from "react";
 import {Link,withRouter} from 'react-router-dom';
+import '../style.css'
 const pageActive = (history,path) =>{
-    // History = current page
+    // History = page actuel
     if(history.location.pathname === path){
-        return {color:'#ff9900'};
+        return {color:'#151513'};
     }
     else{
         return {color:'#FFFFFF'};
     }
 }
-const Menu = ({history}) =>(
-    <div>
-    <ul className="nav nav-tabs bg-primary">
-        <li className="nav-item">
-            <Link className="nav-link" style={pageActive(history,'/')} to="/">Home</Link>
-        </li>
-        <li className="nav-item">
-            <Link className="nav-link" style={pageActive(history,'/login')} to="/login">Login</Link>
-        </li>
-        <li className="nav-item">
-            <Link className="nav-link" style={pageActive(history,'/signup')} to="/signup">Signup </Link>
-        </li>
-    </ul>
+const NavBar = ({history}) =>(
+<nav className="navbar navbar-expand-lg navbar-modifier">
+    <Link className="navbar-brand" style={pageActive(history,'/')} to="/">Brand</Link>
+  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span className="navbar-toggler-icon"></span>
+  </button>
+  <div className="collapse navbar-collapse d-flex justify-content-end" id="navbarNavAltMarkup">
+    <div className="navbar-nav">
+      <Link className="nav-item nav-link" style={pageActive(history,'/')} to="/">Accueil</Link>
+      <Link className="nav-item nav-link" style={pageActive(history,'/')} to="/">Produits</Link>
+      <Link className="nav-item nav-link" style={pageActive(history,'/')} to="/login">Se connecter</Link>
+      <Link className="nav-item nav-link" style={pageActive(history,'/')} to="/signup">Inscription</Link>
     </div>
+  </div>
+</nav>
+
 )
-export default withRouter(Menu);
+export default withRouter(NavBar);
