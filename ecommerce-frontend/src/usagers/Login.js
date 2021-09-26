@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from '../site/Layout';
 import { API } from "../config";
-import '../style.css'
+import '../CSS/login_signup.css'
 import { Redirect } from "react-router";
 
 const Login = () => {
@@ -53,9 +53,9 @@ const Login = () => {
 
     const { email, mdp, erreur, chargement, rediriger } = valeursUsager;
     const form = () => (
-        <div className="section-inscription">
-            <p className="header-inscription">Créer un compte x</p>
-            <p className="paragraph-inscription">Créer un seul compte pour tous vos achats!</p>
+        <div className="section-inscription-login">
+            <p className="header-inscription">Connectez-vous</p>
+            <p className="paragraph-inscription">Quel plaisir de vous revoir!</p>
             <form action="POST" className="flex-inscription">
                 <div className="form-group form-inscription">
                     <label className="text-muted">Email</label>

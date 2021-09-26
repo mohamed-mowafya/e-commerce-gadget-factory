@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from "react";
 import Layout from '../site/Layout';
 import {API} from "../config";
-import '../style.css'
+import '../CSS/login_signup.css'
 const Signup = () =>{
     const [valeursUsager,setValeursUsager] = useState({
         nom: '',

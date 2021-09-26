@@ -1,6 +1,6 @@
 import React from "react";
 import {Link,withRouter} from 'react-router-dom';
-import '../style.css'
+import '../CSS/login_signup.css'
 const pageActive = (history,path) =>{
     // History = page actuel
     if(history.location.pathname === path){
