@@ -65,7 +65,7 @@ const Login = () => {
                     <label className="text-muted">Mot de passe</label>
                     <input onChange={changementValeurs('mdp')} type="password" className="form-control" value={mdp}/>
                 </div>
-                <button className="btn btn-inscription" onClick={submitValeurs}>S'inscrire</button>
+                <button className="btn btn-inscription" onClick={submitValeurs}>Se Connecter</button>
             </form>
         </div>
     )
