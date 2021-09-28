@@ -1,5 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 
 // importation routes:
@@ -31,8 +34,17 @@ const app = express();
 
 
 
+// les middlewares
 
-// Les middlewares
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(cookieParser());
+
+
+
+
+
+// Routes middlewares
 
 app.use("/api",userRoutes)
 
