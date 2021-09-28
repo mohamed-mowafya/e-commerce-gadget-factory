@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
+
+*{
+    font-family:'Lora', serif;
+}
+
 .nav_background{
     background-color: #36213e;
 }
@@ -13,13 +19,11 @@
     margin-right:0.8%;
 }
 .nav-item{
-    font-family: "Montserrat" sans-serif;
     font-weight: 500;
     font-size: 16px;
     color: white;
 }
 .header-inscription{
-    font-family: "Montserrat" sans-serif;
     font-weight: 600;
     font-size: 18px;
     color: black;
@@ -27,7 +31,6 @@
     margin-top: 3%;
 }
 .paragraph-inscription{
-    font-family: "Montserrat" sans-serif;
     font-weight: 200;
     font-size: 14px;
     color: black;
