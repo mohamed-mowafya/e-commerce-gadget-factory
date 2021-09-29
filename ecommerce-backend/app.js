@@ -2,6 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 
+// importation routes:
+const userRoutes = require('./routes/user')
+
+
 // load env variables
 const dotenv = require('dotenv');
 dotenv.config()
@@ -28,11 +32,11 @@ const app = express();
 
 
 
-// Les routes
+// Les middlewares
 
-app.get('/',(req,res)=>{
-res.send('Test');
-});
+app.use("/api",userRoutes)
+
+
 const port = process.env.PORT || 8000;
 app.listen(port,()=>{
     console.log('Connected to port ' + port)
