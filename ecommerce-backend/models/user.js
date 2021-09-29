@@ -58,6 +58,28 @@ userSchema
     });
 
 
+// methode : 
+
+userSchema.methods = {
+
+    encrypterLeMotDePasse: function(password) {
+        if (!password) return '';
+        try {
+
+          // lien pour utiliser cypto  https://www.geeksforgeeks.org/node-js-crypto-createhmac-method/
+            return crypto
+                .createHmac('sha1', this.salt) // 
+                .update(password)
+                .digest('hex');
+        } catch (err) {
+            return '';
+        }
+    }
+};
 
 
 
+
+//CREER UN NOUVEAU MODELE
+
+module.exports = mongoose.model('User', userSchema);
