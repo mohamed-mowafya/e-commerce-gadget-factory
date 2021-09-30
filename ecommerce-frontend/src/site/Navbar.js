@@ -4,7 +4,7 @@ import '../CSS/login_signup.css'
 const pageActive = (history, path) => {
   // History = page actuel
   if (history.location.pathname === path) {
-    return { color: '#21B6A8' };
+    return { color: '#b4d8ee' };
   }
   else {
     return { color: '#FFFFFF' };
