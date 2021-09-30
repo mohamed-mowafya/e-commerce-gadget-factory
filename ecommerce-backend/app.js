@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 
 // TRES IMPORTANT INSTALLER CETTE VERSION npm install express-validator@5.3.1
 //NOUVEAU EXPRESS-VALIDOATOR  ne prends plus le expressValidator comme methode dans le app.use
-//const expressValidator = require('express-validator');
+const expressValidator = require('express-validator');
 
 // importation routes:
 const userRoutes = require('./routes/user')
@@ -42,7 +42,7 @@ const app = express();
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
-//app.use(expressValidator());
+app.use(expressValidator());
 
 
 
