@@ -62,6 +62,10 @@ userSchema
 
 userSchema.methods = {
 
+    authenticate: function(plainText) {
+        return this.encrypterLeMotDePasse(plainText) === this.hashed_password;
+    },
+    
     encrypterLeMotDePasse: function(password) {
         if (!password) return '';
         try {
@@ -72,7 +76,7 @@ userSchema.methods = {
                 .update(password)
                 .digest('hex');
         } catch (err) {
-            return '';
+            return "";
         }
     }
 };
