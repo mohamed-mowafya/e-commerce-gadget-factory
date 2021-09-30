@@ -5,7 +5,7 @@
 }
 
 .nav_background{
-    background-color: #36213e;
+    background-color: #563a72;
 }
 
 .navbar-modifier{
@@ -21,7 +21,10 @@
 .nav-item{
     font-weight: 500;
     font-size: 16px;
-    color: white;
+}
+
+.nav-item:hover{
+    color: rgb(143, 191, 255)!important;
 }
 .header-inscription{
     font-weight: 600;
@@ -70,10 +73,10 @@
 .btn-inscription{
     align-self: center;
     width: 50%;
-    background-color: black;
-    color:white;
+    background-color: black !important;
+    color:white !important;
 }
 .btn-inscription:hover{
-    background-color: #36213e;
-    color: white;
+    background-color: #36213e !important;
+    color: white !important;
 }
