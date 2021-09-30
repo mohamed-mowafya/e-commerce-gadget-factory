@@ -3,6 +3,9 @@ const { errorHandler } = require('../helpers/dbErrorHandler');
 const jwt = require("jsonwebtoken"); // generer un token 
 const expressJwt = require('express-jwt'); // valider l'autorisation du signin
 
+const dotenv = require('dotenv');
+dotenv.config()
+
 
 exports.signup =  (req, res) => {
 
@@ -94,7 +97,15 @@ exports.signout =  (req, res) => {
 };
 
 
+// proteger les routes , juste les utilsiateur login vont avoir acces
 
+exports.requireSignin = expressJwt({
+
+    secret : process.env.JWT_SECRET,
+    algorithms:["HS256"],
+    userProperty: "auth"
+
+})
 
 
 
