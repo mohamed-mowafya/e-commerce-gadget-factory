@@ -4,6 +4,7 @@ import { API } from "../config";
 import '../CSS/login_signup.css'
 import { Redirect } from "react-router";
 import { estAuthentifier } from "../Authentification";
+import {loginAPI,authentifier} from "../Authentification";
 const Login = () => {
     const [valeursUsager, setValeursUsager] = useState({
         email: '',
@@ -19,36 +20,18 @@ const Login = () => {
     const submitValeurs = (event) => {
         event.preventDefault(); // Methode qui permets d'interdire le refresh.
         setValeursUsager({ ...valeursUsager, erreur: false, chargement: true});
-        valeursForm({ email, mdp }).then(data => {
-            if (data.erreur){
+        loginAPI({email,mdp})
+        .then(data => {
+            if (data.error){
                 setValeursUsager({...valeursUsager, erreur: data.erreur, chargement: false})
             }else{
+               authentifier(data,() =>{
                 setValeursUsager({
                     ...valeursUsager, rediriger: true
                 });
+               })
             }
         });
-    };
-    /**
-     * Envoie les valeurs au backend.
-     */
-    const valeursForm = (usager) => {
-        return( // Var usager = objet javascript avec les information de l'utilisateur.
-        fetch(`${API}/signin`, {
-            method: "POST",
-            headers: {
-                Accept: 'application/json',
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(usager)
-        })
-            .then(reponse => {
-                return reponse.json
-            })
-            .catch(err => {
-                console.log(err)
-            })
-            )
     };
 
     const changementValeurs = contenu => event => {
@@ -74,9 +57,11 @@ const Login = () => {
         </div>
     )
 
-    const afficheErreur = () => (
-        <div className="alerte alerte-danger" style= {{display: erreur ? "" : "none"}}>{erreur}</div>
-    );
+    const affichageErreur =  () =>(
+        <div className="alert alert-danger" style={{display: erreur ? '' : 'none'}}>
+            {erreur}
+        </div>
+    )
 
     const afficheChargement = () => (
         chargement && (<div className="alerte alerte-info"> 
@@ -84,10 +69,9 @@ const Login = () => {
         </div>
         )
     );
-
-    const redirigerUtilisateur = () => {
+       const redirigerUtilisateur = () => {
         if(rediriger){
-            if(usager && usager === 1 ){
+            if(usager && usager.role === 1 ){
                 return <Redirect to="/admin/dashboard" />; // Si admin -> redirigé vers dashboard de l'admin
             }else {
                 return <Redirect to="/usager/dashboard" />;  // Si pas admin -> redirigé vers dashboard de l'usager
@@ -100,9 +84,10 @@ const Login = () => {
     return (
         <Layout title="Login page" description="Ecommerce app" className="">
             {afficheChargement()}
-            {afficheErreur()}
-            {form()}
+            {affichageErreur()}
             {redirigerUtilisateur()}
+            {form()}
+            
         </Layout>
     )
 }

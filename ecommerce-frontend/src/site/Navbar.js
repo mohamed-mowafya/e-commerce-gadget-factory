@@ -22,12 +22,16 @@ const NavBar = ({ history }) => (
         <div className="navbar-nav">
           <Link className="nav-item nav-link" style={pageActive(history, '/')} to="/">Accueil</Link>
           <Link className="nav-item nav-link" style={pageActive(history, '/produits')} to="/">Produits</Link>
-          <Link className="nav-item nav-link" style={pageActive(history, '/login')} to="/login">Se connecter</Link>
-          <Link className="nav-item nav-link" style={pageActive(history, '/signup')} to="/signup">Inscription</Link>
-          {estAuthentifier() && estAuthentifier().usager.role === 0 &&(
+          {!estAuthentifier() &&(
+            <div className="navbar-nav"> 
+            <Link className="nav-item nav-link" style={pageActive(history, '/login')} to="/login">Se connecter</Link>
+            <Link className="nav-item nav-link" style={pageActive(history, '/signup')} to="/signup">Inscription</Link>
+            </div>
+          )}
+          {estAuthentifier() && estAuthentifier().user.role === 0 &&(
             <Link className="nav-item nav-link" style={pageActive(history, '/usager/dashboard')} to="/usager/dashboard">Dashboard</Link>
           )}
-          {estAuthentifier() && estAuthentifier().usager.role === 1 &&(
+          {estAuthentifier() && estAuthentifier().user.role === 1 &&(
             <Link className="nav-item nav-link" style={pageActive(history, '/admin/dashboard')} to="/admin/dashboard">Dashboard</Link>
           )}
         </div>

@@ -9,7 +9,7 @@ const RoutePrive = ({ component: Component, ...rest }) => (
     <Route    
         {...rest}
         render={props =>
-            estAuthentifier()  && estAuthentifier.usager.role === 0 ? (
+            estAuthentifier()  && estAuthentifier().user.role === 0 ? (
                 <Component {...props} />
             ) : (
                 <Redirect
