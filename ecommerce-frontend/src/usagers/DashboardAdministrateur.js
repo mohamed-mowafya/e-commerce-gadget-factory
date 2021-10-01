@@ -4,24 +4,24 @@ import { estAuthentifier } from "../Authentification";
 import { Link } from "react-router-dom";
 
 
-const Dashboard = () => {
+const DashboardAdministarteur = () => {
 
-    //Pour pouvoir update le profile 
+    
     const {usager : _id, nom, email, role} = estAuthentifier()
 
-    // permet de naviguer sur des liens qui appartiennent seulement a l'usager, ex : modifier son profil
-    const liensUsagers  = () => {
+    // permet de naviguer sur des liens qui appartiennent seulement a l'admi, ex : Créer un produit
+    const liensAdmin  = () => {
         return(
             
             <div className="card">
-                <h4 className="card-header">Lien de l'usager</h4>
+                <h4 className="card-header">Lien de l'administrateur</h4>
                 <ul className = "list-group">
 
                  <li className = "list-group-item">
-                     <Link className="nav-link" to="/panier">Mon panier</Link>
+                     <Link className="nav-link" to="/cree/categorie">Créer une catégorie</Link>
                  </li>
                  <li className = "list-group-item">
-                     <Link  className="nav-link" to="/profile/modifier">Modifier mon profile</Link>
+                     <Link  className="nav-link" to="/cree/produit">Créer un produit</Link>
                  </li>
 
                 </ul>
@@ -32,8 +32,8 @@ const Dashboard = () => {
 
     }
 
-    // retourne les information de l'usager
-    const informationsUsager = () =>{
+    // retourne les information de l'Admin
+    const informationsAdmin = () =>{
         return(
             <div className="card mb-5">
        <h3 className="card-header">Informations</h3>
@@ -49,23 +49,6 @@ const Dashboard = () => {
         )
     }
 
-    // retourn l'histoque d'achat de l'usager
-    const histoqiqueAchat = ()=>{
-        return(
-            <div className ="card mb-5">
-            <h3 className="card-header">Votre historique d'achat</h3>
-     
-            <ul className = "list-group">
-     
-             <li className = "list-group-item">historique</li>
-         
-     
-            </ul>
-     
-     
-            </div>
-        )
-    }
 
 
     return (
@@ -74,12 +57,12 @@ const Dashboard = () => {
 
            <div className="row">
                <div className="col-3">
-                {liensUsagers()}
+                {liensAdmin()}
 
                </div>
                 <div className="col-9">
-                {informationsUsager()}
-                {histoqiqueAchat()}
+                {informationsAdmin()}
+                
 
                </div>
                </div> 
@@ -89,4 +72,4 @@ const Dashboard = () => {
 
 };
 
-export default Dashboard ; 
+export default DashboardAdministarteur ; 
