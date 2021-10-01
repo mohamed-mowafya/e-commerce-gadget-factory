@@ -4,7 +4,9 @@ import Login from './usagers/Login';
 import Signup from './usagers/Signup';
 import Home from './site/Home';
 import RoutePrive from "./Authentification/RoutesPrive";
-import Dashboard from "./usagers/DashboardUtilisateur";
+import DashboardUtilisateur from "./usagers/DashboardUtilisateur";
+import DashboardAdministrateur from "./usagers/DashboardAdministrateur";
+import RouteAdministarteur from "./Authentification/RouteAdministrateur";
 
 
 const Routes = () => {
@@ -14,7 +16,8 @@ const Routes = () => {
             <Route path="/" exact component = {Home}/>
             <Route path= "/login" exact component = {Login}/>
             <Route path= "/signup" exact component = {Signup}/>
-            <Route path ="/usager/dashboard" exact component={Dashboard}></Route>
+            <RoutePrive path ="/usager/dashboard" exact component={DashboardUtilisateur}></RoutePrive>
+            <RouteAdministarteur path ="/admin/dashboard" exact component={DashboardAdministrateur}></RouteAdministarteur>
         </Switch>
     </BrowserRouter>
     );

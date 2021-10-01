@@ -86,10 +86,13 @@ const Login = () => {
     const redirigerUtilisateur = () => {
         if(rediriger){
             if(usager && usager === 1 ){
-                return <Redirect to="/admin/dashboard" />; // Si admin redirigé vers dashboard de l'admin
+                return <Redirect to="/admin/dashboard" />; // Si admin -> redirigé vers dashboard de l'admin
             }else {
-                return <Redirect to="/usager/dashboard" />;  // Si pas admin redirigé vers dashboard de l'usager
+                return <Redirect to="/usager/dashboard" />;  // Si pas admin -> redirigé vers dashboard de l'usager
             }
+        }
+        if(estAuthentifier()){
+            return <Redirect to="/" />; // Si l'usager est connecté -> rediriger vers Home
         }
     }
     return (
