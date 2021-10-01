@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from "react";
 import Layout from '../site/Layout';
 import {API} from "../config";
-import '../style.css'
+import '../CSS/login_signup.css'
 const Signup = () =>{
     const [valeursUsager,setValeursUsager] = useState({
         nom: '',
@@ -59,7 +59,7 @@ const valeursForm = (usager) =>{ // Var usager = objet javascript avec les infor
             <label className="text-muted">Mot de passe</label>
             <input onChange={changementValeurs('mdp')} type="password" className="form-control"/>
             </div>
-            <button className="btn btn-inscription" onClick={submitValeurs}>S'inscrire</button>
+            <button type="button" class="btn btn-dark btn-inscription" onClick={submitValeurs}>S'inscrire</button>
         </form>
         </div>
         )
