@@ -39,7 +39,7 @@ const valeursForm = (usager) =>{ // Var usager = objet javascript avec les infor
     const changementValeurs = contenu => event =>{
         setValeursUsager({...valeursUsager,erreur:false, [contenu]: event.target.value});
     }
-    const {nom,email,mdp} = valeursUsager;
+    const {nom,email,prenom,mdp} = valeursUsager;
     const form = () =>(
         <div className="section-inscription">
             <p className="header-inscription">Créer un compte x</p>
