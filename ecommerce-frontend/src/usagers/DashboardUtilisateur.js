@@ -7,7 +7,8 @@ import { Link } from "react-router-dom";
 const Dashboard = () => {
 
     //Pour pouvoir update le profile 
-    const {usager : _id, nom, email, role} = estAuthentifier()
+    const {user: {_id,nom,prenom,email,role}} = estAuthentifier();
+
 
     // permet de naviguer sur des liens qui appartiennent seulement a l'usager, ex : modifier son profil
     const liensUsagers  = () => {
@@ -38,11 +39,10 @@ const Dashboard = () => {
             <div className="card mb-5">
        <h3 className="card-header">Informations</h3>
        <ul className = "list-group">
-
-        <li className = "list-group-item">{nom}</li>
-        <li className = "list-group-item">{email}</li>
+        <li className = "list-group-item">Nom: {nom}, {prenom}</li>
+        <li className = "list-group-item">Courriel: {email}</li>
         <li className = "list-group-item">
-            {role == 1 ? 'Administrateur' : "Usager Connecté"}</li>
+            {role === 1 ? 'Role: Administrateur' : "Role: Usager"}</li>
 
        </ul>
        </div>
