@@ -32,8 +32,9 @@ const Login = () => {
     /**
      * Envoie les valeurs au backend.
      */
-    const valeursForm = (usager) => { // Var usager = objet javascript avec les information de l'utilisateur.
-        fetch(`${API}/signup`, {
+    const valeursForm = (usager) => {
+        return( // Var usager = objet javascript avec les information de l'utilisateur.
+        fetch(`${API}/signin`, {
             method: "POST",
             headers: {
                 Accept: 'application/json',
@@ -47,6 +48,7 @@ const Login = () => {
             .catch(err => {
                 console.log(err)
             })
+            )
     };
 
     const changementValeurs = contenu => event => {

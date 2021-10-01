@@ -5,6 +5,7 @@ import '../CSS/login_signup.css'
 const Signup = () =>{
     const [valeursUsager,setValeursUsager] = useState({
         nom: '',
+        prenom: '',
         email: '',
         mdp : '',
         erreur : '',
@@ -13,13 +14,14 @@ const Signup = () =>{
 useEffect(() => { document.body.style.backgroundColor = '#ededed' })
 const submitValeurs = (event) =>{
     event.preventDefault(); // Methode qui permets d'interdire le refresh.
-    valeursForm({nom,email,mdp})
+    valeursForm({nom,prenom,email,mdp})
 }
 /**
  * Envoie les valeurs au backend.
  */
 const valeursForm = (usager) =>{ // Var usager = objet javascript avec les information de l'utilisateur.
     fetch(`${API}/signup`,{
+        mode:"cors",
         method: "POST",
         headers: {
             Accept:'application/json',
@@ -37,7 +39,7 @@ const valeursForm = (usager) =>{ // Var usager = objet javascript avec les infor
     const changementValeurs = contenu => event =>{
         setValeursUsager({...valeursUsager,erreur:false, [contenu]: event.target.value});
     }
-    const {nom,email,mdp} = valeursUsager;
+    const {nom,email,prenom,mdp} = valeursUsager;
     const form = () =>(
         <div className="section-inscription">
             <p className="header-inscription">Créer un compte x</p>
@@ -49,7 +51,7 @@ const valeursForm = (usager) =>{ // Var usager = objet javascript avec les infor
             </div>
             <div className="form-group form-inscription">
             <label className="text-muted">Prénom</label>
-            <input onChange={changementValeurs('nom')} type="text" className="form-control"/>
+            <input onChange={changementValeurs('prenom')} type="text" className="form-control"/>
             </div>
             <div className="form-group form-inscription">
             <label className="text-muted">Email</label>

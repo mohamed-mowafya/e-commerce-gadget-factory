@@ -2,7 +2,8 @@
 // Aide : https://express-validator.github.io/docs/
 
 exports.userSignupValidator = (req, res, next) => {
-    req.check('name', 'Le nom est requis').notEmpty();
+    req.check('nom', 'Le nom est requis').notEmpty();
+    req.check('prenom','Le prenom est requis').notEmpty();
     req.check('email', 'Email doit comporter entre 3 et 32 ​​caractères')
         .matches(/.+\@.+\..+/)
         .withMessage('Email doit comporter  @')
@@ -10,8 +11,8 @@ exports.userSignupValidator = (req, res, next) => {
             min: 4,
             max: 32
         });
-    req.check('password', 'Mot de passe requis').notEmpty();
-    req.check('password')
+    req.check('mdp', 'Mot de passe requis').notEmpty();
+    req.check('mdp')
         .isLength({ min: 6 })
         .withMessage('Le mot de passe doit contenir au moins 6 caractères')
         .matches(/\d/)

@@ -10,8 +10,6 @@ const expressValidator = require('express-validator');
 
 // importation routes:
 const authRoutes = require('./routes/auth')
-
-
 // load env variables
 const dotenv = require('dotenv');
 dotenv.config()
@@ -45,13 +43,17 @@ app.use(cookieParser());
 app.use(expressValidator());
 
 
+// CORS
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+}); 
 
 
 
 // Routes middlewares
-
 app.use("/api",authRoutes)
-
 
 const port = process.env.PORT || 8000;
 app.listen(port,()=>{
