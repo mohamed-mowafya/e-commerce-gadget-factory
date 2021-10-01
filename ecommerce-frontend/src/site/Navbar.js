@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, withRouter } from 'react-router-dom';
+import { estAuthentifier } from "../Authentification";
 import '../CSS/login_signup.css'
 const pageActive = (history, path) => {
   // History = page actuel
@@ -23,7 +24,12 @@ const NavBar = ({ history }) => (
           <Link className="nav-item nav-link" style={pageActive(history, '/produits')} to="/">Produits</Link>
           <Link className="nav-item nav-link" style={pageActive(history, '/login')} to="/login">Se connecter</Link>
           <Link className="nav-item nav-link" style={pageActive(history, '/signup')} to="/signup">Inscription</Link>
-          <Link className="nav-item nav-link" style={pageActive(history, '/usager/dashboard')} to="/usager/dashboard">Dashboard</Link>
+          {estAuthentifier() && estAuthentifier().usager.role === 0 &&(
+            <Link className="nav-item nav-link" style={pageActive(history, '/usager/dashboard')} to="/usager/dashboard">Dashboard</Link>
+          )}
+          {estAuthentifier() && estAuthentifier().usager.role === 1 &&(
+            <Link className="nav-item nav-link" style={pageActive(history, '/admin/dashboard')} to="/admin/dashboard">Dashboard</Link>
+          )}
         </div>
       </div>
     </nav>
