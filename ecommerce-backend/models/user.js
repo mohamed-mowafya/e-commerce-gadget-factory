@@ -5,11 +5,17 @@ const uuidv1 = require("uuidv1") // pour generer un id unique DOC : https://www.
 
 const userSchema = new mongoose.Schema(
     {
-        name: {
+        nom: {
             type: String,
             trim: true,
             required: true,
             maxlength: 32
+        },
+        prenom:{
+            type: String,
+            trim: true,
+            required:true,
+            maxlength:32
         },
         email: {
             type: String,
@@ -47,11 +53,11 @@ const userSchema = new mongoose.Schema(
 
 // le field virtuel
 userSchema
-    .virtual('password')
-    .set(function(password) {
-        this._password = password;
+    .virtual('mdp')
+    .set(function(mdp) {
+        this._password = mdp;
         this.salt = uuidv1();
-        this.hashed_password = this.encrypterLeMotDePasse(password);
+        this.hashed_password = this.encrypterLeMotDePasse(mdp);
     })
     .get(function() {
         return this._password;

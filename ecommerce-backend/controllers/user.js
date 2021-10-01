@@ -48,7 +48,7 @@ exports.signin =  (req, res) => {
 
     // chercher l.utilisateur avec email:
 
-    const {email,password} = req.body
+    const {email,mdp} = req.body
      User.findOne({email} , (err,user) => {
 
 
@@ -64,7 +64,7 @@ exports.signin =  (req, res) => {
             // si utilisateur existe :
 
 
-            if(!user.authenticate(password)) {
+            if(!user.authenticate(mdp)) {
                 return res.status(401).json(
                     {
                         error : "Email ou le mot de passe sont incorrectes !"
