@@ -3,7 +3,7 @@ import Layout from '../site/Layout';
 import { API } from "../config";
 import '../CSS/login_signup.css'
 import { Redirect } from "react-router";
-
+import { estAuthentifier } from "../Authentification";
 const Login = () => {
     const [valeursUsager, setValeursUsager] = useState({
         email: '',
@@ -13,6 +13,8 @@ const Login = () => {
         rediriger: false,
     });
     useEffect(() => { document.body.style.backgroundColor = '#ededed' })
+
+    const{usager} = estAuthentifier() // Si l'utilisateur est authetifié avec le role de l'admin, il est redirigé vers ( utilisateur/dashboard )
 
     const submitValeurs = (event) => {
         event.preventDefault(); // Methode qui permets d'interdire le refresh.
@@ -83,7 +85,11 @@ const Login = () => {
 
     const redirigerUtilisateur = () => {
         if(rediriger){
-            return <Redirect to="/" />;
+            if(usager && usager === 1 ){
+                return <Redirect to="/admin/dashboard" />; // Si admin redirigé vers dashboard de l'admin
+            }else {
+                return <Redirect to="/usager/dashboard" />;  // Si pas admin redirigé vers dashboard de l'usager
+            }
         }
     }
     return (
