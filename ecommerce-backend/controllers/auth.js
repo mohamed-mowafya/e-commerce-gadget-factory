@@ -47,7 +47,6 @@ exports.signin =  (req, res) => {
 
 
     // chercher l.utilisateur avec email:
-
     const {email,mdp} = req.body
      User.findOne({email} , (err,user) => {
 
