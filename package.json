@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "formidable": "^1.2.2",
+    "loadsh": "^0.0.4"
+  }
+}
