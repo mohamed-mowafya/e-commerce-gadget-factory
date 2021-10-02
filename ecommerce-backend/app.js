@@ -11,6 +11,7 @@ const expressValidator = require('express-validator');
 // importation routes:
 const authRoutes = require('./routes/auth')
 const userRoutes = require('./routes/user')
+const categoryRoutes = require('./routes/category')
 
 // load env variables
 const dotenv = require('dotenv');
@@ -57,6 +58,7 @@ app.use(function(req, res, next) {
 // Routes middlewares
 app.use("/api",authRoutes)
 app.use("/api",userRoutes)
+app.use("/api",categoryRoutes)
 
 
 const port = process.env.PORT || 8000;
