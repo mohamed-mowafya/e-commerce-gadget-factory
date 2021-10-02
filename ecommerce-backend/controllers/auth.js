@@ -108,3 +108,27 @@ exports.requireSignin = expressJwt({
 
 
 
+// middleware pour authentification d'un user Normal
+
+exports.isAuth = (req, res, next) => {
+    let user = req.profile && req.auth && req.profile._id == req.auth._id;
+    if (!user) {
+        return res.status(403).json({
+            error: 'Accès refusé'
+        });
+    }
+    next();
+};
+
+
+// middleware authentification pour un administrateur
+
+
+exports.isAdmin = (req, res, next) => {
+    if (req.profile.role === 0) {
+        return res.status(403).json({
+            error: 'Accès refusé! Vous devriez être administrateur'
+        });
+    }
+    next();
+};
