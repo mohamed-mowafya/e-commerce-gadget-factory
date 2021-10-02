@@ -1,5 +1,5 @@
-const User = require('../Models/user');
 
+const User = require('../models/user');
 
 //Chercher un utilisateur par son ID
 exports.userById = (req, res, next, id) => {
