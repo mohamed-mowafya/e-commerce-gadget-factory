@@ -14,7 +14,7 @@ router.post(
     create
 );
 
-
-router.param('id', userById);
+router.param('category')
+router.param('userId', userById);
 
 module.exports = router;
