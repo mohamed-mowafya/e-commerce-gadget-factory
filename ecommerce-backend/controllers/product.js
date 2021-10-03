@@ -75,5 +75,47 @@ exports.remove = (req, res) => {
         res.json({
             message: "Produit supprime avec succes"
         })
+    });
+};
+
+exports.update = (req, res) => {
+    let form = new formidable.IncomingForm()
+    form.keepExtensions = true
+    form.parse(req, (err, fields, files)=> {
+        if(err){
+            return res.status(400).json({
+                error: 'Image non telecharger'
+            })
+        }
+        const {name, description, price, category, quantity, shipping}= fields
+
+        if(!name || !description || !price || !category || !quantity || !shipping){
+            return res.status(400).json({
+                error: "touts les fields doivent etre remplis"
+            });
+        }
+
+        let product = req.product
+        product = _.extend(product, fields);
+
+        if(files.photo){
+            if(files.photo.size > 1000000){
+                return res.status(400).json({
+                    error: "Image doit etre plus petite que 1mb"
+                });
+            }
+            product.photo.data = fs.readFileSync(files.photo.path)
+            product.photo.contentType = files.photo.type
+        }
+
+        product.save((err, result) => {
+            if(err){
+                return res.status(400).json({
+                    error: errorHandler(err)
+                });
+            }
+
+            res.json(result);
+        })
     })
-}
+};
