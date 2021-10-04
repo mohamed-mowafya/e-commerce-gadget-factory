@@ -7,11 +7,11 @@ const { requireSignin,isAdmin,isAuth} = require('../controllers/auth');
 const { userById} = require('../controllers/user');
 
 router.get('/product/:productId', read)
-router.post("/product/create/:id",requireSignin, isAuth,isAdmin,create);
-router.delete('/product/:productId/:id',requireSignin, isAuth,isAdmin, remove);
-router.put('/product/:productId/:id',requireSignin, isAuth,isAdmin, update);
+router.post("/product/create/:userId",requireSignin, isAuth,isAdmin,create);
+router.delete('/product/:productId/:userId',requireSignin, isAuth,isAdmin, remove);
+router.put('/product/:productId/:userId',requireSignin, isAuth,isAdmin, update);
 
-router.param('id', userById);
+router.param('userId', userById);
 router.param('ProductId', productById);
 
 
