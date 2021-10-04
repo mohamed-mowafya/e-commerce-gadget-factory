@@ -7,7 +7,7 @@ const { requireSignin,isAdmin,isAuth} = require('../controllers/auth');
 
 
 //TEST POUR isAuth + isAdmin
-router.get('/secret/:id', requireSignin,isAdmin,isAuth,(req, res) => {
+router.get('/secret/:userId', requireSignin,isAdmin,isAuth,(req, res) => {
     res.json({
         user: 'TEST MARCHE',
         user:req.profile
