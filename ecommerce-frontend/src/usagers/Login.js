@@ -23,7 +23,7 @@ const Login = () => {
         loginAPI({email,mdp})
         .then(data => {
             if (data.error){
-                setValeursUsager({...valeursUsager, erreur: data.erreur, chargement: false})
+                setValeursUsager({...valeursUsager, erreur: data.error, chargement: false})
             }else{
                authentifier(data,() =>{
                 setValeursUsager({

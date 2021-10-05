@@ -48,15 +48,15 @@ exports.signin =  (req, res) => {
 
     // chercher l.utilisateur avec email:
     const {email,mdp} = req.body
-     User.findOne({email} , (err,user) => {
+     User.findOne({email} , (error,user) => {
 
 
-            if(err || !user) {
+            if(error || !user) {
 
 
                 return res.status(400).json ({
 
-                    err:"Mauvais utilisateur ."
+                    error:"Mauvais utilisateur ."
                 });
             }
 
