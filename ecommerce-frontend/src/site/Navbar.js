@@ -22,7 +22,7 @@ const NavBar = ({ history }) => (
         <div className="navbar-nav">
           <Link className="nav-item nav-link" style={pageActive(history, '/')} to="/">Accueil</Link>
           <Link className="nav-item nav-link" style={pageActive(history, '/produits')} to="/">Produits</Link>
-          {!estAuthentifier() &&(
+          {!estAuthentifier() && (
             <div className="navbar-nav"> 
             <Link className="nav-item nav-link" style={pageActive(history, '/login')} to="/login">Se connecter</Link>
             <Link className="nav-item nav-link" style={pageActive(history, '/signup')} to="/signup">Inscription</Link>
