@@ -20,7 +20,7 @@ const AddCategory = () => {
         createCategory(user._id,token,{name})
         .then(data => {
             if (data.error){
-                setError(data.error);
+                setError(true);
             }
             else{
                 setError("");
@@ -32,7 +32,7 @@ const AddCategory = () => {
         <form onSubmit={submitCategory}>
             <div className="form-group">
                 <label className="text-muted">Nom</label>
-                <input type="text" className="form-control" onChange={changerValeurs} value={name} autoFocus></input>
+                <input type="text" className="form-control" onChange={changerValeurs} value={name} required autoFocus></input>
             </div>
             <button className="btn btn-outline-primary">
                     Créer catégorie
@@ -53,8 +53,8 @@ const AddCategory = () => {
         <Layout
             title="Ajouter une catégorie">
                 <div className="row">
-                    {affichageSucces}
-                    {affichageErreur}
+                    {affichageErreur()}
+                    {affichageSucces()}
                     <div className="col-md-8 offset-md-2">{newCategoryForm()}</div>
                 </div>
         </Layout>
