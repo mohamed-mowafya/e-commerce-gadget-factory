@@ -135,7 +135,7 @@ exports.list = (req, res) => {
         .exec((err, products) => {
             if(err){
                 return res.status(400).json({
-                    error: 'Products not found'
+                    error: 'Produit non trouve'
                 })
             }
             res.json(products);
@@ -151,7 +151,7 @@ exports.listRelated = (req, res) => {
     .exec((err, products) => {
         if(err){
             return res.status(400).json({
-                error: 'Products not found'
+                error: 'Produit non trouve'
             })
         }
         res.json(products);
@@ -162,7 +162,7 @@ exports.listCategories = (req, res) => {
     Product.distinct("category", {}, (err, categories) => {
         if(err){
             return res.status(400).json({
-                error: 'categories not found'
+                error: 'categories non trouve'
             })
         }
         res.json(categories);
@@ -201,7 +201,7 @@ exports.listBySearch = (req, res) => {
         .exec((err, data) => {
             if (err) {
                 return res.status(400).json({
-                    error: "Products not found"
+                    error: "Produit non trouve"
                 });
             }
             res.json({
