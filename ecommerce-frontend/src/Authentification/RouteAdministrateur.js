@@ -9,7 +9,7 @@ const RouteAdministarteur = ({ component: Component, ...rest }) => (
     <Route    
         {...rest}
         render={props =>
-            estAuthentifier() && estAuthentifier.usager.role ===1 ? (
+            estAuthentifier() && estAuthentifier().user.role == 1 ? (
                 <Component {...props} />
             ) : (
                 <Redirect
