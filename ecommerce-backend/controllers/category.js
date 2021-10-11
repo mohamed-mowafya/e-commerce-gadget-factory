@@ -33,7 +33,7 @@ exports.read = (req, res) => {
 
 exports.update = (req, res) => {
     const category = req.category
-    category.nom = req.body.nom
+    category.name = req.body.name
     category.save((err, data) => {
         if(err){
             return res.status(400).json({

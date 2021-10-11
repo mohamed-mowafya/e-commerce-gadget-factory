@@ -18,10 +18,10 @@ const DashboardAdministarteur = () => {
                 <ul className = "list-group">
 
                  <li className = "list-group-item">
-                     <Link className="nav-link" to="/cree/categorie">Créer une catégorie</Link>
+                     <Link className="nav-link" to="/creer/categorie">Créer une catégorie</Link>
                  </li>
                  <li className = "list-group-item">
-                     <Link  className="nav-link" to="/cree/produit">Créer un produit</Link>
+                     <Link  className="nav-link" to="/creer/produit">Créer un produit</Link>
                  </li>
 
                 </ul>
