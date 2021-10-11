@@ -21,7 +21,7 @@ const NavBar = ({ history }) => (
       <div className="collapse navbar-collapse d-flex justify-content-end" id="navbarNavAltMarkup">
         <div className="navbar-nav">
           <Link className="nav-item nav-link" style={pageActive(history, '/')} to="/">Accueil</Link>
-          <Link className="nav-item nav-link" style={pageActive(history, '/produits')} to="/">Produits</Link>
+          <Link className="nav-item nav-link" style={pageActive(history, '/shop')} to="/shop">Produits</Link>
           {!estAuthentifier() && (
             <div className="navbar-nav"> 
             <Link className="nav-item nav-link" style={pageActive(history, '/login')} to="/login">Se connecter</Link>
