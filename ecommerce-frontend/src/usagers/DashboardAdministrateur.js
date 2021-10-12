@@ -7,14 +7,14 @@ import { Link } from "react-router-dom";
 const DashboardAdministarteur = () => {
 
     
-    const {usager : _id, nom, email, role} = estAuthentifier()
-
+    const {user : {_id, nom, prenom, email, role}} = estAuthentifier()
+    console.log(email);
     // permet de naviguer sur des liens qui appartiennent seulement a l'admi, ex : Créer un produit
     const liensAdmin  = () => {
         return(
             
             <div className="card">
-                <h4 className="card-header">Lien de l'administrateur</h4>
+                <h4 className="card-header">Administration</h4>
                 <ul className = "list-group">
 
                  <li className = "list-group-item">
@@ -39,7 +39,7 @@ const DashboardAdministarteur = () => {
        <h3 className="card-header">Informations</h3>
        <ul className = "list-group">
 
-        <li className = "list-group-item">{nom}</li>
+        <li className = "list-group-item">{nom}, {prenom}</li>
         <li className = "list-group-item">{email}</li>
         <li className = "list-group-item">
             {role == 1 ? 'Administrateur' : "Usager Connecté"}</li>
@@ -52,7 +52,7 @@ const DashboardAdministarteur = () => {
 
 
     return (
-        <Layout title="Dashboard de l'utilisateur"  description={`Bonjour ${nom}!`} className = "container-fluid"> 
+        <Layout title="Dashboard de l'utilisateur" className = "container-fluid"> 
        
 
            <div className="row">

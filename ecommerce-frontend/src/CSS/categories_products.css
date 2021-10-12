@@ -1,0 +1,15 @@
+#titre-produit{
+    margin-top: 3.5%;
+    color: black;
+    text-align: center;
+}
+.form-categorie{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.btn-categorie{
+  margin-top: 2%;
+  width: 40%;
+  margin-left: 27%;
+}
