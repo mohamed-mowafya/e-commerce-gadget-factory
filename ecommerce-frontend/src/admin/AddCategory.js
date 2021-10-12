@@ -9,7 +9,8 @@ const AddCategory = () => {
     const [success,setSuccess] = useState(false);
     const {user,token} = estAuthentifier()
     const changerValeurs = (event) =>{
-        setError('')
+        setError('');
+        setSuccess('');
         setName(event.target.value);
     }
     const submitCategory = (event) =>{
