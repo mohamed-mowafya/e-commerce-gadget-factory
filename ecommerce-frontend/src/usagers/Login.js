@@ -73,7 +73,7 @@ const Login = () => {
         if(rediriger){
             if(usager && usager.role === 1 ){
                 return <Redirect to="/admin/dashboard" />; // Si admin -> redirigé vers dashboard de l'admin
-            } else if(usager && usager.role === 2){
+            } else if(usager){
                 return <Redirect to="/usager/dashboard" />;  // Si pas admin -> redirigé vers dashboard de l'usager
             }
         }
