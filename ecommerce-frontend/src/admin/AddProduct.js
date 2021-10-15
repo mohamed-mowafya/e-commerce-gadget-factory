@@ -4,6 +4,10 @@ import { estAuthentifier } from "../Authentification";
 import { Link } from "react-router-dom";
 import { createCategory, createProduct, getCategories} from "./AdminApi";
 import '../CSS/categories_products.css';
+
+
+
+
 const AddProduct = () =>{
     const {user,token} = estAuthentifier()
     const [values,setValues] = useState({
@@ -19,8 +23,8 @@ const AddProduct = () =>{
         error: '',
         createdProduct:'',
         redirectToProfile: false,
-        formData:''
-    })
+        formData: ''
+    });
 
     const {
         name,
@@ -35,20 +39,24 @@ const AddProduct = () =>{
         createdProduct,
         redirectToProfile,
         formData
-    } = values
+    } = values ;
 
 
     // charge les categories et definit form data
     // popule categories et transforme le data pour qu'elle soit facile a utiliser
     const init = () => {
-        getCategories().then(data => {
-            if(data.error){
-                setValues({...values,error: data.error})
-            }else{
-                setValues({...values, categories: data, formData: new FormData()})
+        getCategories().then(data => { 
+            if (data.error) {
+                setValues({ ...values, error: data.error });
+            } else {
+                setValues({ 
+                    ...values,
+                    categories: data,
+                    formData: new FormData()
+                });
             }
-        })
-    }
+        });
+    };
 
 
 
@@ -57,10 +65,10 @@ const AddProduct = () =>{
     },[])
 
     const changementValeur = name => event =>{
-        const value = name  === 'photo' ? event.target.files[0]:
-        event.target.value
-        formData.set(name,value)
-        setValues({...values,[name]: value})
+        const value = name === 'photo' ? event.target.files[0] : 
+        event.target.value;
+        formData.set(name, value);
+        setValues({ ...values, [name]: value });
     }
 
     const submitValeurs = (event) =>{
@@ -130,7 +138,7 @@ const AddProduct = () =>{
     );
     const afficherSucces = () => (
         //afficher message de succes
-        <div className="alert alert-info" style={{ display: createProduct ? '' : 'none' }}>
+        <div className="alert alert-info" style={{ display: createdProduct ? '' : 'none' }}>
             <h2>{`${createdProduct}`} est crée!</h2>
         </div>
     );

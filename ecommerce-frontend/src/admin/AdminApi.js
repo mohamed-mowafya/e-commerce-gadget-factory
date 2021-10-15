@@ -37,7 +37,7 @@ export const createProduct = (userId,token,product) =>{
 
     // Permet d'aller chercher les categories du backend
 export const getCategories = () => {
-    return fetch('{API}/categories', {
+    return fetch(`${API}/categories`, {
         method: "GET"
     })
          .then(response => {
