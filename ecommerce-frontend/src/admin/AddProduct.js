@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "../site/Layout";
 import { estAuthentifier } from "../Authentification";
 import { Link } from "react-router-dom";
-import { createCategory, createProduct } from "./AdminApi";
+import { createCategory, createProduct, getCategories} from "./AdminApi";
 import '../CSS/categories_products.css';
 const AddProduct = () =>{
     const {user,token} = estAuthentifier()
@@ -37,9 +37,25 @@ const AddProduct = () =>{
         formData
     } = values
 
+
+    // charge les categories et definit form data
+    // popule categories et transforme le data pour qu'elle soit facile a utiliser
+    const init = () => {
+        getCategories().then(data => {
+            if(data.error){
+                setValues({...values,error: data.error})
+            }else{
+                setValues({...values, categories: data, formData: new FormData()})
+            }
+        })
+    }
+
+
+
     useEffect(() =>{
-        setValues({...values,formData:new FormData})
+       init()
     },[])
+
     const changementValeur = name => event =>{
         const value = name  === 'photo' ? event.target.files[0]:
         event.target.value
@@ -85,14 +101,15 @@ const AddProduct = () =>{
             <div className="form-group">
                 <label className="text-muted">Category</label>
                 <select onChange={changementValeur('category')} className="form-control">
-                    <option value="609b5864457aa35a94624993">Papier et tablettes</option>
-                    <option value="609b5864457aa35a94624993">test</option>
+                <option>Choisissez</option>
+                    {categories && categories.map((c, i ) => (<option key={i} value ={c._id}>{c.name}</option>))}
                 </select>
 
             </div>
             <div className="form-group">
                 <label className="text-muted">Shipping</label>
                 <select onChange={changementValeur('shipping')} className="form-control">
+                    <option>Choisissez</option>
                     <option value="0">Yes</option>
                     <option value="0">No</option>
                 </select>
@@ -105,10 +122,36 @@ const AddProduct = () =>{
             <button className="btn btn-outline-primary">Create Product  </button>
         </form>
     )
+    const afficherErreur = () => (
+        //afficher message d'erreur
+        <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
+            {error}
+        </div>
+    );
+    const afficherSucces = () => (
+        //afficher message de succes
+        <div className="alert alert-info" style={{ display: createProduct ? '' : 'none' }}>
+            <h2>{`${createdProduct}`} est crée!</h2>
+        </div>
+    );
+    const afficherChargeemnt = () => 
+    // montre Loading... au moment du load
+        loading && (
+            <div className="alert alert-success">
+                <h2>Chargement...</h2>
+            </div>
+        );
+
+
+
     return(
         <Layout>
         <div className="row">
-            <div className="col-md-8 offset-md-2">{newPostForm()}</div>
+            <div className="col-md-8 offset-md-2">
+            {afficherErreur()}
+            {afficherSucces()}
+            {afficherChargeemnt()}
+            {newPostForm()}</div>
         </div> 
         </Layout>
     )
