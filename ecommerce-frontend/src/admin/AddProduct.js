@@ -135,7 +135,7 @@ const AddProduct = () =>{
         </div>
     );
     const afficherChargeemnt = () => 
-    // montre Loading... au moment du load
+    // montre message de chargeemnt au moement de la creation d'un produit
         loading && (
             <div className="alert alert-success">
                 <h2>Chargement...</h2>
