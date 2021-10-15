@@ -40,12 +40,12 @@ const Home = () =>{
 
 
     return (
-        <Layout title="Home Page" description="Ecommerce app">
-            <h2 className="mb-4">Meilleures ventes</h2>
-            {productsBySell.map((product,i) => (<Card key={i} produit={product} />))}
+        <Layout title="Home Page" description="Ecommerce app" className="container-fluid">
+            <h2 className="mb-4">Meilleures ventes</h2>          
+            <div className="row">{productsBySell.map((product,i) => (<Card key={i} produit={product} />))}</div>
 
-            <h2 className="mb-4">Les plus recents</h2>
-            {productsByArrival.map((product,i) => (<Card key={i} produit={product} />))}
+            <h2 className="mb-4">Les plus recents</h2>          
+            <div className="row"> {productsByArrival.map((product,i) => (<Card key={i} produit={product} />))}</div>
         </Layout>
         );
 };
