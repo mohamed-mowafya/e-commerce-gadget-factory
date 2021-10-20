@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Link, Redirect} from "react-router-dom";
-
+import MontrerImage from './MontrerImage';
 
 
 const Card = ({produit}) => {
@@ -11,8 +11,10 @@ return(
  
     <div className="col-md-4 mx-auto mt-4">
       <div className="card card1" >
-  <img src="https://i.ytimg.com/vi/lK9r-7eSTLs/maxresdefault.jpg" class="card-img-top" alt="..."/>
+  {/* <img src="https://i.ytimg.com/vi/lK9r-7eSTLs/maxresdefault.jpg" class="card-img-top" alt="..."/> */}
+  
   <div className="card-body">
+      <MontrerImage item ={produit} url="product"/>
     <h5 className="card-title">{produit.name}</h5>
     <h6 className="card-subtitle mb-2 text-muted">{produit.price}</h6>
     <p className="card-text">{produit.description}</p>
