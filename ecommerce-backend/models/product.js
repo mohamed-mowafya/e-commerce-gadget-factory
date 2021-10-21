@@ -3,7 +3,7 @@ const {ObjectId} = mongoose.Schema
 
 const productSchema = new mongoose.Schema(
     {
-        nom: {
+        name: {
             type: String,
             trim: true,
             required: true,

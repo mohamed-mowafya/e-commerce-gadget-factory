@@ -10,7 +10,7 @@ exports.productById = (req, res, next, id) => {
     Product.findById(id).exec((err, product) => {
         if(err || !product){
             return res.status(400).json({
-                error: "Produit non trouve"
+                error: "Produit non trouvé"
             });
         }
         req.product = product;
@@ -29,14 +29,14 @@ exports.create = (req, res) => {
     form.parse(req, (err, fields, files)=> {
         if(err){
             return res.status(400).json({
-                error: 'Image non telecharger'
+                error: 'Image non telechargé'
             })
         }
         const {name, description, price, category, quantity, shipping}= fields
 
         if(!name || !description || !price || !category || !quantity || !shipping){
             return res.status(400).json({
-                error: "touts les fields doivent etre remplis"
+                error: "Touts les fields doivent être remplis"
             });
         }
 
@@ -46,7 +46,7 @@ exports.create = (req, res) => {
         if(files.photo){
             if(files.photo.size > 1000000){
                 return res.status(400).json({
-                    error: "Image doit etre plus petite que 1mb"
+                    error: "Image doit être plus petite que 1mb"
                 });
             }
             product.photo.data = fs.readFileSync(files.photo.path)
@@ -55,7 +55,7 @@ exports.create = (req, res) => {
 
         product.save((err, result) => {
             if(err){
-                return res.status(400).json({
+                return res.status(400).json({  
                     error: errorHandler(err)
                 });
             }
@@ -74,7 +74,7 @@ exports.remove = (req, res) => {
             });
         }
         res.json({
-            message: "Produit supprime avec succes"
+            message: "Produit supprimé avec succès"
         })
     });
 };
@@ -85,14 +85,14 @@ exports.update = (req, res) => {
     form.parse(req, (err, fields, files)=> {
         if(err){
             return res.status(400).json({
-                error: 'Image non telecharger'
+                error: 'Image non telechargé'
             })
         }
         const {name, description, price, category, quantity, shipping}= fields
 
         if(!name || !description || !price || !category || !quantity || !shipping){
             return res.status(400).json({
-                error: "touts les fields doivent etre remplis"
+                error: "Touts les fields doivent être remplis"
             });
         }
 
@@ -102,7 +102,7 @@ exports.update = (req, res) => {
         if(files.photo){
             if(files.photo.size > 1000000){
                 return res.status(400).json({
-                    error: "Image doit etre plus petite que 1mb"
+                    error: "Image doit être plus petite que 1mb"
                 });
             }
             product.photo.data = fs.readFileSync(files.photo.path)
@@ -151,7 +151,7 @@ exports.listRelated = (req, res) => {
     .exec((err, products) => {
         if(err){
             return res.status(400).json({
-                error: 'Produit non trouve'
+                error: 'Produit non trouvé'
             })
         }
         res.json(products);
@@ -162,7 +162,7 @@ exports.listCategories = (req, res) => {
     Product.distinct("category", {}, (err, categories) => {
         if(err){
             return res.status(400).json({
-                error: 'categories non trouve'
+                error: 'catégories non trouvé'
             })
         }
         res.json(categories);
@@ -201,7 +201,7 @@ exports.listBySearch = (req, res) => {
         .exec((err, data) => {
             if (err) {
                 return res.status(400).json({
-                    error: "Produit non trouve"
+                    error: "Produit non trouvé"
                 });
             }
             res.json({
@@ -211,10 +211,10 @@ exports.listBySearch = (req, res) => {
         });
 };
 
-exports.photo = (req, res) =>{
-    if(req.product.photo.data){
-        res.set('Content-Type', req.product.photo.contentType)
-        return  res.send(Req.product.photo.data)
+exports.photo = (req, res, next) => {
+    if (req.product.photo.data) {
+        res.set('Content-Type', req.product.photo.contentType);
+        return res.send(req.product.photo.data);
     }
     next();
-}
+};

@@ -3,13 +3,15 @@ import Layout from "../site/Layout";
 import { estAuthentifier } from "../Authentification";
 import { Link } from "react-router-dom";
 import { createCategory } from "./AdminApi";
+import '../CSS/categories_products.css';
 const AddCategory = () => {
     const [name,setName] = useState('');
     const [error,setError] = useState(false);
     const [success,setSuccess] = useState(false);
     const {user,token} = estAuthentifier()
     const changerValeurs = (event) =>{
-        setError('')
+        setError('');
+        setSuccess('');
         setName(event.target.value);
     }
     const submitCategory = (event) =>{
@@ -29,15 +31,19 @@ const AddCategory = () => {
         })
     }
     const newCategoryForm = () =>(
+        <div className="form-categorie">
         <form onSubmit={submitCategory}>
+            
             <div className="form-group">
+                <h2 id= "titre-produit"> Ajouter votre catégorie </h2>
                 <label className="text-muted">Nom</label>
                 <input type="text" className="form-control" onChange={changerValeurs} value={name} required autoFocus></input>
             </div>
-            <button className="btn btn-outline-primary">
+            <button className="btn btn-outline-primary btn-categorie">
                     Créer catégorie
                 </button>
         </form>
+        </div>
     )
     const affichageSucces = () =>{
         if(success){

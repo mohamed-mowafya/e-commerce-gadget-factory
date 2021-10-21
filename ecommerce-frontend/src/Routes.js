@@ -9,6 +9,7 @@ import DashboardUtilisateur from "./usagers/DashboardUtilisateur";
 import DashboardAdministrateur from "./usagers/DashboardAdministrateur";
 import RouteAdministarteur from "./Authentification/RouteAdministrateur";
 import AddCategory from "./admin/AddCategory";
+import AddProduct from "./admin/AddProduct";
 
 
 const Routes = () => {
@@ -22,6 +23,7 @@ const Routes = () => {
             <RoutePrive path ="/usager/dashboard" exact component={DashboardUtilisateur}></RoutePrive>
             <RouteAdministarteur path ="/admin/dashboard" exact component={DashboardAdministrateur}></RouteAdministarteur>
             <RouteAdministarteur path ="/creer/categorie" exact component={AddCategory}></RouteAdministarteur>
+            <RouteAdministarteur path ="/creer/produit" exact component={AddProduct}></RouteAdministarteur>
         </Switch>
     </BrowserRouter>
     );

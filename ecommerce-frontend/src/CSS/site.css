@@ -1,0 +1,38 @@
+
+/* https://getcssscan.com/css-buttons-examples */
+:root {
+    /* --gradient: linear-gradient(to left top, #DD2476 10%, #FF512F 90%) !important; */
+    --gradient: linear-gradient(to left top, #dd2a24 10%, #7424dd 90%) !important;
+  }
+  
+  body {
+    /* background: rgb(255, 255, 255) !important; */
+    background: #111 !important;
+  }
+  
+  .card1 {
+    background: #222;
+    border: 1px solid #dd2476;
+    color: rgba(250, 250, 250, 0.8);
+    margin-bottom: 2rem;
+  }
+  
+  .btn1 {
+    border: 5px solid;
+    border-image-slice: 1;
+    background: var(--gradient) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    border-image-source:  var(--gradient) !important; 
+    text-decoration: none;
+    transition: all .4s ease;
+  }
+  
+  .btn1:hover, .btn1:focus {
+     background: var(--gradient) !important;
+    -webkit-background-clip: none !important;
+    -webkit-text-fill-color: rgb(196, 195, 195) !important;
+    border: 5px solid rgb(196, 195, 195) !important; 
+    box-shadow: #222 1px 0 10px;
+    /* text-decoration: underline; */
+  }
