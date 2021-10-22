@@ -48,3 +48,17 @@ export const estAuthentifier = () => {
     }
 
     }
+
+export const signout = cb => {
+    if(typeof window !='undefined'){
+        localStorage.removeItem('jwt');
+        cb();
+        return fetch('${API}/signout', {
+            method: "GET",
+        })
+        .then(reponse => {
+            console.log('signout', reponse);
+        })
+        .catch(err => console.log(err));
+    }
+};
