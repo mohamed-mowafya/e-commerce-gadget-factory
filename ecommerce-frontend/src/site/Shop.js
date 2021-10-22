@@ -2,7 +2,7 @@ import React,{useState, useEffect} from "react";
 import Card from "./Card";
 import Layout from "./Layout";
 import { getCategories } from "./apiSite";
-
+import Checkbox from "./CheckBox";
 
 
 
@@ -35,7 +35,9 @@ const Shop = () => {
             className="container-fluid"
         >
             <div className="row">
-                <div className="col-4">{JSON.stringify(categories)}</div>
+                <div className="col-4">
+                    <h4>filtrer par categorie</h4>
+                    <Checkbox categories={categories}/></div>
 
 
                 <div className="col-4">sidebar droit</div>
