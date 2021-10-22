@@ -17,13 +17,17 @@ const pageActive = (history, path) => {
 const NavBar = ({ history }) => (
   <div className="nav_background">
     <nav className="navbar navbar-expand-lg navbar-modifier">
-      <Link className="navbar-brand" style={pageActive(history, '/')} to="/">Brand</Link>
+    <a class="navbar-brand" href="/">
+      <img src="../images/logo.png" alt="not showing" width="50"  />
+    </a>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
       <div className="collapse navbar-collapse d-flex justify-content-end" id="navbarNavAltMarkup">
         <div className="navbar-nav">
+
           <Link className="nav-item nav-link" style={pageActive(history, '/')} to="/">Accueil</Link>
+
           <Link className="nav-item nav-link" style={pageActive(history, '/shop')} to="/shop">Produits</Link>
           {!estAuthentifier() && (
             <div className="navbar-nav"> 
