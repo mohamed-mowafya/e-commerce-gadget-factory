@@ -17,7 +17,7 @@ return(
       <MontrerImage item ={produit} url="product"/>
     <h5 className="card-title">{produit.name}</h5>
     <h6 className="card-subtitle mb-2 text-muted">{produit.price}</h6>
-    <p className="card-text">{produit.description}</p>
+    <p className="card-text">{produit.description.substring(0, 110)}.....</p>
     <Link to="/">
              <button class=" btn1 mt-2 mb-2" ><i className="fas fa-link"></i> Voir produit</button>
             </Link>

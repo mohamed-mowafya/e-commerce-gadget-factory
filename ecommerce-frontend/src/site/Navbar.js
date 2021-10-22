@@ -14,7 +14,9 @@ const pageActive = (history, path) => {
 const NavBar = ({ history }) => (
   <div className="nav_background">
     <nav className="navbar navbar-expand-lg navbar-modifier">
-      <Link className="navbar-brand" style={pageActive(history, '/')} to="/">Brand</Link>
+    <a class="navbar-brand" href="/">
+      <img src="../images/logo.png" alt="not showing" width="50"  />
+    </a>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>

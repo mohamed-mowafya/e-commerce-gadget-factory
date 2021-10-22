@@ -37,14 +37,24 @@ const Shop = () => {
             <Layout
              title=""
              description=""
-             className="container-fluid"
+             className="container-fluid "
             >
-               <div className="row">
-                <div className="col-4">
-                    <h4>filtrer par categorie</h4>
-                    <Checkbox categories={categories} handleFilters={filters =>handleFilters(filters, "category")}/>
-                </div>
+               <div className="row d-flex justify-content-center mt-100">
+                <div className="col-4 mr-">
 
+              
+                
+                <div class="card cardCheckBox">
+	            <div class="card-body cardCheckBox-body text-left">
+	             <h4 class="card-title">Filtrer par categorie</h4>
+                 {/* <hr class="mb-30"/> */}
+
+                 <Checkbox categories={categories} handleFilters={filters =>handleFilters(filters, "category")}/>
+              
+                 </div>
+                 </div>
+               
+                </div>
 
                 <div className="col-4">sidebar droit</div>
                 <div className="col-4">gauche</div>
