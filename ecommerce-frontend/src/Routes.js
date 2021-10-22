@@ -3,6 +3,7 @@ import {BrowserRouter,Switch,Route} from 'react-router-dom';
 import Login from './usagers/Login';
 import Signup from './usagers/Signup';
 import Home from './site/Home';
+import Shop from './site/Shop';
 import RoutePrive from "./Authentification/RoutesPrive";
 import DashboardUtilisateur from "./usagers/DashboardUtilisateur";
 import DashboardAdministrateur from "./usagers/DashboardAdministrateur";
