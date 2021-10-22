@@ -25,12 +25,13 @@ const Checkbox = ({ categories , handleFilters }) => {
         handleFilters(newCheckedCategoryId);
 
 
-       }
+       } 
        return categories.map((category, index )=>(
-           <li key={index} className="list-unstyle">
-                <input type="checkbox" className="form-check-input"></input>
-                <label className="form-check-label">{category.name}</label>
-            </li>
+           <div key={index} className="list-unstyle">
+               <hr/>
+           <label className="check"> <input type="checkbox"/>
+           <span>  {category.name} </span></label>
+            </div>
         
      )) 
 }
