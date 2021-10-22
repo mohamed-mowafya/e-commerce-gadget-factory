@@ -10,6 +10,7 @@ const Shop = () => {
 
     const [categories, setCategories] = useState([]);
     const [error, setError] = useState(false);
+    
 
     // sera untitilise quand le component sera mount
     const init = () => {
@@ -27,24 +28,29 @@ const Shop = () => {
         
     }, []);
 
+    const handleFilters = (filters, filterBy) => {
+       
+        console.log('SHOP',filters, filterBy)
+    };
 
     return (
-        <Layout
-            title=""
-            description=""
-            className="container-fluid"
-        >
-            <div className="row">
+            <Layout
+             title=""
+             description=""
+             className="container-fluid"
+            >
+               <div className="row">
                 <div className="col-4">
                     <h4>filtrer par categorie</h4>
-                    <Checkbox categories={categories}/></div>
+                    <Checkbox categories={categories} handleFilters={filters =>handleFilters(filters, "category")}/>
+                </div>
 
 
                 <div className="col-4">sidebar droit</div>
                 <div className="col-4">gauche</div>
                 </div>
                    
-        </Layout>
+            </Layout>
     );
 };
 
