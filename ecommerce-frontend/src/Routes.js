@@ -10,7 +10,6 @@ import DashboardAdministrateur from "./usagers/DashboardAdministrateur";
 import RouteAdministarteur from "./Authentification/RouteAdministrateur";
 import AddCategory from "./admin/AddCategory";
 import AddProduct from "./admin/AddProduct";
-import Shop from "./site/Shop"
 
 
 const Routes = () => {
