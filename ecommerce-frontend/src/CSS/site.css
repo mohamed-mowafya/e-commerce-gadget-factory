@@ -8,7 +8,14 @@
   
   body {
     /* background: rgb(255, 255, 255) !important; */
-    background: #111 !important;
+    /* background: #111 !important; */
+    background-image: url('../images/bck2.png');
+   
+     /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   }
   
   .card1 {
