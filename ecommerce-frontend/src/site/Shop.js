@@ -45,8 +45,8 @@ const Shop = () => {
 
               
                 
-                <div class="card cardCheckBox">
-	            <div class="card-body cardCheckBox-body text-left">
+                <div class="card ">
+	            <div class="card-body text-left">
 	             <h4 class="card-title">Filtrer par categorie</h4>
                  {/* <hr class="mb-30"/> */}
 
