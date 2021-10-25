@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Layout from './Layout';
 import { getProducts } from "./apiSite";
 import Card from "./Card";
-
+import Search from "./Search";
 
 
 const Home = () =>{
@@ -42,6 +42,7 @@ const Home = () =>{
 
     return (
         <Layout title="Home Page" description="Ecommerce app" className="container-fluid">
+            <Search />
             <h2 className="mb-4">Meilleures ventes</h2>          
             <div className="row">{productsBySell.map((product,i) => (<Card key={i} produit={product} />))}</div>
 
