@@ -43,7 +43,7 @@ const Home = () =>{
     return (
         <Layout title="Home Page" description="Ecommerce app" className="container-fluid">
             <Search />
-            <h2 className="mb-4">Meilleures ventes</h2>          
+            <h2 className="mb-4 couleur" >Meilleures ventes</h2>          
             <div className="row">{productsBySell.map((product,i) => (<Card key={i} produit={product} />))}</div>
 
             <h2 className="mb-4">Les plus recents</h2>          

@@ -3,6 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { estAuthentifier } from "../Authentification";
 import { signout } from "../Authentification";
 import '../CSS/login_signup.css'
+import logo from '../images/logo.png'; 
 
 
 const pageActive = (history, path) => {
@@ -17,8 +18,8 @@ const pageActive = (history, path) => {
 const NavBar = ({ history }) => (
   <div className="nav_background">
     <nav className="navbar navbar-expand-lg navbar-modifier">
-    <a class="navbar-brand" href="/">
-      <img src="../images/logo.png" alt="not showing" width="50"  />
+    <a className="navbar-brand" href="/">
+      <img src={logo}  />
     </a>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
