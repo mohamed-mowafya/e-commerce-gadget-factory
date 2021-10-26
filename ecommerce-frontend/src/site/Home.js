@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Layout from './Layout';
 import { getProducts } from "./apiSite";
 import Card from "./Card";
-
+import Search from "./Search";
 
 
 const Home = () =>{
@@ -42,7 +42,8 @@ const Home = () =>{
 
     return (
         <Layout title="Home Page" description="Ecommerce app" className="container-fluid">
-            <h2 className="mb-4">Meilleures ventes</h2>          
+            <Search />
+            <h2 className="mb-4 couleur" >Meilleures ventes</h2>          
             <div className="row">{productsBySell.map((product,i) => (<Card key={i} produit={product} />))}</div>
 
             <h2 className="mb-4">Les plus recents</h2>          
