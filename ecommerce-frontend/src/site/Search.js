@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getCategories } from "./apiSite";
+import { getCategories, list } from "./apiSite";
 import Card from "./Card";
 
 const Search = () => {
@@ -27,13 +27,38 @@ const Search = () => {
         loadCategories()
     }, []);
 
-    const searchSubmit = () => {
+    const searchData = () => {
+        if (recherche) {
+            list({ recherche: recherche || undefined, categorie: categorie }).then
+            reponse => {
+                if (reponse.error) {
+                    console.log(reponse.error)
+                } else {
+                    setData({ ...data, resultat: reponse, dejaRecherhe: true });
+                }
+            }
 
-    }
+        }
+    };
 
-    const handleChange = () => {
+    const searchSubmit = (e) => {
+        e.preventDefault()
+        searchData()
+    };
 
-    }
+    const handleChange = (nom) => event => {
+        setData({ ...data, [nom]: event.target.value, dejaRecherhe: false });
+    };
+
+    const searchProducts = (resultat = []) => {
+        return (
+            <div className="row">
+                {resultat.map((product, i) => (
+                    <Card key={i} product={product} />
+                ))}
+            </div>
+        );
+    };
 
     const searchForm = () => (
         <form onSubmit={searchSubmit}>
@@ -57,7 +82,7 @@ const Search = () => {
                         placeholder="Rechercher par le nom du produit"
                     />
                 </div>
-                <div className="btn input-group-append" style={{border: "none"}}>
+                <div className="btn input-group-append" style={{ border: "none" }}>
                     <button className="input-group-text">Rechercher</button>
                 </div>
             </span>
@@ -66,7 +91,12 @@ const Search = () => {
 
     return (
         <div className="row">
-            <div className="container mb-3 mt-4">{searchForm()}</div>
+            <div className="container mb-3 mt-4">
+                {searchForm()}
+            </div>
+            <div className="container-fluid mb-3 mt-4">
+                {searchProducts(resultat)}
+            </div>
         </div>
     );
 };
