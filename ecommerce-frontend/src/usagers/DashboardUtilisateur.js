@@ -22,7 +22,7 @@ const Dashboard = () => {
                      <Link className="nav-link" to="/panier">Mon panier</Link>
                  </li>
                  <li className = "list-group-item">
-                     <Link  className="nav-link" to="/profile/modifier">Modifier mon profile</Link>
+                     <Link  className="nav-link" to={`/profile/${_id}`}>Modifier mon profile</Link>
                  </li>
 
                 </ul>

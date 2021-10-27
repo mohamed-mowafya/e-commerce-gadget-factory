@@ -10,7 +10,7 @@ import DashboardAdministrateur from "./usagers/DashboardAdministrateur";
 import RouteAdministarteur from "./Authentification/RouteAdministrateur";
 import AddCategory from "./admin/AddCategory";
 import AddProduct from "./admin/AddProduct";
-
+import profile from "./usagers/Profile";
 
 const Routes = () => {
     return(
@@ -24,6 +24,7 @@ const Routes = () => {
             <RouteAdministarteur path ="/admin/dashboard" exact component={DashboardAdministrateur}></RouteAdministarteur>
             <RouteAdministarteur path ="/creer/categorie" exact component={AddCategory}></RouteAdministarteur>
             <RouteAdministarteur path ="/creer/produit" exact component={AddProduct}></RouteAdministarteur>
+            <RoutePrive path="/profile/:userID" exact component={profile}></RoutePrive>
         </Switch>
     </BrowserRouter>
     );
