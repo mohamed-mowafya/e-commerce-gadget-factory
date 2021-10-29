@@ -31,7 +31,6 @@ export const update = (userId,token,user) =>{
         return response.json();
     })
     .catch(err =>{
-        console.log(err+ "aaaa")
         console.log(err)
     })
 }

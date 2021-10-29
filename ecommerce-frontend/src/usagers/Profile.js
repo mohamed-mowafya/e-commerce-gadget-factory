@@ -48,11 +48,6 @@ const Profile = ({match}) =>{
             <label className="text-muted">Email</label>
             <input type="email" onChange={handleChange('email')} className="form-control" value={email}/>
         </div>
-        <div className="form-group">
-            <label className="text-muted">Mot de passe</label>
-            <input type="password" onChange={handleChange('mdp')} className="form-control" value={mdp}/>
-        </div>
-
         <button onClick={envoyerInformations} className="btn btn-primary">Modifier</button>
         </form>
     )
@@ -84,7 +79,7 @@ const Profile = ({match}) =>{
     },[])
     return (
         <Layout title="Modification de profile" description="Modifier votre profile" className="container-fluid">
-            <h2 className="mb-4"> Profile Update </h2>¨
+            <h2 className="mb-4">Modifier votre profile</h2>
             {modifierProfile(nom,prenom,email,mdp)}
             {rediriger(succes)}
         </Layout>

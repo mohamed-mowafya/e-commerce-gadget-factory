@@ -30,7 +30,7 @@ exports.update = (req, res) => {
         (err, user) => {
             if (err) {
                 return res.status(400).json({
-                    error: 'tu nas pas lautorisation pour cette action'
+                    error: 'tu n\'as pas lautorisation pour cette action'
                 });
             }
             user.hashed_password = undefined; 
