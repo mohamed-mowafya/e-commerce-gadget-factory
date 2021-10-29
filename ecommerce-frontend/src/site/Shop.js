@@ -14,7 +14,7 @@ const Shop = () => {
     });
     const [categories, setCategories] = useState([]);
     const [error, setError] = useState(false);
-    const [limit, setLimit] = useState(6); //limiter 6 produit a chaque request
+    const [limit, setLimit] = useState(12); //limiter 12 produits a chaque request
     const [skip, setSkip] = useState(0);
     const [size, setSize] = useState(0);
     const [filteredResults, setFilteredResults] = useState([]);
@@ -85,25 +85,34 @@ const Shop = () => {
              description=""
              className="container-fluid "
             >
-               <div className="row d-flex justify-content-center mt-100">
-                <div className="col-4 mr-">
+                <div className="row">
+                <div className="col-3">
 
               
                 
-                <div class="card ">
+                <div class="card mt-6">
 	             <div class="card-body text-left">
 	             <h4 class="card-title">Filtrer par categorie</h4>
                  {/* <hr class="mb-30"/> */}
-
                  <Checkbox categories={categories} handleFilters={filters =>handleFilters(filters, "category")}/>
                  <h4 class="card-title">Filtrer par prix</h4>
                  <RadioBox prices={prix} handleFilters={filters =>handleFilters(filters, "price")}/>
                  </div>
                  </div>
-               
                  </div>
-
-                <div className="col-4">{JSON.stringify(filteredResults)}</div>
+                 <div className="col-8">
+                    <h2 className="mb-4 text-center">NOS PRODUITS</h2>
+                    <div className="row">
+                        {filteredResults.map((product, i) => (
+                            
+                                <Card produit={product} />
+                          
+                        ))}
+                    </div>
+                    <hr />
+                  
+                </div>
+             
                 </div>
                    
             </Layout>
