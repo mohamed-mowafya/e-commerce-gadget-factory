@@ -27,13 +27,37 @@ const Shop = () => {
                 setError(data.error);
             } else {
                 setFilteredResults(data.data);
-                setSize(data.size);
+                setSize(data.size); // le nombre de produits qu'on affiche
                 setSkip(0); 
             }
         })
        
     };
 
+    const chargerPlus = () => {
+        let toSkip = skip + limit;
+       
+        getProduitsFiltrer(toSkip, limit, myFilters.filters).then(data => {
+            if (data.error) {
+                setError(data.error);
+            } else {
+                setFilteredResults([...filteredResults, ...data.data]);
+                setSize(data.size);
+                setSkip(toSkip);
+            }
+        });
+    };
+
+    const bouttonChargerPlus  = () => {
+        return (
+            size > 0 &&
+            size >= limit && (
+                <button onClick={chargerPlus} className="btn btn-warning mb-5">
+                 PLUS +
+                </button>
+            )
+        );
+    };
 
     // sera untitilise quand le component sera mount
     const init = () => {
@@ -110,7 +134,7 @@ const Shop = () => {
                         ))}
                     </div>
                     <hr />
-                  
+                    {bouttonChargerPlus()}
                 </div>
              
                 </div>
