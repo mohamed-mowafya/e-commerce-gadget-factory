@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import {Link, Redirect} from "react-router-dom";
-import MontrerImage from './MontrerImage';
+import ShowImage from './ShowImage';
 
 
-const Card = ({produit}) => {
+const Card = ({product}) => {
 
 return(
 
@@ -14,10 +14,10 @@ return(
  
   
   <div className="card-body">
-      <MontrerImage item ={produit} url="product"/>
-    <h5 className="card-title">{produit.name}</h5>
-    <h6 className="card-subtitle mb-2 text-muted">{produit.price}</h6>
-    <p className="card-text">{produit.description.substring(0, 110)}.....</p>
+      <ShowImage item ={product} url="product"/>
+    <h5 className="card-title">{product.name}</h5>
+    <h6 className="card-subtitle mb-2 text-muted">{product.price}</h6>
+    <p className="card-text">{product.description.substring(0, 110)}.....</p>
     <Link to="/">
              <button class=" btn btn-primary mt-2 mb-2" ><i className="fas fa-link"></i> Voir produit</button>
             </Link>
@@ -27,29 +27,6 @@ return(
   </div>
   </div>
     </div>   
-
- /*  <div className="col-4 mb-3">
-            <div className="card">
-            <div className="card-header">{produit.name}</div>
-            <div className="car-body">
-                <p>{produit.description}</p>
-                <p>{produit.price}</p>
-                <Link to="/">
-                    <button className="btn btn-outline-dark  mt-2 mb-2">Voir produit</button>
-                </Link>
-                <Link to="/">
-                    <button className="btn btn-outline-dark mt-2 mb-2">+ panier</button>
-                </Link>
-
-            </div>
-            </div>
-        </div>
- */
-
-
-  
-      
-
 );
 
 };
