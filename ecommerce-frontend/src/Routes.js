@@ -24,7 +24,7 @@ const Routes = () => {
             <RouteAdministarteur path ="/admin/dashboard" exact component={DashboardAdministrateur}></RouteAdministarteur>
             <RouteAdministarteur path ="/creer/categorie" exact component={AddCategory}></RouteAdministarteur>
             <RouteAdministarteur path ="/creer/produit" exact component={AddProduct}></RouteAdministarteur>
-            <RoutePrive path="/profile/:userID" exact component={profile}></RoutePrive>
+            <RoutePrive path="/profile/:userId" exact component={profile}></RoutePrive>
         </Switch>
     </BrowserRouter>
     );

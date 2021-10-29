@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+var cors = require('cors')
 
 // TRES IMPORTANT INSTALLER CETTE VERSION npm install express-validator@5.3.1
 //NOUVEAU EXPRESS-VALIDOATOR  ne prends plus le expressValidator comme methode dans le app.use
@@ -47,13 +48,8 @@ app.use(cookieParser());
 app.use(expressValidator());
 
 
-// CORS
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  next();
-}); 
-
+app.use(cors())
+app.options('*', cors())
 
 
 // Routes middlewares
