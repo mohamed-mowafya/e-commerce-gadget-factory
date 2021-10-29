@@ -2,7 +2,7 @@
 import React,{useState, useEffect} from "react";
 import Card from "./Card";
 import Layout from "./Layout";
-import { getCategories } from "./apiSite";
+import { getCategories, getProduitsFiltrer } from "./apiSite";
 import Checkbox from "./CheckBox";
 import { prix } from "./PrixFix";
 import RadioBox from "./RadioBox";
@@ -14,7 +14,26 @@ const Shop = () => {
     });
     const [categories, setCategories] = useState([]);
     const [error, setError] = useState(false);
+    const [limit, setLimit] = useState(6); //limiter 6 produit a chaque request
+    const [skip, setSkip] = useState(0);
+    const [size, setSize] = useState(0);
+    const [filteredResults, setFilteredResults] = useState([]);
+
     
+
+    const ChargerResultatFiltres = (nouveauFiltres) => {
+        getProduitsFiltrer(skip, limit, nouveauFiltres).then(data => {
+            if (data.error) {
+                setError(data.error);
+            } else {
+                setFilteredResults(data.data);
+                setSize(data.size);
+                setSkip(0); 
+            }
+        })
+       
+    };
+
 
     // sera untitilise quand le component sera mount
     const init = () => {
@@ -28,13 +47,36 @@ const Shop = () => {
     };
 
     useEffect(() => {
-        init();}, 
+        init();
+        ChargerResultatFiltres(skip, limit, myFilters.filters);
+        }, 
         []);
 
     const handleFilters = (filters, filterBy) => {
         const newFilters = { ...myFilters };
         newFilters.filters[filterBy] = filters;
+
+        //extract la valeur de l'array de la clé
+        if (filterBy === "price") {  
+            let priceValues = handlePrice(filters);
+            newFilters.filters[filterBy] = priceValues;
+        }
+        ChargerResultatFiltres(myFilters.filters);
+
         setMyFilters(newFilters)
+    };
+
+    const handlePrice = valeur => {
+        const data = prix;
+        let array = [];
+
+        // extrait la valeur qui match avec le key._id qu'il y a dans PrixFixe
+        for (let key in data) { 
+            if (data[key]._id === parseInt(valeur)) {
+                array = data[key].array;
+            }
+        }
+        return array;
     };
 
     return (
@@ -61,7 +103,7 @@ const Shop = () => {
                
                  </div>
 
-                <div className="col-4">{JSON.stringify(myFilters)}</div>
+                <div className="col-4">{JSON.stringify(filteredResults)}</div>
                 </div>
                    
             </Layout>
