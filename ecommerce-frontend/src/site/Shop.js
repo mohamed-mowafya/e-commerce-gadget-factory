@@ -4,11 +4,14 @@ import Card from "./Card";
 import Layout from "./Layout";
 import { getCategories } from "./apiSite";
 import Checkbox from "./CheckBox";
-
-
+import { prix } from "./PrixFix";
+import RadioBox from "./RadioBox";
 
 const Shop = () => {
 
+    const [myFilters, setMyFilters] = useState({
+        filters: { category: [], price: [] }
+    });
     const [categories, setCategories] = useState([]);
     const [error, setError] = useState(false);
     
@@ -25,13 +28,13 @@ const Shop = () => {
     };
 
     useEffect(() => {
-        init();
-        
-    }, []);
+        init();}, 
+        []);
 
     const handleFilters = (filters, filterBy) => {
-       
-        console.log('SHOP',filters, filterBy)
+        const newFilters = { ...myFilters };
+        newFilters.filters[filterBy] = filters;
+        setMyFilters(newFilters)
     };
 
     return (
@@ -46,19 +49,19 @@ const Shop = () => {
               
                 
                 <div class="card ">
-	            <div class="card-body text-left">
+	             <div class="card-body text-left">
 	             <h4 class="card-title">Filtrer par categorie</h4>
                  {/* <hr class="mb-30"/> */}
 
                  <Checkbox categories={categories} handleFilters={filters =>handleFilters(filters, "category")}/>
-              
+                 <h4 class="card-title">Filtrer par prix</h4>
+                 <RadioBox prices={prix} handleFilters={filters =>handleFilters(filters, "price")}/>
                  </div>
                  </div>
                
-                </div>
+                 </div>
 
-                <div className="col-4">sidebar droit</div>
-                <div className="col-4">gauche</div>
+                <div className="col-4">{JSON.stringify(myFilters)}</div>
                 </div>
                    
             </Layout>
