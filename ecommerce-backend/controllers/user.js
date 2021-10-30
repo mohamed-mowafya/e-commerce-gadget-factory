@@ -1,6 +1,6 @@
 
 const User = require('../models/user');
-
+const passHash = new User();
 //Chercher un utilisateur par son ID
 exports.userById = (req, res, next, id) => {
     User.findById(id).exec((err, user) => {
@@ -23,6 +23,10 @@ exports.read = (req, res) => {
 
 //Methode pour mettre a jour le profile du user 
 exports.update = (req, res) => {
+    if(req.body.hashed_password!=''){
+        req.body.hashed_password = passHash.encrypterLeMotDePasse(req.body.hashed_password);
+        req.body.salt = passHash.getSalt();
+    }
     User.findOneAndUpdate(
         {_id: req.profile._id}, 
         {$set: req.body}, 

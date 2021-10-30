@@ -3,19 +3,18 @@ import Layout from "../site/Layout";
 import { estAuthentifier } from "../Authentification";
 import { Link, Redirect } from "react-router-dom";
 import {read,update,updateUser} from "./apiUsager"
-
 const Profile = ({match}) =>{
     const [values, setValues] = useState({
         nom:"",
         prenom:"",
         email:"",
-        mdp:"",
+        hashed_password:"",
         error:false,
         succes: false
     });
     const {token} = estAuthentifier()
 
-    const {nom,prenom,email,mdp,error,succes} = values;
+    const {nom,prenom,email,hashed_password,error,succes} = values;
 
     const initaliser = (userId) =>{
         console.log(userId +"ici")
@@ -34,7 +33,7 @@ const Profile = ({match}) =>{
 
     }
 
-    const modifierProfile = (nom,prenom,email,mdp) => (
+    const modifierProfile = (nom,prenom,email,hashed_password) => (
         <form>
         <div className="form-group">
             <label className="text-muted">Nom</label>
@@ -48,13 +47,17 @@ const Profile = ({match}) =>{
             <label className="text-muted">Email</label>
             <input type="email" onChange={handleChange('email')} className="form-control" value={email}/>
         </div>
+        <div className="form-group">
+            <label className="text-muted">Mot de passe</label>
+            <input type="password" onChange={handleChange('hashed_password')} className="form-control" value={hashed_password}/>
+        </div>
         <button onClick={envoyerInformations} className="btn btn-primary">Modifier</button>
         </form>
     )
 
     const envoyerInformations = event =>{
         event.preventDefault()
-        update(match.params.userId, token, {nom,prenom,email,mdp}).then(data=>{
+        update(match.params.userId, token, {nom,prenom,email,hashed_password}).then(data=>{
             
             if(data.error){
                 console.log(data.error);
@@ -80,7 +83,7 @@ const Profile = ({match}) =>{
     return (
         <Layout title="Modification de profile" description="Modifier votre profile" className="container-fluid">
             <h2 className="mb-4">Modifier votre profile</h2>
-            {modifierProfile(nom,prenom,email,mdp)}
+            {modifierProfile(nom,prenom,email,hashed_password)}
             {rediriger(succes)}
         </Layout>
         );
