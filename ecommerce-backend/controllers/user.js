@@ -37,6 +37,8 @@ exports.update = (req, res) => {
                     error: 'tu n\'as pas lautorisation pour cette action'
                 });
             }
+            req.body.hashed_password = undefined;
+            req.body.salt = undefined;
             user.hashed_password = undefined; 
             user.salt = undefined;
             res.json(user);
