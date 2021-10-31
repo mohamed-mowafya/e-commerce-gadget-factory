@@ -29,14 +29,14 @@ const Search = () => {
 
     const searchData = () => {
         if (recherche) {
-            list({ recherche: recherche || undefined, categorie: categorie }).then
-            reponse => {
+            list({ recherche: recherche || undefined, categorie: categorie })
+            .then (reponse => {
                 if (reponse.error) {
                     console.log(reponse.error)
                 } else {
                     setData({ ...data, resultat: reponse, dejaRecherhe: true });
                 }
-            }
+            })
 
         }
     };
