@@ -5,13 +5,13 @@ import Card from "./Card";
 const Search = () => {
     const [data, setData] = useState({
         categories: [],
-        categorie: '',
-        recherche: '',
-        resultat: [],
-        dejaRecherhe: false
+        category: '',
+        search: '',
+        results: [],
+        searched: false
     });
 
-    const { categories, categorie, recherche, resultat, dejaRecherhe } = data;
+    const { categories, category, search, results, searched } = data;
 
     const loadCategories = () => {
         getCategories().then(data => {
@@ -28,13 +28,13 @@ const Search = () => {
     }, []);
 
     const searchData = () => {
-        if (recherche) {
-            list({ recherche: recherche || undefined, categorie: categorie })
-            .then (reponse => {
-                if (reponse.error) {
-                    console.log(reponse.error)
+        if (search) {
+            list({ search: search || undefined, category: category })
+            .then (response => {
+                if (response.error) {
+                    console.log(response.error)
                 } else {
-                    setData({ ...data, resultat: reponse, dejaRecherhe: true });
+                    setData({ ...data, results: response, searched: true });
                 }
             })
 
@@ -46,16 +46,30 @@ const Search = () => {
         searchData()
     };
 
-    const handleChange = (nom) => event => {
-        setData({ ...data, [nom]: event.target.value, dejaRecherhe: false });
+    const handleChange = (name) => event => {
+        setData({ ...data, [name]: event.target.value, searched: false });
     };
 
-    const searchProducts = (resultat = []) => {
+    const searchMessage = (searched, results) => {
+        if(searched && results.length > 0){
+            return `${results.length} Produits trouver`
+        }
+        if(searched && results.length < 1){
+            return `Pas de produit trouver`
+        }
+    }
+
+    const searchedProducts = (results = []) => {
         return (
-            <div className="row">
-                {resultat.map((product, i) => (
-                    <Card key={i} product={product} />
-                ))}
+            <div>
+                <h2 className="mt-4 mb-4">
+                    {searchMessage(searched, results)}
+                </h2>
+                <div className="row">
+                    {results.map((product, i) => (
+                        <Card key={i} product={product} />
+                    ))}
+                </div>
             </div>
         );
     };
@@ -65,8 +79,8 @@ const Search = () => {
             <span className="input-group-text">
                 <div className="input-group input-group-lg">
                     <div className="input-group-prepend">
-                        <select className="btn mr-2 mt-2" onChange={handleChange("categorie")}>
-                            <option value="All"> Choisir la catégorie</option>
+                        <select className="btn mr-2 mt-2" onChange={handleChange("category")}>
+                            <option value="All"> Toute catégorie</option>
                             {categories.map((c, i) => (
                                 <option key={i} value={c._id}>
                                     {c.name}
@@ -95,7 +109,7 @@ const Search = () => {
                 {searchForm()}
             </div>
             <div className="container-fluid mb-3 mt-4">
-                {searchProducts(resultat)}
+                {searchedProducts(results)}
             </div>
         </div>
     );
