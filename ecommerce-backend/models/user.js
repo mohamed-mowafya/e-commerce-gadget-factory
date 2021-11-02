@@ -71,10 +71,18 @@ userSchema.methods = {
     authenticate: function(plainText) {
         return this.encrypterLeMotDePasse(plainText) === this.hashed_password;
     },
+    getSalt: function(){
+        return this.salt;
+    },
     
     encrypterLeMotDePasse: function(password) {
+        console.log("test_pass" + password);
         if (!password) return '';
         try {
+        if(this.salt == undefined){
+                this.salt = uuidv1();
+                this.getSalt();
+            }
 
           // lien pour utiliser cypto  https://www.geeksforgeeks.org/node-js-crypto-createhmac-method/
             return crypto

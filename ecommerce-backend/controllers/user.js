@@ -1,6 +1,6 @@
 
 const User = require('../models/user');
-
+const passHash = new User();
 //Chercher un utilisateur par son ID
 exports.userById = (req, res, next, id) => {
     User.findById(id).exec((err, user) => {
@@ -23,6 +23,10 @@ exports.read = (req, res) => {
 
 //Methode pour mettre a jour le profile du user 
 exports.update = (req, res) => {
+    if(req.body.hashed_password!=''){
+        req.body.hashed_password = passHash.encrypterLeMotDePasse(req.body.hashed_password);
+        req.body.salt = passHash.getSalt();
+    }
     User.findOneAndUpdate(
         {_id: req.profile._id}, 
         {$set: req.body}, 
@@ -30,9 +34,11 @@ exports.update = (req, res) => {
         (err, user) => {
             if (err) {
                 return res.status(400).json({
-                    error: 'tu nas pas lautorisation pour cette action'
+                    error: 'tu n\'as pas lautorisation pour cette action'
                 });
             }
+            req.body.hashed_password = undefined;
+            req.body.salt = undefined;
             user.hashed_password = undefined; 
             user.salt = undefined;
             res.json(user);
