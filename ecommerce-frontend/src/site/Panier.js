@@ -20,7 +20,10 @@ const Panier = () =>{
                 <h2>Vous avez {`${items.length}`} item(s) dans votre panier</h2>
                 <hr />
                     {items.map((product,i) =>
-                    (<Card key={i} product={product}  montrerBoutonAjouterPanier={false}/>))} {/* -> cacher le bouton de l'ajout au panier */}
+                    (<Card 
+                        key={i} product={product}  
+                        montrerBoutonAjouterPanier={false} 
+                        PanierUpdate = {true}/>))} {/* -> cacher le bouton de l'ajout au panier */}
             </div>
         )
     }

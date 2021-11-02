@@ -38,3 +38,19 @@ export const getPanier = () =>{
     }
     return [];
 }
+
+// permet de changer la quantite de chaque item dans le panier
+export const MisAjourItem = (IDproduit, count) => {
+    let cart=[]
+    if(typeof window !== 'undefined'){
+        if(localStorage.getItem('cart')){
+            cart = JSON.parse(localStorage.getItem('cart'))
+        }
+        cart.map((product, i) =>{
+            if(product._id === IDproduit ){
+                cart[i].count = count
+            }
+        })
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+}
