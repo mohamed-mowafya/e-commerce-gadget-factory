@@ -29,3 +29,12 @@ export const itemAuTotal = () =>{
     }
     return 0;
 }
+// Get le panier du localStorage 
+export const getPanier = () =>{
+    if(typeof window !== 'undefined'){
+        if(localStorage.getItem('cart')){
+            return JSON.parse(localStorage.getItem('cart'));
+        }
+    }
+    return [];
+}
