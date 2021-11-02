@@ -23,7 +23,9 @@ const Panier = () =>{
                     (<Card 
                         key={i} product={product}  
                         montrerBoutonAjouterPanier={false} 
-                        PanierUpdate = {true}/>))} {/* -> cacher le bouton de l'ajout au panier */}
+                        PanierUpdate = {true}
+                        MontrerSupprimerProduitBouton = {true}/>
+                        ))}
             </div>
         )
     }

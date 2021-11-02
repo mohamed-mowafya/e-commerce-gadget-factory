@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import {Link, Redirect} from "react-router-dom";
 import ShowImage from './ShowImage';
-import { ajoutItem,MisAjourItem } from "./panierHelper";
+import { ajoutItem,MisAjourItem , supprimerProduit} from "./panierHelper";
 
-const Card = ({product, montrerBoutonAjouterPanier = true, PanierUpdate = false}) => {
+const Card = ({product, montrerBoutonAjouterPanier = true, PanierUpdate = false, MontrerSupprimerProduitBouton=false}) => {
 
 
   const [redirect, setRedirect] = useState(false);
@@ -39,9 +39,6 @@ const handleChange = IDproduit => event =>{
   if(event.target.value > product.quantity){
   setCount(product.quantity) 
  }
-  
-  
-  
 
   if(event.target.value >= 1){
     MisAjourItem(IDproduit, event.target.value)
@@ -61,6 +58,15 @@ const AffichageUpdatesOptionsPanier = PanierUpdate =>{
 
     </div>
 }
+const supprimerProduitBoutton = (MontrerSupprimerProduitBouton) =>{
+  return (MontrerSupprimerProduitBouton && (
+      <button onClick={() => supprimerProduit(product._id)} 
+          className = "btn btn-outline-danger mt-2 mb-2">
+          supprimer
+      </button>
+  )
+  );
+};
 
 return(
 
@@ -80,8 +86,10 @@ return(
              <button className=" btn btn-primary mt-2 mb-2" ><i className="fas fa-link"></i> Voir produit</button>
             </Link>
             {AjouterAuPanierBoutton(montrerBoutonAjouterPanier)}
-
+            {supprimerProduitBoutton(MontrerSupprimerProduitBouton)}
             {AffichageUpdatesOptionsPanier(PanierUpdate)}
+
+            
   </div>
   </div>
     </div>   

@@ -54,3 +54,21 @@ export const MisAjourItem = (IDproduit, count) => {
         localStorage.setItem('cart', JSON.stringify(cart));
     }
 }
+
+
+// Permet de supprimer un article dans le panier
+export const supprimerProduit = (IDproduit) => {
+    let cart=[]
+    if(typeof window !== 'undefined'){
+        if(localStorage.getItem('cart')){
+            cart = JSON.parse(localStorage.getItem('cart'))
+        }
+        cart.map((product, i) =>{
+            if(product._id === IDproduit){
+                cart.splice(i, 1) // enleve un 
+            }
+        })
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+    return cart;
+};
