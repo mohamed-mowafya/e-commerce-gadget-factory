@@ -1,20 +1,22 @@
 import React, {useState} from "react";
 import {Link, Redirect} from "react-router-dom";
 import ShowImage from './ShowImage';
-import { ajoutItem } from "./panierHelper";
+import { ajoutItem,MisAjourItem , supprimerProduit} from "./panierHelper";
 
-const Card = ({product}) => {
+const Card = ({product, montrerBoutonAjouterPanier = true, PanierUpdate = false, MontrerSupprimerProduitBouton=false}) => {
 
 
   const [redirect, setRedirect] = useState(false);
+  const [count, setCount] = useState(product.count);
 
-  const AjouterAuPanierBoutton = () =>{
+  const AjouterAuPanierBoutton = (montrerBoutonAjouterPanier) =>{
     return (
+      montrerBoutonAjouterPanier && (
         <button onClick={AjouterAuPanier} 
             className = "btn btn-dark mt-2 mb-2 mr-2">
             +Panier
         </button>
-    
+      )
     );
 };
 
@@ -28,6 +30,42 @@ const DoitRediriger = redirect =>  {
   if (redirect){
       return <Redirect to = "/cart" />
   };
+};
+
+const handleChange = IDproduit => event =>{
+  // valeur par default 1 (on peux pas avoir 0 ou -1)
+  setCount(event.target.value < 1 ? 1 : event.target.value)
+ // Ne laisse pas rajouter pluque la quantité disponible
+  if(event.target.value > product.quantity){
+  setCount(product.quantity) 
+ }
+
+  if(event.target.value >= 1){
+    MisAjourItem(IDproduit, event.target.value)
+  }
+}
+
+const AffichageUpdatesOptionsPanier = PanierUpdate =>{
+  
+  return  PanierUpdate &&
+     <div>
+        <div className="input-group mb-3">
+            <div className="input-group-prepend">
+                <span className="input-group-text"> Quantité </span>
+            </div><input type="number" className="form-control" 
+            value={count} onChange={handleChange(product._id)}></input>
+       </div>
+
+    </div>
+}
+const supprimerProduitBoutton = (MontrerSupprimerProduitBouton) =>{
+  return (MontrerSupprimerProduitBouton && (
+      <button onClick={() => supprimerProduit(product._id)} 
+          className = "btn btn-outline-danger mt-2 mb-2">
+          supprimer
+      </button>
+  )
+  );
 };
 
 return(
@@ -47,7 +85,11 @@ return(
     <Link to="/">
              <button className=" btn btn-primary mt-2 mb-2" ><i className="fas fa-link"></i> Voir produit</button>
             </Link>
-            {AjouterAuPanierBoutton()}
+            {AjouterAuPanierBoutton(montrerBoutonAjouterPanier)}
+            {supprimerProduitBoutton(MontrerSupprimerProduitBouton)}
+            {AffichageUpdatesOptionsPanier(PanierUpdate)}
+
+            
   </div>
   </div>
     </div>   
