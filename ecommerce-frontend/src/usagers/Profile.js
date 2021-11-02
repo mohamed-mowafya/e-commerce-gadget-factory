@@ -16,9 +16,14 @@ const Profile = ({match}) =>{
     }
     );
     const {token} = estAuthentifier()
-    const [visible,setVisible] = useState(false);
+    const [visible,setVisible] = useState(false); // Permets d'afficher et cacher le message d'erreur
     var {nom,prenom,email,hashed_password,error,succes,mdp,mdp2} = values;
 
+    /**
+     * Méthode qui permets d'initialiser les informations de l'usager
+     * et de les afficher sur la page à partir de la bd.
+     * @param {*} userId 
+     */
     const initaliser = (userId) =>{
         read(userId,token).then(data=>{
             if(data.error){
@@ -30,10 +35,24 @@ const Profile = ({match}) =>{
         })
     }
 
+    /**
+     * Méthode qui change les variables d'usagers
+     * lorsque l'utilisateur fait des changements dans
+     * le form.
+     * @param {*} name 
+     */
     const handleChange = name => (event) =>{
         setValues({...values,[name]: event.target.value},)
     }
 
+    /**
+     * Méthode qui va retourner le form
+     * afin que React puisse l'afficher.
+     * @param {*} nom 
+     * @param {*} prenom 
+     * @param {*} email 
+     * @param {*} hashed_password  
+     */
     const modifierProfile = (nom,prenom,email,hashed_password) => (
         <form>
         <div className="form-group">
@@ -60,6 +79,10 @@ const Profile = ({match}) =>{
         </form>
     )
 
+    /***
+     * Méthode qui va envoyer les informations changés par l'utilisateur
+     * vers le backend
+     * */   
     const envoyerInformations = event =>{
         event.preventDefault()
         verifierMDP()
@@ -78,19 +101,23 @@ const Profile = ({match}) =>{
     }
     }
 
+    /***
+     * Méthode qui va permettre de vérifier si le nouveau mot de passe
+     * de l'utilisateur corresponds au critères de mot de passe.
+     * Source : https://stackoverflow.com/questions/12090077/javascript-regular-expression-password-validation-having-special-characters
+     */
     const verifierMDP = () =>{
-        if(mdp == mdp2 && mdp.length>0){
-            // Source : https://regex101.com/r/dD5bF4/1
-            var regexMDP = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9_])");
+        if(mdp == mdp2 && mdp.length>0){ 
+            var regexMDP = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9_]).{8,}");
             if(!regexMDP.test(mdp)){
                 setVisible(true)
                 setValues({...values,error:true,succes:false})
                 document.getElementById("erreurMDP").innerHTML = "Votre mot de passe doit contenir au moins 8 caractères, "  
-                + "un chiffre et une lettre en majuscule."
+                + "un chiffre, une lettre en majuscule et un symbole."
             }
             else{
                 setVisible(false)
-                setValues({...values,error:false,succes:false})
+                setValues({...values,error:false,succes:true})
                 hashed_password = mdp;
             }
         }
@@ -98,17 +125,24 @@ const Profile = ({match}) =>{
             
                 setValues({...values,error:true,succes:false})
                 setVisible(true)
-                document.getElementById("erreurMDP").innerHTML = "Les deux champs de mot de passe doivent être pareils."
+                document.getElementById("erreurMDP").innerHTML = "Les deux champs de mot de passe doivent être pareils et remplis."
             
         }
         
     }
 
+    /***
+     * Méthode qui réderige l'utilisateur apres'il a changer ses informations.
+     */
     const rediriger = (succes) =>{
         if(succes){
             return <Redirect to="/"/>
         }
     }
+
+    /***
+     * Méthde qui affiche un message d'erreur au besoin.
+     */
     const erreurMDP = () =>{
         return <div id="erreurMDP" style={{display: visible ? "block" : "none"}}  class="alert alert-danger" role="alert"></div>
     }
