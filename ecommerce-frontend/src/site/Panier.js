@@ -12,7 +12,7 @@ const Panier = () =>{
 
     useEffect(()=> { // assure qu'il y a des item dans le state, si item existe pas = retourne empty array
         setItems(getPanier());
-    }, []);
+    }, [items]); // Permert d'avoir un panier mis a jour (lors de la supression)
 
     const AffichageItems = items => {
         return(
