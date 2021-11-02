@@ -3,18 +3,19 @@ import {Link, Redirect} from "react-router-dom";
 import ShowImage from './ShowImage';
 import { ajoutItem } from "./panierHelper";
 
-const Card = ({product}) => {
+const Card = ({product, montrerBoutonAjouterPanier = true}) => {
 
 
   const [redirect, setRedirect] = useState(false);
 
-  const AjouterAuPanierBoutton = () =>{
+  const AjouterAuPanierBoutton = (montrerBoutonAjouterPanier) =>{
     return (
+      montrerBoutonAjouterPanier && (
         <button onClick={AjouterAuPanier} 
             className = "btn btn-dark mt-2 mb-2 mr-2">
             +Panier
         </button>
-    
+      )
     );
 };
 
@@ -47,7 +48,7 @@ return(
     <Link to="/">
              <button className=" btn btn-primary mt-2 mb-2" ><i className="fas fa-link"></i> Voir produit</button>
             </Link>
-            {AjouterAuPanierBoutton()}
+            {AjouterAuPanierBoutton(montrerBoutonAjouterPanier)}
   </div>
   </div>
     </div>   
