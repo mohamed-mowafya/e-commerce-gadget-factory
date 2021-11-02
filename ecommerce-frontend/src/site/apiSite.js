@@ -1,4 +1,5 @@
 import { API } from "../config";
+import queryString from 'query-string';
 
 
 export const getProducts = sortBy => {
@@ -13,14 +14,14 @@ export const getProducts = sortBy => {
 };
 
     // Permet d'aller chercher les categories du backend
-    export const getCategories = () => {
-        return fetch(`${API}/categories`, {
-            method: "GET"
+export const getCategories = () => {
+    return fetch(`${API}/categories`, {
+         method: "GET"
+    })
+        .then(response => {
+            return response.json();
         })
-             .then(response => {
-                 return response.json();
-             })
-             .catch(err => console.log(err));
+        .catch(err => console.log(err));
     }
 
 // Vas chercher les produits dans le backend selon le filtre
@@ -42,4 +43,15 @@ export const getProduitsFiltrer = (skip, limit, filters = {}) => {
     .catch(err => {
         console.log(err);
     });
+}
+
+export const list = params => {
+    const query = queryString.stringify(params)
+    return fetch(`${API}/products/search?${query}`, {
+        method: "GET"
+    })
+         .then(response => {
+             return response.json();
+         })
+         .catch(err => console.log(err));
 };
