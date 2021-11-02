@@ -19,3 +19,13 @@ export const ajoutItem = (item, next) => {
         next();// -> execute la fonction
     }
 };
+
+// determine le nombre total de produit dans le panier
+export const itemAuTotal = () =>{
+    if(typeof window !== 'undefined'){
+        if(localStorage.getItem('cart')){
+            return JSON.parse(localStorage.getItem('cart')).length;
+        }
+    }
+    return 0;
+}

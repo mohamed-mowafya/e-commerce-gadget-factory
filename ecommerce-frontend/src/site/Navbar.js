@@ -4,7 +4,8 @@ import { estAuthentifier } from "../Authentification";
 import { signout } from "../Authentification";
 import '../CSS/login_signup.css'
 import logo from '../images/logo.png'; 
-
+import { itemAuTotal } from "./panierHelper";
+import cartImage from '../images/shopping-cart2.png'; //https://lordicon.com/icons
 
 const pageActive = (history, path) => {
   // History = page actuel
@@ -30,6 +31,7 @@ const NavBar = ({ history }) => (
           <Link className="nav-item nav-link" style={pageActive(history, '/')} to="/">Accueil</Link>
 
           <Link className="nav-item nav-link" style={pageActive(history, '/shop')} to="/shop">Produits</Link>
+          <Link className="nav-item nav-link" style={pageActive(history, '/cart')} to="/cart"> <img src={cartImage} width="35"/> <sup><small className="cart-badge">{itemAuTotal()}</small></sup></Link>
           {!estAuthentifier() && (
             <div className="navbar-nav"> 
             <Link className="nav-item nav-link" style={pageActive(history, '/login')} to="/login">Se connecter</Link>
