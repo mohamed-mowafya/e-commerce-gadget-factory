@@ -1,9 +1,34 @@
 import React, {useState} from "react";
 import {Link, Redirect} from "react-router-dom";
 import ShowImage from './ShowImage';
-
+import { ajoutItem } from "./panierHelper";
 
 const Card = ({product}) => {
+
+
+  const [redirect, setRedirect] = useState(false);
+
+  const AjouterAuPanierBoutton = () =>{
+    return (
+        <button onClick={AjouterAuPanier} 
+            className = "btn btn-dark mt-2 mb-2 mr-2">
+            +Panier
+        </button>
+    
+    );
+};
+
+const AjouterAuPanier = () =>{
+      ajoutItem(product, ()=> { // prend en params le produit et la fonction callback
+      setRedirect(true)
+  });
+};
+
+const DoitRediriger = redirect =>  {
+  if (redirect){
+      return <Redirect to = "/cart" />
+  };
+};
 
 return(
 
@@ -14,16 +39,15 @@ return(
  
   
   <div className="card-body">
+    {DoitRediriger(redirect)}
       <ShowImage item ={product} url="product"/>
     <h5 className="card-title">{product.name}</h5>
     <h6 className="card-subtitle mb-2 text-muted">{product.price}</h6>
     <p className="card-text">{product.description.substring(0, 110)}.....</p>
     <Link to="/">
-             <button class=" btn btn-primary mt-2 mb-2" ><i className="fas fa-link"></i> Voir produit</button>
+             <button className=" btn btn-primary mt-2 mb-2" ><i className="fas fa-link"></i> Voir produit</button>
             </Link>
-             <Link to="/">
-              <button className="btn btn-dark mt-2 mb-2" ><i className="fab fa-github"></i> + Panier</button>
-          </Link>
+            {AjouterAuPanierBoutton()}
   </div>
   </div>
     </div>   
