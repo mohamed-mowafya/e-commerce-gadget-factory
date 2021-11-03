@@ -3,7 +3,14 @@ import {Link, Redirect} from "react-router-dom";
 import ShowImage from './ShowImage';
 import { ajoutItem,MisAjourItem , supprimerProduit} from "./panierHelper";
 
-const Card = ({product, montrerBoutonAjouterPanier = true, PanierUpdate = false, MontrerSupprimerProduitBouton=false}) => {
+const Card = ({
+            product, 
+            montrerBoutonAjouterPanier = true, 
+            PanierUpdate = false, 
+            MontrerSupprimerProduitBouton=false,
+            setRun = f => f,
+            run = undefined 
+          }) => {
 
 
   const [redirect, setRedirect] = useState(false);
@@ -33,6 +40,7 @@ const DoitRediriger = redirect =>  {
 };
 
 const handleChange = IDproduit => event =>{
+  setRun(!run); // run le useEffect dans Cart
   // valeur par default 1 (on peux pas avoir 0 ou -1)
   setCount(event.target.value < 1 ? 1 : event.target.value)
  // Ne laisse pas rajouter pluque la quantité disponible
@@ -60,7 +68,7 @@ const AffichageUpdatesOptionsPanier = PanierUpdate =>{
 }
 const supprimerProduitBoutton = (MontrerSupprimerProduitBouton) =>{
   return (MontrerSupprimerProduitBouton && (
-      <button onClick={() => supprimerProduit(product._id)} 
+      <button onClick={() => supprimerProduit(product._id,setRun(!run))} 
           className = "btn btn-outline-danger mt-2 mb-2">
           supprimer
       </button>

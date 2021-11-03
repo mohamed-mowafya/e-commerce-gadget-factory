@@ -3,16 +3,17 @@ import Layout from "../site/Layout";
 import {Link} from "react-router-dom";
 import {getPanier} from "../site/panierHelper";
 import Card from "../site/Card";
-
+import Paiement from "./Paiement";
 
 const Panier = () =>{
 
     //on prend les item du localStorage et on vas populer dans state
     const [items, setItems] = useState([])
+    const [run, setRun] = useState(false); // utilisé pour empêcher une boucle infini
 
     useEffect(()=> { // assure qu'il y a des item dans le state, si item existe pas = retourne empty array
         setItems(getPanier());
-    }, []);
+    }, [run]); // Permert d'avoir un panier mis a jour (lors de la supression)
 
     const AffichageItems = items => {
         return(
@@ -24,7 +25,10 @@ const Panier = () =>{
                         key={i} product={product}  
                         montrerBoutonAjouterPanier={false} 
                         PanierUpdate = {true}
-                        MontrerSupprimerProduitBouton = {true}/>
+                        MontrerSupprimerProduitBouton = {true}
+                        setRun={setRun}
+                        run={run}
+                        />
                         ))}
             </div>
         )
@@ -50,7 +54,7 @@ return (
         <div className="col-6">
            <h2 className = "mb-4">Sommaire de votre panier:</h2>
             <hr />
-            
+            <Paiement product = {items}/>
         </div>
     </div>
 
