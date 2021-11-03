@@ -1,5 +1,6 @@
 import { API } from "../config";
 import queryString from 'query-string';
+import Product from "./Product";
 
 
 export const getProducts = sortBy => {
@@ -22,7 +23,7 @@ export const getCategories = () => {
             return response.json();
         })
         .catch(err => console.log(err));
-    }
+}
 
 // Vas chercher les produits dans le backend selon le filtre
 export const getProduitsFiltrer = (skip, limit, filters = {}) => {
@@ -43,7 +44,7 @@ export const getProduitsFiltrer = (skip, limit, filters = {}) => {
     .catch(err => {
         console.log(err);
     });
-}
+};
 
 export const list = params => {
     const query = queryString.stringify(params)
@@ -54,4 +55,24 @@ export const list = params => {
              return response.json();
          })
          .catch(err => console.log(err));
+};
+
+export const read = (productId) => {
+    return fetch(`${API}/product/${productId}`, {
+         method: "GET"
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+export const listRelated = (productId) => {
+    return fetch(`${API}/products/related/${productId}`, {
+         method: "GET"
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
 };
