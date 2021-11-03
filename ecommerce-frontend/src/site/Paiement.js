@@ -15,11 +15,21 @@ const Paiement = ({product}) => {
    }
    
    
-   
-   
-   
+   const AfficherPaiement = ()=>{
+       
+     return estAuthentifier() ? (
+         <button className="btn btn-success">PAiement</button>
+     ) : (
+         <Link to= "/login">
+             <button className= "btn btn-primary">Connectez vous pour passer au paiement</button>
+         </Link>
+     );
+     };
+
+
    return <div>
         <h2>Total: {getTotal()} $CAD</h2>
+        {AfficherPaiement()}
     </div>
 }
 
