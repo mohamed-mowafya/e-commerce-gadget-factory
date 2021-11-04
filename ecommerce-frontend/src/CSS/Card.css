@@ -3,7 +3,9 @@
     color: #fff;
     font-weight: bold;
 }
-
+.card-img .ratio{
+    object-fit: cover;
+}
 .black-10{
     background: #f2f2f2;
 }
