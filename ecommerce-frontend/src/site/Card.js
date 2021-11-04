@@ -1,11 +1,84 @@
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import ShowImage from './ShowImage';
+import { ajoutItem,MisAjourItem , supprimerProduit} from "./panierHelper";
 import moment from "moment";
 import "../CSS/Card.css"
 
+const Card = ({
+            product, 
+            montrerBoutonAjouterPanier = true,
+            showViewProductButton = true,
+            PanierUpdate = false, 
+            MontrerSupprimerProduitBouton=false,
+            setRun = f => f,
+            run = undefined 
+          }) => {
 
-const Card = ({ product, showViewProductButton = true }) => {
+
+  const [redirect, setRedirect] = useState(false);
+  const [count, setCount] = useState(product.count);
+
+  const AjouterAuPanierBoutton = (montrerBoutonAjouterPanier) =>{
+    return (
+      montrerBoutonAjouterPanier && (
+        <button onClick={AjouterAuPanier} 
+            className = "btn btn-dark mt-2 mb-2 mr-2">
+            +Panier
+        </button>
+      )
+    );
+};
+
+const AjouterAuPanier = () =>{
+      ajoutItem(product, ()=> { // prend en params le produit et la fonction callback
+      setRedirect(true)
+  });
+};
+
+const DoitRediriger = redirect =>  {
+  if (redirect){
+      return <Redirect to = "/cart" />
+  };
+};
+
+const handleChange = IDproduit => event =>{
+  setRun(!run); // run le useEffect dans Cart
+  // valeur par default 1 (on peux pas avoir 0 ou -1)
+  setCount(event.target.value < 1 ? 1 : event.target.value)
+ // Ne laisse pas rajouter pluque la quantité disponible
+  if(event.target.value > product.quantity){
+  setCount(product.quantity) 
+ }
+
+  if(event.target.value >= 1){
+    MisAjourItem(IDproduit, event.target.value)
+  }
+}
+
+const AffichageUpdatesOptionsPanier = PanierUpdate =>{
+  
+  return  PanierUpdate &&
+     <div>
+        <div className="input-group mb-3">
+            <div className="input-group-prepend">
+                <span className="input-group-text"> Quantité </span>
+            </div><input type="number" className="form-control" 
+            value={count} onChange={handleChange(product._id)}></input>
+       </div>
+
+    </div>
+}
+const supprimerProduitBoutton = (MontrerSupprimerProduitBouton) =>{
+  return (MontrerSupprimerProduitBouton && (
+      <button onClick={() => supprimerProduit(product._id,setRun(!run))} 
+          className = "btn btn-outline-danger mt-2 mb-2">
+          supprimer
+      </button>
+  )
+  );
+};
+  
   const showViewButton = (showViewProductButton) => {
     return (
       showViewProductButton && (
@@ -37,10 +110,12 @@ const Card = ({ product, showViewProductButton = true }) => {
   return (
 
 
+
       <div className="card card1" >
 
 
         <div className="card-body">
+          {DoitRediriger(redirect)}
           <ShowImage item={product} url="product" />
           <h5 className="card-title name">{product.name}</h5>
           <h6 className="card-subtitle mb-2 text-muted black-10">{product.price}</h6>
@@ -52,7 +127,9 @@ const Card = ({ product, showViewProductButton = true }) => {
           
           {showViewButton(showViewProductButton)}
           
-          {showAddToCartButton()}
+          {AjouterAuPanierBoutton(montrerBoutonAjouterPanier)}
+          {supprimerProduitBoutton(MontrerSupprimerProduitBouton)}
+          {AffichageUpdatesOptionsPanier(PanierUpdate)}
         </div>
       </div>
 

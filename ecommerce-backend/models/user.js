@@ -76,7 +76,6 @@ userSchema.methods = {
     },
     
     encrypterLeMotDePasse: function(password) {
-        console.log("test_pass" + password);
         if (!password) return '';
         try {
         if(this.salt == undefined){
