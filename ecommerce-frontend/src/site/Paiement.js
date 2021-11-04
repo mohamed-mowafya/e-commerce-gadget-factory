@@ -55,8 +55,8 @@ const Paiement = ({product}) => {
      };
 
      const AfficherDropIn = () => (
-         
-        <div >
+          <div onBlur= {() => setData ({...data, error: ""})}>
+      
             
            {data.clientToken !== null && product.length > 0 ? (
                
@@ -69,17 +69,23 @@ const Paiement = ({product}) => {
                    <button onClick={Acheter} className="btn btn-primary">passer au paiement</button>
                </div>
            ):null }
-                  
+                
         </div>
+       
     );
-
+    
+    // requete au backend
     const Acheter= ()=>{
+
+        //envoie le nonce au server
+
         let nonce;
 
-        let getNonce = data.instance.requestPaymentMethod()
+        let getNonce = data.instance
+        .requestPaymentMethod() // determine le type de paiement(type de carte)
         .then(data => {
             console.log(data)
-            nonce = data.nonce
+            nonce = data.nonce // -> type de carte, numero de carte...
             console.log('send nonce and total', nonce, getTotal(product))
             
                 
@@ -90,9 +96,18 @@ const Paiement = ({product}) => {
             })
                 
         }
+    
+    const montrerErreur = error =>(
+        // si il ya a erreur, montrer le message d'erreur
+        <div className="alert alert-danger" style={{display : error ? '' : "none"}}> 
+            {error}
+        </div>
+
+    )
 
    return <div>
         <h2>Total: {getTotal()} $CAD</h2>
+        {montrerErreur(data.error)}
         {AfficherPaiement()}
     </div>
 }
