@@ -57,7 +57,7 @@ export const list = params => {
          .catch(err => console.log(err));
 };
 
-
+// Get le token du backend
 export const getBraintreeTokenClient = (userId, token) => {
     return fetch (`${API}/braintree/getToken/${userId}`, {
         method : "GET",

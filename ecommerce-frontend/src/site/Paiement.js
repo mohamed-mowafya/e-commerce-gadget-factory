@@ -17,22 +17,22 @@ const Paiement = ({product}) => {
     })
 
     //requete au backend
-    const userId = estAuthentifier() && estAuthentifier().user._id
-    const token = estAuthentifier() && estAuthentifier().token
+        const userId = estAuthentifier() && estAuthentifier().user._id
+        const token = estAuthentifier() && estAuthentifier().token
 
-    const getToken = ( userId , token) =>{
-        getBraintreeTokenClient(userId, token).then(data => {
-            if (data.error){
-                setData ({...data, error : data.error});
-            } else {
-                setData({clientToken : data.clientToken});
-            }
-        })
-    }
+        const getToken = ( userId , token) =>{
+            getBraintreeTokenClient(userId, token).then(data => {
+                if (data.error){
+                    setData ({...data, error : data.error});
+                } else {
+                    setData({clientToken : data.clientToken});
+                }
+            })
+        }
 
-    useEffect (()=> {
-        getToken(userId,token)
-    },[])
+        useEffect (()=> {
+            getToken(userId,token)
+        },[])
    
    // calcule du prix avant taxes
    //Affichage du prix avant taxes
@@ -46,7 +46,7 @@ const Paiement = ({product}) => {
    const AfficherPaiement = ()=>{
        
      return estAuthentifier() ? (
-         <button className="btn btn-success">{AfficherDropIn()}</button>
+         <div >{AfficherDropIn()}</div>
      ) : (
          <Link to= "/login">
              <button className= "btn btn-primary">Connectez vous pour passer au paiement</button>
@@ -55,16 +55,18 @@ const Paiement = ({product}) => {
      };
 
      const AfficherDropIn = () => (
+         
         <div >
+            
            {data.clientToken !== null && product.length > 0 ? (
-
+               
                <div>
 
                    <DropIn options={{
-                       authorization: data.clientToken.clientToken}}
+                       authorization: data.clientToken}}
                        onInstance= {instance => (data.instance = instance)}
                    />
-                   <button onClick={Acheter} className="btn btn-success">passer au paiement</button>
+                   <button onClick={Acheter} className="btn btn-primary">passer au paiement</button>
                </div>
            ):null }
                   
