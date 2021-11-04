@@ -22,3 +22,4 @@ exports.generateToken = (req, res) => {
     });
 };
 
+
