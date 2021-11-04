@@ -7,15 +7,17 @@ const product = require('../models/product');
 
 
 exports.productById = (req, res, next, id) => {
-    Product.findById(id).exec((err, product) => {
-        if(err || !product){
-            return res.status(400).json({
-                error: "Produit non trouvé"
-            });
-        }
-        req.product = product;
-        next();
-    });
+    Product.findById(id)
+        .populate('category')
+        .exec((err, product) => {
+            if (err || !product) {
+                return res.status(400).json({
+                    error: "Produit non trouvé"
+                });
+            }
+            req.product = product;
+            next();
+        });
 };
 
 exports.read = (req, res) => {
@@ -26,15 +28,15 @@ exports.read = (req, res) => {
 exports.create = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true
-    form.parse(req, (err, fields, files)=> {
-        if(err){
+    form.parse(req, (err, fields, files) => {
+        if (err) {
             return res.status(400).json({
                 error: 'Image non telechargé'
             })
         }
-        const {name, description, price, category, quantity, shipping}= fields
+        const { name, description, price, category, quantity, shipping } = fields
 
-        if(!name || !description || !price || !category || !quantity || !shipping){
+        if (!name || !description || !price || !category || !quantity || !shipping) {
             return res.status(400).json({
                 error: "Touts les fields doivent être remplis"
             });
@@ -43,8 +45,8 @@ exports.create = (req, res) => {
 
         let product = new Product(fields)
 
-        if(files.photo){
-            if(files.photo.size > 1000000){
+        if (files.photo) {
+            if (files.photo.size > 1000000) {
                 return res.status(400).json({
                     error: "Image doit être plus petite que 1mb"
                 });
@@ -54,8 +56,8 @@ exports.create = (req, res) => {
         }
 
         product.save((err, result) => {
-            if(err){
-                return res.status(400).json({  
+            if (err) {
+                return res.status(400).json({
                     error: errorHandler(err)
                 });
             }
@@ -68,7 +70,7 @@ exports.create = (req, res) => {
 exports.remove = (req, res) => {
     let product = req.product
     product.remove((err) => {
-        if(err){
+        if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
             });
@@ -82,15 +84,15 @@ exports.remove = (req, res) => {
 exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true
-    form.parse(req, (err, fields, files)=> {
-        if(err){
+    form.parse(req, (err, fields, files) => {
+        if (err) {
             return res.status(400).json({
                 error: 'Image non telechargé'
             })
         }
-        const {name, description, price, category, quantity, shipping}= fields
+        const { name, description, price, category, quantity, shipping } = fields
 
-        if(!name || !description || !price || !category || !quantity || !shipping){
+        if (!name || !description || !price || !category || !quantity || !shipping) {
             return res.status(400).json({
                 error: "Touts les fields doivent être remplis"
             });
@@ -99,8 +101,8 @@ exports.update = (req, res) => {
         let product = req.product
         product = _.extend(product, fields);
 
-        if(files.photo){
-            if(files.photo.size > 1000000){
+        if (files.photo) {
+            if (files.photo.size > 1000000) {
                 return res.status(400).json({
                     error: "Image doit être plus petite que 1mb"
                 });
@@ -110,7 +112,7 @@ exports.update = (req, res) => {
         }
 
         product.save((err, result) => {
-            if(err){
+            if (err) {
                 return res.status(400).json({
                     error: errorHandler(err)
                 });
@@ -133,7 +135,7 @@ exports.list = (req, res) => {
         .sort([[sortBy, order]])
         .limit(limit)
         .exec((err, products) => {
-            if(err){
+            if (err) {
                 return res.status(400).json({
                     error: 'Produit non trouve'
                 })
@@ -145,22 +147,22 @@ exports.list = (req, res) => {
 exports.listRelated = (req, res) => {
     let limit = req.query.limit ? parseInt(req.query.limit) : 6
 
-    Product.find({_id: {$ne: req.product}, category: req.product.category})
-    .limit(limit)
-    .populate('category', '_id name')
-    .exec((err, products) => {
-        if(err){
-            return res.status(400).json({
-                error: 'Produit non trouvé'
-            })
-        }
-        res.json(products);
-    })
+    Product.find({ _id: { $ne: req.product }, category: req.product.category })
+        .limit(limit)
+        .populate('category', '_id name')
+        .exec((err, products) => {
+            if (err) {
+                return res.status(400).json({
+                    error: 'Produit non trouvé'
+                })
+            }
+            res.json(products);
+        })
 }
 
 exports.listCategories = (req, res) => {
     Product.distinct("category", {}, (err, categories) => {
-        if(err){
+        if (err) {
             return res.status(400).json({
                 error: 'catégories non trouvé'
             })
@@ -220,15 +222,15 @@ exports.listSearch = (req, res) => {
     // creer un query objet qui va contenir les valeurs de la recherche et de la categorie rechercher
     const query = {};
     //assigner la valeur de la recherche au query.name
-    if(req.query.search){
-        query.name = {$regex: req.query.search, $options: 'i'};
+    if (req.query.search) {
+        query.name = { $regex: req.query.search, $options: 'i' };
         // assigner la categorie rechercher au query.category
-        if(req.query.category && req.query.category != 'All'){
+        if (req.query.category && req.query.category != 'All') {
             query.category = req.query.category;
         }
         //trouver le produit qui a été rechercher 
         Product.find(query, (err, products) => {
-            if(err) {
+            if (err) {
                 return res.status(400).json({
                     error: errorHandler(err)
                 });

@@ -12,6 +12,8 @@ import AddCategory from "./admin/AddCategory";
 import AddProduct from "./admin/AddProduct";
 import profile from "./usagers/Profile";
 import Panier from "./site/Panier";
+import Product from "./site/Product";
+
 
 const Routes = () => {
     return(
@@ -27,6 +29,7 @@ const Routes = () => {
             <RouteAdministarteur path ="/creer/categorie" exact component={AddCategory}></RouteAdministarteur>
             <RouteAdministarteur path ="/creer/produit" exact component={AddProduct}></RouteAdministarteur>
             <RoutePrive path="/profile/:userId" exact component={profile}></RoutePrive>
+            <Route path="/product/:productId" exact component={Product}></Route>
         </Switch>
     </BrowserRouter>
     );
