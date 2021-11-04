@@ -31,7 +31,6 @@ const NavBar = ({ history }) => (
           <Link className="nav-item nav-link" style={pageActive(history, '/')} to="/">Accueil</Link>
 
           <Link className="nav-item nav-link" style={pageActive(history, '/shop')} to="/shop">Produits</Link>
-          <Link className="nav-item nav-link" style={pageActive(history, '/cart')} to="/cart"> <img src={cartImage} width="35"/> <sup><small className="cart-badge">{itemAuTotal()}</small></sup></Link>
           {!estAuthentifier() && (
             <div className="navbar-nav"> 
             <Link className="nav-item nav-link" style={pageActive(history, '/login')} to="/login">Se connecter</Link>
@@ -47,6 +46,7 @@ const NavBar = ({ history }) => (
           {estAuthentifier() && (
             <Link className="nav-item nav-link" style={{cursor: 'pointer', color: '#ffffff'}} onClick={() => signout(() => {history.push("/");})} to="/">Déconnexion</Link>
           )}
+          <Link className="nav-item nav-link" style={pageActive(history, '/cart')} to="/cart"> <img src={cartImage} width="35"/> <sup><small className="cart-badge">{itemAuTotal()}</small></sup></Link>
         </div>
       </div>
     </nav>
