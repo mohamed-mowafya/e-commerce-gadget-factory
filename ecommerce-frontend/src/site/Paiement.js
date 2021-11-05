@@ -2,12 +2,14 @@ import React, {useState, useEffect} from "react";
 import { estAuthentifier } from "../Authentification";
 import { Link } from "react-router-dom";
 import DropIn from  "braintree-web-drop-in-react";
-import {getBraintreeTokenClient} from "../site/apiSite";
+import { viderPanier } from "./panierHelper";
+import {getBraintreeTokenClient , processPayment} from "../site/apiSite";
 
 
 const Paiement = ({product}) => {
 
     const [data, setData] = useState({
+        loading : false,
         success: false,
         clientToken: null,
         error:'',
@@ -55,7 +57,8 @@ const Paiement = ({product}) => {
      };
 
      const AfficherDropIn = () => (
-          <div onBlur= {() => setData ({...data, error: ""})}>
+            // permet de faire disparairtre le message d'erreur en cliquant nimporte ou sur la page 
+          <div onBlur= {() => setData ({...data, error: ""})}> 
       
             
            {data.clientToken !== null && product.length > 0 ? (
@@ -63,10 +66,14 @@ const Paiement = ({product}) => {
                <div>
 
                    <DropIn options={{
-                       authorization: data.clientToken}}
+                       authorization: data.clientToken,
+                       paypal:{
+                           flow: "vault"
+                       }
+                    }}
                        onInstance= {instance => (data.instance = instance)}
                    />
-                   <button onClick={Acheter} className="btn btn-primary">passer au paiement</button>
+                   <button onClick={Acheter} className="btn btn-primary btn-block">passer au paiement</button>
                </div>
            ):null }
                 
@@ -76,26 +83,37 @@ const Paiement = ({product}) => {
     
     // requete au backend
     const Acheter= ()=>{
-
-        //envoie le nonce au server
-
+        setData({loading : true});
         let nonce;
 
         let getNonce = data.instance
-        .requestPaymentMethod() // determine le type de paiement(type de carte)
+        .requestPaymentMethod()
         .then(data => {
-            console.log(data)
-            nonce = data.nonce // -> type de carte, numero de carte...
-            console.log('send nonce and total', nonce, getTotal(product))
-            
+            //console.log(data)
+            nonce = data.nonce
+            //console.log('send nonce and total', nonce, getTotal(produits))
+            const paymentData = {
+                paymentMethodNonce : nonce,
+                amount : getTotal(product)
                 
+            }
+            processPayment(userId , token, paymentData)
+            .then (response => {
+                setData({...data, success:response.success});
+                viderPanier(() => {
+                    console.log("payment sucess et panier vide");
+                    setData({loading : false});
+                })
             })
-            .catch (error => {
-                console.log('dropin error : ' , error)
-                setData({...data,error:error.message}) 
-            })
-                
-        }
+            .catch (error => {console.log(error)
+                    setData({loading : false});
+            });
+        })
+        .catch(error => {
+            //console.log ('dropping error' , error)
+            setData({...data, error:error.message});
+        });
+    };
     
     const montrerErreur = error =>(
         // si il ya a erreur, montrer le message d'erreur
@@ -104,9 +122,19 @@ const Paiement = ({product}) => {
         </div>
 
     )
+    // montre le message si la transaction est succes 
+    const montrerSuccess = success => (
+        <div className="alert alert-info" 
+        style={{display : success ? '' : "none"}}>
+            Votre paiement a été effectué avec succèes
+        </div>
+    );
+    const afficherChargement = (loading) => (loading && <h2>Chargement...</h2>)
 
    return <div>
         <h2>Total: {getTotal()} $CAD</h2>
+        {afficherChargement(data.loading)}
+        {montrerSuccess(data.success)}
         {montrerErreur(data.error)}
         {AfficherPaiement()}
     </div>
