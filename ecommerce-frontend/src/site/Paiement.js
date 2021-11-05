@@ -6,8 +6,9 @@ import { viderPanier } from "./panierHelper";
 import {getBraintreeTokenClient , processPayment} from "../site/apiSite";
 
 
-const Paiement = ({product}) => {
+const Paiement = ({product, setRun = f => f, run = undefined }) => {
 
+   
     const [data, setData] = useState({
         loading : false,
         success: false,
@@ -101,8 +102,14 @@ const Paiement = ({product}) => {
             .then (response => {
                 setData({...data, success:response.success});
                 viderPanier(() => {
-                    console.log("payment sucess et panier vide");
-                    setData({loading : false});
+                    setRun(!run); 
+                    console.log('paiement sucess, panier vide');
+                    setData({
+                        loading: false,
+                        success: true
+                    });
+                
+
                 })
             })
             .catch (error => {console.log(error)
