@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const braintree = require('braintree');
 require('dotenv').config();
-
+     
 
 //Connexion à braintree
 const gateway = new braintree.BraintreeGateway({
@@ -22,4 +22,23 @@ exports.generateToken = (req, res) => {
     });
 };
 
+exports.processPayment = (req, res) => {
+    let nonceFromClient = req.body.paymentMethodNonce
+    let amountFromClient = req.body.amount
+
+    //(gateawaypermet de connecter a braintree)
+    let newTransaction = gateway.transaction.sale({
+        amount: amountFromClient,
+        paymentMethodNonce: nonceFromClient,
+        options :{
+            submitForSettlement : true
+        }
+    }, (error, result) => {
+        if(error) {
+            res.status(500).json(error);
+        } else {
+            res.json(result);
+        }
+    })
+}
 
