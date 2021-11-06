@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import DropIn from  "braintree-web-drop-in-react";
 import { viderPanier } from "./panierHelper";
 import {getBraintreeTokenClient , processPayment} from "../site/apiSite";
+import { Redirect } from "react-router-dom";
 
 
 const Paiement = ({product, setRun = f => f, run = undefined }) => {
@@ -15,8 +16,8 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
         clientToken: null,
         error:'',
         instance:{},
-        address:''
-
+        address:'',
+        rediriger: false
     })
 
     //requete au backend
@@ -74,7 +75,7 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
                     }}
                        onInstance= {instance => (data.instance = instance)}
                    />
-                   <button onClick={Acheter} className="btn btn-primary btn-block">passer au paiement</button>
+                   <button onClick={Acheter} className="btn btn-primary btn-block">Payer</button>
                </div>
            ):null }
                 
@@ -136,12 +137,21 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
             Votre paiement a été effectué avec succèes
         </div>
     );
+
+ 
     const afficherChargement = (loading) => (loading && <h2>Chargement...</h2>)
 
+    const redirigerUtilisateur = success =>{
+        if(success){
+            return <Redirect to = "/"/>
+        }
+        
+    }
    return <div>
         <h2>Total: {getTotal()} $CAD</h2>
         {afficherChargement(data.loading)}
         {montrerSuccess(data.success)}
+        {redirigerUtilisateur(data.success)}
         {montrerErreur(data.error)}
         {AfficherPaiement()}
     </div>
