@@ -17,7 +17,6 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
         error:'',
         instance:{},
         address:'',
-        rediriger: false
     })
 
     //requete au backend
@@ -141,6 +140,12 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
  
     const afficherChargement = (loading) => (loading && <h2>Chargement...</h2>)
 
+
+    /**
+     * Si le paiement de l'utilisateur marche,
+     * il est redirigé vers la page d'accueil
+     * @param {} success 
+     */
     const redirigerUtilisateur = success =>{
         if(success){
             return <Redirect to = "/"/>
