@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { estAuthentifier } from "../Authentification";
 import { Link } from "react-router-dom";
+import 'braintree-web'
 import DropIn from  "braintree-web-drop-in-react";
 import { viderPanier } from "./panierHelper";
 import {getBraintreeTokenClient , processPayment,commander} from "../site/apiSite";
@@ -57,20 +58,27 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
      );
      };
 
+     const handleChange = (event) =>{
+        setData({address: event.target.value});
+     }
      const AfficherDropIn = () => (
             // permet de faire disparairtre le message d'erreur en cliquant nimporte ou sur la page 
           <div onBlur= {() => setData ({...data, error: ""})}> 
-      
+
             
            {data.clientToken !== null && product.length > 0 ? (
                
                <div>
-
+                   <div className="gorm-group mb-3">
+                    <label className="text-muted">Adresse de livraison</label>
+                    <textarea onChange={handleChange}
+                    className="form-control"
+                    value = {data.address}
+                    placeholder = "Entrez votre adresse de livraison"
+                    />
+                       </div>
                    <DropIn options={{
                        authorization: data.clientToken,
-                       paypal:{
-                           flow: "vault"
-                       }
                     }}
                        onInstance= {instance => (data.instance = instance)}
                    />
@@ -98,6 +106,13 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
             }
             processPayment(userId , token, paymentData)
             .then (response => {
+                const commandeUtil = {
+                    products : product,
+                    transaction_id: response.transaction_id,
+                    montant: response.transaction.amount,
+                    address: data.address
+                }
+                commander(userId,token,commandeUtil)
                 setData({...data, success:response.success});
                 viderPanier(() => {
                     setRun(!run); 
@@ -115,7 +130,6 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
             });
         })
         .catch(error => {
-            //console.log ('dropping error' , error)
             setData({...data, error:error.message});
         });
     };
@@ -145,6 +159,7 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
      * @param {} success 
      */
     const redirigerUtilisateur = success =>{
+        console.log(success)
         if(success){
             return <Redirect to = "/"/>
         }
