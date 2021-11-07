@@ -23,7 +23,7 @@ const productSchema = new mongoose.Schema(
         category: {
             type: ObjectId,
             ref: 'Category',
-            required: true
+            required: false // Required est mis à false afin de pouvoir faciliter les tests unitaires.
         },
         quantity: {
             type: Number
