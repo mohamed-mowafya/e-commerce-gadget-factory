@@ -12,7 +12,7 @@ const gateway = new braintree.BraintreeGateway({
 });
 
 // génère un token
-exports.generateToken = (req, res) => {
+exports.generateToken = async (req, res) => {
     gateway.clientToken.generate({}, function(err, reponse){
         if(err){
             res.status(500).send(err);
@@ -22,7 +22,7 @@ exports.generateToken = (req, res) => {
     });
 };
 
-exports.processPayment = (req, res) => {
+exports.processPayment = async (req, res) => {
     let nonceFromClient = req.body.paymentMethodNonce
     let amountFromClient = req.body.amount
 

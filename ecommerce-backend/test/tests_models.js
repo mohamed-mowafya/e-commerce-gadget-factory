@@ -1,4 +1,4 @@
-// Source : https://www.geeksforgeeks.org/how-to-use-mocha-with-mongoose/
+// Source : https://medium.com/@danmolitor/writing-tests-for-mongo-mongoose-with-mocha-7e98be740074
 
 /***
  * Tests qui vont permettre de tester les models mongoose du site.
@@ -57,7 +57,7 @@ describe('Création dun produit (test du modèle produit)', function(){
         quantity:10,sold:0,photo:"",shipping:true})
         produit.save() 
         .then(() => {
-            assert(!produit.isNew); // Si le produit est déjà sauvegardé dans la bd, il est pas new.
+            assert(!produit.isNew); // Si la catégorie est déjà sauvegardé dans la bd, il est pas new.
             done();
         });
     })
