@@ -169,7 +169,7 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
         <h2>Total: {getTotal()} $CAD</h2>
         {afficherChargement(data.loading)}
         {montrerSuccess(data.success)}
-       
+        {redirigerUtilisateur(data.success)}
         {montrerErreur(data.error)}
         {AfficherPaiement()}
     </div>
