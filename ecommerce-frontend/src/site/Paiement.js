@@ -3,7 +3,7 @@ import { estAuthentifier } from "../Authentification";
 import { Link } from "react-router-dom";
 import DropIn from  "braintree-web-drop-in-react";
 import { viderPanier } from "./panierHelper";
-import {getBraintreeTokenClient , processPayment} from "../site/apiSite";
+import {getBraintreeTokenClient , processPayment,commander} from "../site/apiSite";
 import { Redirect } from "react-router-dom";
 
 
@@ -90,9 +90,7 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
         let getNonce = data.instance
         .requestPaymentMethod()
         .then(data => {
-            //console.log(data)
             nonce = data.nonce
-            //console.log('send nonce and total', nonce, getTotal(produits))
             const paymentData = {
                 paymentMethodNonce : nonce,
                 amount : getTotal(product)

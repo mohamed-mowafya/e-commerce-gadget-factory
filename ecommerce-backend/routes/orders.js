@@ -4,10 +4,12 @@ const router = express.Router();
 
 const { requireSignin,isAuth} = require('../controllers/auth');
 const { userById } = require("../controllers/user");
-const { generateToken } = require("../controllers/braintree");
+const { create } = require("../controllers/order");
+
+router.post('/order/create/:userId',requireSignin,isAuth,create)
 
 
-//Sera accessible a l'usagé authentifié seulement
+router.param("userId",userById)
 
 
 module.exports = router;
