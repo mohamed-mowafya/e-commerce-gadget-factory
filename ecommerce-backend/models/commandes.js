@@ -4,10 +4,10 @@ const { ObjectId } = mongoose.Schema;
  
 const SchemaChariot = new mongoose.Schema(
   {
-    produit: { type: ObjectId, ref: "Product" },
-    nom: String,
-    prix: Number,
-    quantite: Number
+    product: { type: ObjectId, ref: "Product" },
+    name: String,
+    price: Number,
+    count: Number
   },
   { timestamps: true }
 );

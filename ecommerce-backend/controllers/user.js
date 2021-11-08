@@ -45,3 +45,21 @@ exports.update = (req, res) => {
         }
         );
 }
+
+exports.ajouterHistorique = (req,res,cb) =>{
+
+    let historique = []
+
+    req.body.order.products.forEach((produit) =>{
+    historique.push({
+        _id: produit._id,
+        name: produit.name,
+        description: produit.description,
+        category: produit.category,
+        quantity: produit.quantity,
+        transaction_id: produit.transaction_id,
+        quantite: req.body.order.quantite
+    })
+
+    })
+}

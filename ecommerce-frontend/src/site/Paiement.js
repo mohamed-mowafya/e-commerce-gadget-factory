@@ -47,6 +47,9 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
     },0);
    }
    
+   const getQuantite = () =>{
+       return product.count
+   }
    
    const AfficherPaiement = ()=>{
        
@@ -114,8 +117,8 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
                 const commandeUtil = {
                     products : product,
                     transaction_id: response.transaction_id,
-                    montant: response.transaction.amount,
-                    address: data.address
+                    montant_total: response.transaction.amount,
+                    address: adresse
                 }
                 commander(userId,token,commandeUtil)
                 setData({...data, success:response.success});
