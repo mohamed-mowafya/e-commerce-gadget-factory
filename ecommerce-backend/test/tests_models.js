@@ -41,7 +41,7 @@ describe('Création une catégorie (test du catégorie)', function(){
         const categorie = new CategorieModel({name:"Écouteurs"});
         categorie.save() 
         .then(() => {
-            assert(!categorie.isNew); // Si le produit est déjà sauvegardé dans la bd, il est pas new.
+            assert(!categorie.isNew); // Si la catégorie est déjà sauvegardé dans la bd, il est pas new.
             done();
         });
     })
@@ -58,7 +58,7 @@ describe('Création dun produit (test du modèle produit)', function(){
         quantity:10,sold:0,photo:"",shipping:true})
         produit.save() 
         .then(() => {
-            assert(!produit.isNew); // Si la catégorie est déjà sauvegardé dans la bd, il est pas new.
+            assert(!produit.isNew); // Si le produit est déjà sauvegardé dans la bd, il est pas new.
             done();
         });
     })
@@ -70,7 +70,7 @@ describe('Création dune commande (test du modèle commande)', function(){
           done();
         });
     });
-    it('Crée un produit', (done) =>{
+    it('Crée une commande', (done) =>{
         let modelUsager = new UserModel();
         let mdpHashed = modelUsager.encrypterLeMotDePasse("Test1234!");
         const usager = new Usager({nom:"test",prenom:"test",email:"test@gmail.com",hashed_password:mdpHashed})
@@ -78,7 +78,7 @@ describe('Création dune commande (test du modèle commande)', function(){
         const commande = new Commande({products:itemsChariot,montant_total: 700,address:"10000 Henri-Bourassa",statut:"En attente",user:usager})
         commande.save() 
         .then(() => {
-            assert(!commande.isNew); // Si la catégorie est déjà sauvegardé dans la bd, il est pas new.
+            assert(!commande.isNew); // Si la commande est déjà sauvegardé dans la bd, elle est pas new.
             done();
         });
     })
