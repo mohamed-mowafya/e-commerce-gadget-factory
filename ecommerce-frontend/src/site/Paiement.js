@@ -17,8 +17,9 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
         clientToken: null,
         error:'',
         instance:{},
-        address:'',
     })
+
+    const [adresse,setAdresse] = useState('')
 
     //requete au backend
         const userId = estAuthentifier() && estAuthentifier().user._id
@@ -58,8 +59,8 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
      );
      };
 
-     const handleChange = (event) =>{
-        setData({address: event.target.value});
+     const handleChange = event =>{
+        setAdresse(event.target.value);
      }
      const AfficherDropIn = () => (
             // permet de faire disparairtre le message d'erreur en cliquant nimporte ou sur la page 
@@ -69,14 +70,6 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
            {data.clientToken !== null && product.length > 0 ? (
                
                <div>
-                   <div className="gorm-group mb-3">
-                    <label className="text-muted">Adresse de livraison</label>
-                    <textarea onChange={handleChange}
-                    className="form-control"
-                    value = {data.address}
-                    placeholder = "Entrez votre adresse de livraison"
-                    />
-                       </div>
                    <DropIn options={{
                        authorization: data.clientToken,
                     }}
@@ -89,6 +82,18 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
         </div>
        
     );
+
+    const AfficherEntreeAdresse = () =>(
+        <div className="form-group mb-3">
+        <label className="text-muted">Adresse de livraison</label>
+        <textarea 
+        onChange={handleChange}
+        value= {adresse}
+        className="form-control"
+        placeholder = "Entrez votre adresse de livraison"
+        />
+           </div>
+    )
     
     // requete au backend
     const Acheter= ()=>{
@@ -171,6 +176,7 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
         {montrerSuccess(data.success)}
         {redirigerUtilisateur(data.success)}
         {montrerErreur(data.error)}
+        {AfficherEntreeAdresse()}
         {AfficherPaiement()}
     </div>
 }
