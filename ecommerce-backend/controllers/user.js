@@ -46,7 +46,7 @@ exports.update = (req, res) => {
         );
 }
 
-exports.ajouterHistorique = (req,res,cb) =>{
+exports.ajouterHistorique = (req,res,next) =>{
 
     let historique = []
 
@@ -57,9 +57,17 @@ exports.ajouterHistorique = (req,res,cb) =>{
         description: produit.description,
         category: produit.category,
         quantity: produit.quantity,
-        transaction_id: produit.transaction_id,
-        quantite: req.body.order.quantite
+        transaction_id: req.body.order.transaction_id,
     })
 
     })
+    User.findOneAndUpdate({_id: req.profile._id},{$push:{history:historique}},{new: true},(err,data)=>{
+        if(err){
+            return res.status(400).json({
+                error: 'Erreur de sauvegarde'
+            });
+        }
+        next();
+    })
 }
+

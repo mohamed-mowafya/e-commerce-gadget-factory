@@ -116,7 +116,7 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
             .then (response => {
                 const commandeUtil = {
                     products : product,
-                    transaction_id: response.transaction_id,
+                    transaction_id: response.transaction.id,
                     montant_total: response.transaction.amount,
                     address: adresse
                 }
