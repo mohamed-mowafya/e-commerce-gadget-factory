@@ -6,11 +6,16 @@
 
 .flex-style{
    flex:1;
+   height:100%;
    width:100%;
    display: flex !important;
    flex-direction: row !important;
    align-items:center;
    justify-content:center;
+}
+
+.navbar{
+    padding:0 !important;
 }
 .flex-style2{
     width:100% !important;
@@ -24,14 +29,12 @@
 
 .search{
     width:100%;
-    
 }
 
 .flex-logo{
     flex:25;
 
 }
-
 .flex-panier{
     flex:25;
     display:flex;
@@ -39,6 +42,45 @@
     justify-content:right;
 }
 
+.nav-link{
+    display:inline-block !important;
+    color: none !important;
+}
+
+.nav-item{
+    color:white !important;
+}
 .flex-search{
     flex: 50;
+
+}
+
+.navbar-search{
+    width:100% !important;
+    height:100% !important;
+}
+
+
+.nav_background{
+    background-color: #ed6436    ;
+}
+
+.navbar-modifier{
+    max-width: 1400px;
+    margin: auto;
+}
+.navbar-brand{
+    margin-left: 0.5%;
+    height:100%;
+}
+
+.nav-item{
+    font-weight: 500;
+    font-size: 16px;
+    color:white;
+}
+
+.navbar{
+    min-height:12px;
+    height:100% !important;
 }

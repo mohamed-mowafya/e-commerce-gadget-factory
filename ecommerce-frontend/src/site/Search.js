@@ -77,16 +77,16 @@ const Search = () => {
     const searchForm = () => (
         <form onSubmit={searchSubmit}>
             <span className="input-group-text">
-                <div className="input-group input-group-lg">
+                <div className="input-group input-group-lg navbar-search">
                     <input
                         type="search"
-                        className="form-control input-group-text"
+                        className="form-control navbar-search input-group-text"
                         onChange={handleChange("search")}
                         placeholder="Rechercher par le nom du produit"
                     />
                 </div>
                 <div className="btn input-group-append" style={{ border: "none" }}>
-                    <button className="input-group-text">Rechercher</button>
+                    <button className="input-group-text"><i class="fas fa-search fa-stack"></i></button>
                 </div>
             </span>
         </form>
@@ -94,10 +94,10 @@ const Search = () => {
 
     return (
         <div className="search">
-            <div className="container mb-3 mt-5">
+            <div className="container mt-3">
                 {searchForm()}
             </div>
-            <div className="container-fluid mb-3 mt-4">
+            <div className="container-fluid mt-2">
                 {searchedProducts(results)}
             </div>
         </div>

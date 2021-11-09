@@ -2,7 +2,7 @@ import React from "react";
 import { Link, withRouter } from 'react-router-dom';
 import { estAuthentifier } from "../Authentification";
 import { signout } from "../Authentification";
-import '../CSS/login_signup.css'
+import '../CSS/navbar.css'
 import logo from '../images/logo.png'; 
 import { itemAuTotal } from "./panierHelper";
 import cartImage from '../images/shopping-cart2.png'; //https://lordicon.com/icons
@@ -29,7 +29,7 @@ const NavBar = ({ history }) => (
           <a className="navbar-brand flex-logo" href="/">
             <img src={logo}  />
           </a> 
-          <div className="flex-search">
+          <div className="flex-search mt-3">
           <Search/>
           </div>
           <div className="flex-panier">
@@ -57,11 +57,6 @@ const NavBar = ({ history }) => (
             )}
           
 
-        </div>
-        <div className="navbar-nav">
-      
-         
-    
         </div>
       </div>
     </nav>
