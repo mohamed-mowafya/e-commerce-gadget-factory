@@ -34,10 +34,10 @@ const NavBar = ({ history }) => (
           </div>
           <div className="flex-panier">
           {!estAuthentifier() && (
-            <Link className="nav-item nav-link" style={pageActive(history, '/login')} to="/login"><i class="far fa-user"></i></Link>          
+            <Link className="nav-item nav-link logos" style={pageActive(history, '/login')} to="/login"><i class="far fa-user logo-usager"></i></Link>          
           )}
 
-          <Link className="nav-item nav-link" style={pageActive(history, '/cart')} to="/cart"> <img src={cartImage} width="35"/> <sup><small className="cart-badge">{itemAuTotal()}</small></sup></Link>
+          <Link className="nav-item nav-link panier-logo logos" style={pageActive(history, '/cart')} to="/cart"> <img src={cartImage} width="35"/> <sup><small className="cart-badge">{itemAuTotal()}</small></sup></Link>
           </div>
         </div>
 

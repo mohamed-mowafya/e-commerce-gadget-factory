@@ -25,8 +25,20 @@
 }
 .d-flex{
     flex-direction: column !important;
+    min-width: 800px !important;
 }
 
+.logos{
+    padding:0 !important;
+    padding-left: 2% !important
+}
+.panier-logo{
+    margin-top: 4%;
+}
+
+.logo-usager{
+    margin-top: 160%;
+}
 .search{
     width:100%;
 }
