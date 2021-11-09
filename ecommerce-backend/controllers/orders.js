@@ -11,3 +11,15 @@ exports.create = (req, res) =>{
         res.json(data)
     })
 };
+
+exports.afficherCommandes = (req,res)=>{
+    Commande.find()
+    .populate('user',"_id,name,address")
+    .sort('-created')
+    .exec((err,commandes)=>{
+        if(err){
+            error : errorHandler(err)
+        }
+        res.json(commandes)
+    })
+}
