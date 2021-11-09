@@ -72,3 +72,11 @@ export const supprimerProduit = (IDproduit) => {
     }
     return cart;
 };
+
+
+export const viderPanier = next => {
+    if(typeof window !== 'undefined') {
+        localStorage.removeItem('cart');
+        next();
+    }
+}

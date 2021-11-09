@@ -109,14 +109,12 @@ const supprimerProduitBoutton = (MontrerSupprimerProduitBouton) =>{
 
   return (
 
-
-
-      <div className="card card1" >
-
-
+      <div className="card card1 h-100" >
         <div className="card-body">
           {DoitRediriger(redirect)}
-          <ShowImage item={product} url="product" />
+          <div class="ratio ratio-4x3">
+          <ShowImage className="card-img" item={product} url="product" />
+          </div>
           <h5 className="card-title name">{product.name}</h5>
           <h6 className="card-subtitle mb-2 text-muted black-10">{product.price}</h6>
           <p className="card-text lead mt-2">{product.description.substring(0, 110)}.....</p>

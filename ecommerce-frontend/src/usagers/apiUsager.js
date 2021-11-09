@@ -35,6 +35,21 @@ export const update = (userId,token,user) =>{
     })
 }
 
+export const getHistoriqueAchat = (userId,token) => {
+   
+    return fetch(`${API}/orders/by/user/${userId}`, {
+        method: "GET",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json",
+            Authorization: `Bearer ${token}`
+        }
+    })
+         .then(response => {
+             return response.json();
+         })
+         .catch(err => console.log(err));
+};
 export const updateUser = (user,cb) =>{
     if(typeof window !=='undefined'){
         if(localStorage.getItem('jwt')){

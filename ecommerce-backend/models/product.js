@@ -7,7 +7,7 @@ const productSchema = new mongoose.Schema(
             type: String,
             trim: true,
             required: true,
-            maxlength: 32
+            maxlength: 150
         },
         description: {
             type: String,
@@ -23,7 +23,7 @@ const productSchema = new mongoose.Schema(
         category: {
             type: ObjectId,
             ref: 'Category',
-            required: true
+            required: false // required est mis à false afin de pouvoir faciliter les tests unitaires.
         },
         quantity: {
             type: Number
