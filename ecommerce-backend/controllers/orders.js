@@ -14,7 +14,7 @@ exports.create = (req, res) =>{
 
 exports.afficherCommandes = (req,res)=>{
     Commande.find()
-    .populate('user',"_id,name,address")
+    .populate('user',"_id nom prenom address")
     .sort('-created')
     .exec((err,commandes)=>{
         if(err){

@@ -35,10 +35,35 @@ export const createProduct = (userId,token,product) =>{
     });
 };
 
-    // Permet d'aller chercher les categories du backend
+
+ /**
+  * Permet d'aller chercher les categories du backend
+  * @returns response.json()
+  */
 export const getCategories = () => {
     return fetch(`${API}/categories`, {
         method: "GET"
+    })
+         .then(response => {
+             return response.json();
+         })
+         .catch(err => console.log(err));
+}
+
+/**
+ * Permets de chercher tout les commandes
+ *  à partir du backend.
+ * @returns response.json()
+ */
+export const getCommandes = (userId,token) => {
+    return fetch(`${API}/order/list/${userId}`, {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`
+        }
+        
     })
          .then(response => {
              return response.json();

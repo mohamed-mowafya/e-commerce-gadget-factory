@@ -24,6 +24,10 @@ const DashboardAdministarteur = () => {
                      <Link  className="nav-link" to="/creer/produit">Créer un produit</Link>
                  </li>
 
+                 <li className = "list-group-item">
+                     <Link  className="nav-link" to="/admin/orders">Voir les commandes</Link>
+                 </li>
+
                 </ul>
 
             </div>
