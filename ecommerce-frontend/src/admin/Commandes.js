@@ -4,11 +4,11 @@ import { estAuthentifier } from "../Authentification";
 import { Link } from "react-router-dom";
 import { createCategory, createProduct, getCategories} from "./AdminApi";
 import '../CSS/categories_products.css';
-import {getCommandes} from './AdminApi';
+import {getCommandes,getValeursEtat,updateEtatCommande} from './AdminApi';
 import moment from 'moment' // Module qui permets d'afficher une date lisible.
 const Commandes = () =>{
     const [commandes,setCommandes] = useState([])
-
+    const [valeursEtat,setValeursEtat] = useState([])
     const {user,token} = estAuthentifier()
 
     /***
@@ -27,8 +27,25 @@ const Commandes = () =>{
         })
     }
 
+    /***
+     * Méthode qui permets de remplir la variable valeursEtat avec
+     * les enums des états de commande qui sont dans le model de la bd
+     * commande.
+     */
+    const chargerValeursEtat = () =>{
+        getValeursEtat(user._id,token).then(data =>{
+            if(data.error){
+                console.log(data.error)
+            }
+            else{
+                setValeursEtat(data)
+            }
+            
+        })
+    }
     useEffect(()=>{
         chargerCommandes()
+        chargerValeursEtat()
     },[])
 
     /***
@@ -55,6 +72,35 @@ const Commandes = () =>{
             <input type="text" value={information} className="form-control" readOnly/>
         </div>
     )
+
+    /***
+     * Méthode qui permets de changer l'état d'une commande.
+     */
+    const handleEtat = (event,commandeId) =>{
+        updateEtatCommande(user._id,token,commandeId,event.target.value).then(data=>{
+            if(data.error){
+                console.log("Erreur de changement d'état")
+            }
+            else{
+                chargerCommandes()
+            }
+        })
+    }
+    /***
+     * Affiche l'état d'une commande à partir de la bd et permets de changer l'état.
+     * La méthode affiche la séléction des états à partir des enums de la bd.
+     */
+    const afficherEtat = (commande) =>(
+        <div className="form-group">
+            <h3 className="mark mb-4">
+                État: {commande.statut}
+            </h3>
+            <select className="form-control" onChange={(event) => handleEtat(event,commande._id)}>
+                <option>Modifier État</option>
+                {valeursEtat.map((etat,indexEtat)=>(<option key={indexEtat} value={etat}>{etat}</option>))}
+            </select>
+        </div>
+    )
     return(
         <Layout
             title="Commandes">
@@ -71,7 +117,7 @@ const Commandes = () =>{
 
                                 <ul className="list-group mb-2">
                                 <li className="list-group-item">
-                                        État: {commande.statut}
+                                        État: {afficherEtat(commande)}
                                     </li>
                                     <li className="list-group-item">
                                         Transaction: {commande.transaction_id}

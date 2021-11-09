@@ -70,3 +70,42 @@ export const getCommandes = (userId,token) => {
          })
          .catch(err => console.log(err));
 }
+
+/***
+ * Permets de chercher les états d'une commande à partir de la BD.
+ */
+export const getValeursEtat = (userId,token) => {
+    return fetch(`${API}/order/valeurs-etat/${userId}`, {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`
+        }
+        
+    })
+         .then(response => {
+             return response.json();
+         })
+         .catch(err => console.log(err));
+}
+
+/***
+ * Permets de chercher les états d'une commande à partir de la BD.
+ */
+ export const updateEtatCommande = (userId,token,commandeId,statut) => {
+    return fetch(`${API}/order/${commandeId}/etat/${userId}`, {
+        method: "PUT",
+        headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({statut,commandeId})
+        
+    })
+         .then(response => {
+             return response.json();
+         })
+         .catch(err => console.log(err));
+}
