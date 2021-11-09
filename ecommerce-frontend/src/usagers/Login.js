@@ -53,6 +53,7 @@ const Login = () => {
                     <input onChange={changementValeurs('mdp')} type="password" className="form-control" value={mdp}/>
                 </div>
                 <button type="button" class="btn btn-dark btn-inscription" onClick={submitValeurs}>Se Connecter</button>
+                <a href={'/signup'}>Créer un compte</a>
             </form>
         </div>
     )

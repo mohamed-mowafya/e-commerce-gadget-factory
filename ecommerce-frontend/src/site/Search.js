@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getCategories, list } from "./apiSite";
 import Card from "./Card";
-
+import '../CSS/navbar.css';
 const Search = () => {
     const [data, setData] = useState({
         categories: [],
@@ -78,20 +78,9 @@ const Search = () => {
         <form onSubmit={searchSubmit}>
             <span className="input-group-text">
                 <div className="input-group input-group-lg">
-                    <div className="input-group-prepend">
-                        <select className="btn mr-2 mt-2" onChange={handleChange("category")}>
-                            <option value="All"> Toute catégorie</option>
-                            {categories.map((c, i) => (
-                                <option key={i} value={c._id}>
-                                    {c.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
                     <input
                         type="search"
-                        className="form-control"
+                        className="form-control input-group-text"
                         onChange={handleChange("search")}
                         placeholder="Rechercher par le nom du produit"
                     />
@@ -104,8 +93,8 @@ const Search = () => {
     );
 
     return (
-        <div className="row">
-            <div className="container mb-3 mt-4">
+        <div className="search">
+            <div className="container mb-3 mt-5">
                 {searchForm()}
             </div>
             <div className="container-fluid mb-3 mt-4">
