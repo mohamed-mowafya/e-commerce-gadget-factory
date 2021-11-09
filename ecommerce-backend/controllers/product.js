@@ -239,3 +239,22 @@ exports.listSearch = (req, res) => {
         }).select('-photo');
     }
 }
+
+exports.soustraireQuantite = (req,res,next) =>{
+    let produitsASoustraire = req.body.order.products.map((produit)=>{
+        return{
+            updateOne:{
+                filter:{_id: produit._id},
+                update:{$inc: {quantity: -produit.count,sold: +produit.count}}
+            }
+        }
+    })
+    Product.bulkWrite(produitsASoustraire,{},(err,produits)=>{
+        if(err){
+            return res.status(400).json({
+                error: 'Erreur de update produit'
+            })
+        }
+        next();
+    })
+}
