@@ -92,7 +92,7 @@ const Signup = () => {
                                         </form>
 
                                     </div>
-                                    <div className="col-md-9 col-lg-6 col-xl-7 align-items-center order-1 ">
+                                    <div className="col-md-9 col-lg-6 col-xl-7 align-items-center order-1 mt-6 ">
 
                                         <img src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-registration/draw1.png" className="img-fluid" alt="Sample image" />
 
