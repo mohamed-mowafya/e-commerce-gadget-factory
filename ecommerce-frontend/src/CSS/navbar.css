@@ -1,58 +1,50 @@
+
 .input-group-text{
     padding: 0 !important;
     border-radius: 25px !important;
     border-style: none !important;
-}
-
-.flex-style{
-   flex:1;
-   height:100%;
-   width:100%;
-   display: flex !important;
-   flex-direction: row !important;
-   align-items:center;
-   justify-content:center;
+    width:100%;
 }
 
 .navbar{
     padding:0 !important;
 }
-.flex-style2{
-    width:100% !important;
-    flex:2;
+
+.navigation{
+   margin-top: 5%;
+   margin-right: 30%;
+}
+
+
+.flex-style-2{
     display:flex;
     flex-direction: row !important;
+    justify-content: start;
+    margin-top:25%;
+    margin-left:-900%;
 }
 .d-flex{
     flex-direction: column !important;
     min-width: 800px !important;
 }
 
+
 .logos{
     padding:0 !important;
-    padding-left: 2% !important
-}
-.panier-logo{
-    margin-top: 4%;
+    margin-right:0%;
 }
 
-.logo-usager{
-    margin-top: 160%;
-}
-.search{
-    width:100%;
-}
-
-.flex-logo{
+.flex-container{
     flex:25;
 
 }
 .flex-panier{
     flex:25;
+    width:100% !important;
     display:flex;
-    flex-direction: row ;
-    justify-content:right;
-}
+    margin-top:10%;
+    flex-direction: row !important;
+}   
 
 .nav-link{
     display:inline-block !important;
@@ -62,9 +54,10 @@
 .nav-item{
     color:white !important;
 }
-.flex-search{
-    flex: 50;
 
+.flex-search{
+    display:flex;
+    flex: 50;
 }
 
 .navbar-search{
@@ -72,11 +65,17 @@
     height:100% !important;
 }
 
+.search{
+    width:70%;
+    margin-left: 10%;
+}
+
 
 .nav_background{
     background-color: #ed6436    ;
+    width:100% !important;
 }
-
+ 
 .navbar-modifier{
     max-width: 1400px;
     margin: auto;
@@ -90,9 +89,65 @@
     font-weight: 500;
     font-size: 16px;
     color:white;
+    margin-right: 0%;
+    margin-left: 12%;
 }
 
 .navbar{
     min-height:12px;
     height:100% !important;
+    width:100% !important;
 }
+
+@media only screen and (max-width: 600px) {
+
+    .flex-style-2{
+        display:flex;
+        flex-direction: column !important;
+        margin-top:0%;
+        margin-left:0%;
+        margin-left:52%;
+    }
+    .navbar{
+    
+    }
+    .nav-item{
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .flex-search{
+        display:block;
+        flex:none;
+        
+    }
+    .navbar-brand{
+       
+     
+    }
+    .flex-logo{
+        width:150px !important;
+        height:35px !important;
+    }
+    .navbar-brand{
+        margin-top:5%;
+       margin-left: 25%;
+    }
+    .search{
+        width:100%;
+    }
+    .nav-link{
+        font-size:12px;
+    }
+    .flex-panier{
+        display:flex;
+        flex-direction: column !important;
+        margin-top:0%;
+        margin-left:0%;
+        margin-left:89%;
+
+    }
+  }
