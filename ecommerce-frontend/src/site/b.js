@@ -5,15 +5,13 @@ import { useHistory } from 'react-router-dom'
 import { Link, withRouter } from 'react-router-dom';
 import '../CSS/navbar.css';
 import PageRecherche from "./PageRecherche";
-
 const Search = (props) => {
     let history = useHistory(); 
     const [data, setData] = useState({
         search: '',
         results: [],
-        searched: false,
+        searched: false
     });
-
 
     const {search, results, searched } = data;
     const searchData = () => {
@@ -23,9 +21,8 @@ const Search = (props) => {
                 if (response.error) {
                     console.log(response.error)
                 } else {
-                        setData({ ...data, results: response, searched: true });
-                        console.log("wtfff",results.length);
-                   
+                    setData({ ...data, results: response, searched: true });
+                    console.log("wtfff",results.length);
                 }
             })
 
@@ -46,17 +43,9 @@ const Search = (props) => {
     };
 
     const handleRecherche = () =>{
-        if(results.length>0){
-            history.push('/recherche',{params:data})
-        }
-       else{
-           return;
-       }
+        history.push('/recherche',{params:data})
     }
-    useEffect(() => {
-        handleRecherche(); // This is be executed when the state changes
-    }, [results]);
-    
+
 
     const searchForm = (history) => (
         <form onSubmit={searchSubmit}>
