@@ -1,11 +1,12 @@
 
-import React,{useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Card from "./Card";
 import Layout from "./Layout";
 import { getCategories, getProduitsFiltrer } from "./apiSite";
 import Checkbox from "./CheckBox";
 import { prix } from "./PrixFix";
 import RadioBox from "./RadioBox";
+import "../CSS/shop.css"
 
 const Shop = () => {
 
@@ -19,7 +20,7 @@ const Shop = () => {
     const [size, setSize] = useState(0);
     const [filteredResults, setFilteredResults] = useState([]);
 
-    
+
 
     const ChargerResultatFiltres = (nouveauFiltres) => {
         getProduitsFiltrer(skip, limit, nouveauFiltres).then(data => {
@@ -28,15 +29,15 @@ const Shop = () => {
             } else {
                 setFilteredResults(data.data);
                 setSize(data.size); // le nombre de produits qu'on affiche
-                setSkip(0); 
+                setSkip(0);
             }
         })
-       
+
     };
 
     const chargerPlus = () => {
         let toSkip = skip + limit;
-       
+
         getProduitsFiltrer(toSkip, limit, myFilters.filters).then(data => {
             if (data.error) {
                 setError(data.error);
@@ -48,12 +49,12 @@ const Shop = () => {
         });
     };
 
-    const bouttonChargerPlus  = () => {
+    const bouttonChargerPlus = () => {
         return (
             size > 0 &&
             size >= limit && (
                 <button onClick={chargerPlus} className="btn btn-warning mb-5">
-                 PLUS +
+                    PLUS +
                 </button>
             )
         );
@@ -73,7 +74,7 @@ const Shop = () => {
     useEffect(() => {
         init();
         ChargerResultatFiltres(skip, limit, myFilters.filters);
-        }, 
+    },
         []);
 
     const handleFilters = (filters, filterBy) => {
@@ -81,7 +82,7 @@ const Shop = () => {
         newFilters.filters[filterBy] = filters;
 
         //extract la valeur de l'array de la clé
-        if (filterBy === "price") {  
+        if (filterBy === "price") {
             let priceValues = handlePrice(filters);
             newFilters.filters[filterBy] = priceValues;
         }
@@ -95,7 +96,7 @@ const Shop = () => {
         let array = [];
 
         // extrait la valeur qui match avec le key._id qu'il y a dans PrixFixe
-        for (let key in data) { 
+        for (let key in data) {
             if (data[key]._id === parseInt(valeur)) {
                 array = data[key].array;
             }
@@ -104,44 +105,45 @@ const Shop = () => {
     };
 
     return (
-            <Layout
-             title=""
-             description=""
-             className="container-fluid "
-            >
-                <div className="row">
-                <div className="col-3">
+        <Layout
+            title=""
+            description=""
+            className="container-fluid "
+        >
 
-              
-                
-                <div class="card mt-6">
-	             <div class="card-body text-left">
-	             <h4 class="card-title">Filtrer par categorie</h4>
-                 {/* <hr class="mb-30"/> */}
-                 <Checkbox categories={categories} handleFilters={filters =>handleFilters(filters, "category")}/>
-                 <h4 class="card-title">Filtrer par prix</h4>
-                 <RadioBox prices={prix} handleFilters={filters =>handleFilters(filters, "price")}/>
-                 </div>
-                 </div>
-                 </div>
-                 <div className="col-8">
-                    <h2 className="mb-4 text-center">NOS PRODUITS</h2>
-                    <div className="row">
-                        {filteredResults.map((product, i) => (
-                            
-                            <div key={i} className="col-4 mb-3">
-                                <Card product={product} />
-                            </div>
-                          
-                        ))}
+            <div className="row">
+
+                <section id="sidebar">
+                    <div className="py-3">
+                        <h5 className="font-weight-bold">Categories</h5>
+                        <ul className="list-group">
+                            <Checkbox categories={categories} handleFilters={filters => handleFilters(filters, "category")} />
+                        </ul>
                     </div>
-                    <hr />
-                    {bouttonChargerPlus()}
+                    <div className="py-3">
+                        <h5 className="font-weight-bold">Prix</h5>
+                        <form className="brand">
+                            <RadioBox prices={prix} handleFilters={filters => handleFilters(filters, "price")} />
+                        </form>
+                    </div>
+                </section>
+                <div className="col-8">
+                    <div className="container d-flex justify-content-center mt-50 mb-50">
+                        <div className="row">
+                            {filteredResults.map((product, i) => (
+
+
+                                <Card product={product} />
+
+
+                            ))}
+                            {bouttonChargerPlus()}
+
+                        </div>
+                    </div>
                 </div>
-             
-                </div>
-                   
-            </Layout>
+            </div>
+        </Layout>
     );
 };
 
