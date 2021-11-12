@@ -3,6 +3,7 @@ import Layout from '../site/Layout';
 import { Link } from 'react-router-dom';
 import '../CSS/login_signup.css';
 import { signupAPI } from '../Authentification';
+import imageInscription from '../images/image_inscription.png'
 const Signup = () => {
     const [valeursUsager, setValeursUsager] = useState({
         nom: '',
@@ -94,7 +95,7 @@ const Signup = () => {
                                     </div>
                                     <div className="col-md-9 col-lg-6 col-xl-7 align-items-center order-1 mt-6 ">
 
-                                        <img src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-registration/draw1.png" className="img-fluid" alt="Sample image" />
+                                        <img src={imageInscription} className="img-fluid" alt="Sample image" />
 
                                     </div>
 
@@ -105,29 +106,6 @@ const Signup = () => {
                 </div>
             </div>
         </section>
-        /* <div className="section-inscription">
-            <p className="header-inscription">Créer un compte x</p>
-            <p className="paragraph-inscription">Créer un seul compte pour tous vos achats!</p>
-        <form action="POST" className="flex-inscription">
-            <div className="form-group form-inscription">
-            <label className="text-muted">Nom</label>
-            <input onChange={changementValeurs('nom')} value={nom} type="text" className="form-control"/>
-            </div>
-            <div className="form-group form-inscription">
-            <label className="text-muted">Prénom</label>
-            <input onChange={changementValeurs('prenom')} type="text" className="form-control" value={prenom}/>
-            </div>
-            <div className="form-group form-inscription">
-            <label className="text-muted">Email</label>
-            <input onChange={changementValeurs('email')} type="email" className="form-control" value={email}/>
-            </div>
-            <div className="form-group form-inscription">
-            <label className="text-muted">Mot de passe</label>
-            <input onChange={changementValeurs('mdp')} type="password" className="form-control" value={mdp}/>
-            </div>
-            <button type="button" class="btn btn-dark btn-inscription" onClick={submitValeurs}>S'inscrire</button>
-       </form>
-        </div> */
     )
 
     const affichageErreur = () => (

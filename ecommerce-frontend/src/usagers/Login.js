@@ -5,6 +5,7 @@ import '../CSS/login_signup.css'
 import { Redirect } from "react-router";
 import { estAuthentifier } from "../Authentification";
 import { loginAPI, authentifier } from "../Authentification";
+import imageConnexion from '../images/image_connexion.png'; 
 const Login = () => {
     const [valeursUsager, setValeursUsager] = useState({
         email: '',
@@ -44,8 +45,8 @@ const Login = () => {
             <div className="container-fluid h-custom">
                 <div className="row d-flex justify-content-center align-items-center h-100">
                     <div className="col-md-9 col-lg-6 col-xl-5">
-                        <img src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-login-form/draw2.png" className="img-fluid"
-                            alt="Sample image"/>
+                        <img src={imageConnexion} className="img-fluid"
+                            alt="Image Connexion"/>
                     </div>
                     <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                     <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Connexion</p>
