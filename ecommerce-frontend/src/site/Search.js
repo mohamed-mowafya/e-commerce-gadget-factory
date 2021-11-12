@@ -24,7 +24,6 @@ const Search = (props) => {
                     console.log(response.error)
                 } else {
                         setData({ ...data, results: response, searched: true });
-                        console.log("wtfff",results.length);
                    
                 }
             })
@@ -53,8 +52,13 @@ const Search = (props) => {
            return;
        }
     }
+
+    /***
+     * Le useEffect est utilisé afin d'attendre que l'état de la variable results
+     * soit changé. Si elle est changé, l'utilisateur est dirigé vers la page de recherche.
+     */
     useEffect(() => {
-        handleRecherche(); // This is be executed when the state changes
+        handleRecherche(); 
     }, [results]);
     
 
@@ -78,7 +82,7 @@ const Search = (props) => {
 
     return (
         <div className="search">
-            <div className="container mt-3">
+            <div className="container">
                 {searchForm()}
             </div>
         </div>

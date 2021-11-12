@@ -1,6 +1,7 @@
 import Card from "./Card";
 import { useLocation } from "react-router-dom";
-
+import '../CSS/navbar.css';
+import Layout from "./Layout";
 const PageRecherche = (props) =>{
    const location = useLocation();
    const params = location.state.params;
@@ -29,10 +30,11 @@ const PageRecherche = (props) =>{
     }
     */
 return(
+    <Layout>
     <div className="container-fluid mt-2">
     {searchedProducts(results)}
-    {JSON.stringify(params)}
     </div>
+    </Layout>
 );
 }
 export default PageRecherche;
