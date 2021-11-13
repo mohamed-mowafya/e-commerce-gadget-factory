@@ -1,40 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { getCategories, list } from "./apiSite";
 import Card from "./Card";
+import { useHistory } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom';
+import '../CSS/navbar.css';
+import PageRecherche from "./PageRecherche";
 
-const Search = () => {
+const Search = (props) => {
+    let history = useHistory(); 
     const [data, setData] = useState({
-        categories: [],
-        category: '',
         search: '',
         results: [],
-        searched: false
+        searched: false,
     });
 
-    const { categories, category, search, results, searched } = data;
 
-    const loadCategories = () => {
-        getCategories().then(data => {
-            if (data.error) {
-                console.log(data.error)
-            } else {
-                setData({ ...data, categories: data })
-            }
-        });
-    };
-
-    useEffect(() => {
-        loadCategories()
-    }, []);
-
+    const {search, results, searched } = data;
     const searchData = () => {
         if (search) {
-            list({ search: search || undefined, category: category })
+            list({ search: search})
             .then (response => {
                 if (response.error) {
                     console.log(response.error)
                 } else {
-                    setData({ ...data, results: response, searched: true });
+                        setData({ ...data, results: response, searched: true });
+                   
                 }
             })
 
@@ -44,72 +34,59 @@ const Search = () => {
     const searchSubmit = (e) => {
         e.preventDefault()
         searchData()
+        if(results.length>0){
+            handleRecherche();
+        }
+       
     };
 
+        
+  
+    
     const handleChange = (name) => event => {
         setData({ ...data, [name]: event.target.value, searched: false });
     };
 
-    const searchMessage = (searched, results) => {
-        if(searched && results.length > 0){
-            return `${results.length} Produits trouver`
+    const handleRecherche = () =>{
+        if(results.length>0 || search.length>0){
+            history.push('/recherche',{params:data})
         }
-        if(searched && results.length < 1){
-            return `Pas de produit trouver`
-        }
+       else{
+           return;
+       }
     }
 
-    const searchedProducts = (results = []) => {
-        return (
-            <div>
-                <h2 className="mt-4 mb-4">
-                    {searchMessage(searched, results)}
-                </h2>
-                <div className="row">
-                    {results.map((product, i) => (
-                        <Card key={i} product={product} />
-                    ))}
-                </div>
-            </div>
-        );
-    };
+    /***
+     * Le useEffect est utilisé afin d'attendre que l'état de la variable results
+     * soit changé. Si elle est changé, l'utilisateur est dirigé vers la page de recherche.
+     */
+    useEffect(() => {
+        handleRecherche(); 
+    }, [results]);
+    
 
-    const searchForm = () => (
+    const searchForm = (history) => (
         <form onSubmit={searchSubmit}>
             <span className="input-group-text">
-                <div className="input-group input-group-lg">
-                    <div className="input-group-prepend">
-                        <select className="btn mr-2 mt-2" onChange={handleChange("category")}>
-                            <option value="All"> Toute catégorie</option>
-                            {categories.map((c, i) => (
-                                <option key={i} value={c._id}>
-                                    {c.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
+                <div className="input-group input-group-lg navbar-search">
                     <input
                         type="search"
-                        className="form-control"
+                        className="form-control navbar-search input-group-text"
                         onChange={handleChange("search")}
-                        placeholder="Rechercher par le nom du produit"
+                        placeholder="Rechercher"
                     />
                 </div>
                 <div className="btn input-group-append" style={{ border: "none" }}>
-                    <button className="input-group-text">Rechercher</button>
+                    <button className="input-group-text" formaction={searchSubmit}><i class="fas fa-search"></i></button>
                 </div>
             </span>
         </form>
     );
 
     return (
-        <div className="row">
-            <div className="container mb-3 mt-4">
+        <div className="search">
+            <div className="container">
                 {searchForm()}
-            </div>
-            <div className="container-fluid mb-3 mt-4">
-                {searchedProducts(results)}
             </div>
         </div>
     );
