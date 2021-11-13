@@ -31,3 +31,11 @@ margin-bottom: 0.8%;
 .navbar{
     margin-left: auto;
 }
+
+@media only screen and (max-width: 974.8px) {
+   .nav-link{
+       display:flex;
+       margin-left: auto;
+       justify-content: center;
+   }
+  }
