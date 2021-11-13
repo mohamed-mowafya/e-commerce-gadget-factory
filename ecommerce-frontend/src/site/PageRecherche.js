@@ -9,7 +9,6 @@ const PageRecherche = () =>{
    const params = location.state.params;
    const results = params.results;
    const search = params.search;
- 
 
   
      const searchedProducts = (results = []) => {
