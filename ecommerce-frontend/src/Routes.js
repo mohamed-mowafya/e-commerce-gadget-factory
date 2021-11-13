@@ -15,6 +15,8 @@ import Panier from "./site/Panier";
 import Product from "./site/Product";
 import Commandes from "./admin/Commandes";
 import PageRecherche from "./site/PageRecherche"
+import ProductDetails from "./site/ProductDetails";
+
 const Routes = () => {
     return(
     <BrowserRouter>
@@ -25,6 +27,7 @@ const Routes = () => {
             <Route path= "/signup" exact component = {Signup}/>
             <Route path="/cart" exact component = {Panier}/>
             <Route path="/recherche" exact component = {PageRecherche}/>
+            <Route path="/productdetails" exact component = {ProductDetails}/>
             <RoutePrive path ="/usager/dashboard" exact component={DashboardUtilisateur}></RoutePrive>
             <RouteAdministrateur path ="/admin/dashboard" exact component={DashboardAdministrateur}></RouteAdministrateur>
             <RouteAdministrateur path ="/creer/categorie" exact component={AddCategory}></RouteAdministrateur>
