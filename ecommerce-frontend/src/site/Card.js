@@ -118,7 +118,7 @@ const supprimerProduitBoutton = (MontrerSupprimerProduitBouton) =>{
                 </div>
                 <div className="card-body bg-light text-center">
                     <div className="mb-2">
-                        <h6 className="font-weight-semibold mb-2"> <a href={`/product/${product._id}`} className="text-default mb-2" data-abc="true">{product.name}</a> </h6> <a href="#" class="text-muted" data-abc="true">Laptops & Notebooks</a>
+                        <h6 className="font-weight-semibold mb-2"> <a href={`/product/${product._id}`} className="text-default mb-2" data-abc="true">{product.name}</a> </h6> <a href="#" class="text-muted" data-abc="true">{product.category.name}</a>
                     </div>
                     <h3 className="mb-0 font-weight-semibold">${product.price}</h3>
                     <div className="mb-2">{showStock(product.quantity)} </div>
