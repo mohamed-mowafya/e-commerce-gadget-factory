@@ -11,15 +11,14 @@ const RadioBox = ({ prices , handleFilters }) => {
 
  // -> a chaque changement dans input, sera envoyer au parent (Shop)
     return prices.map((p, i) => (
-        <div key={i}>
-            <input
-                onChange={handleChange}
-                value={`${p._id}`}
-                name={p}  /* -> Permet de cocher 1 choix parmis les prix */
-                type="radio"
-                className="mr-2 ml-4"
-            />
-            <label className="form-check-label">{p.name}</label>
+        <div key={i} className="form-inline d-flex align-items-center py-1"> 
+            <label className="tick">{p.name} 
+                <input onChange={handleChange}
+                        value={`${p._id}`}
+                        name={p}  /* -> Permet de cocher 1 choix parmis les prix */
+                        type="radio" /> 
+                <span className ="check"></span> 
+            </label> 
         </div>
     ));
 };

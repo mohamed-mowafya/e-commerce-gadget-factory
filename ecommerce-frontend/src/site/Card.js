@@ -101,15 +101,34 @@ const supprimerProduitBoutton = (MontrerSupprimerProduitBouton) =>{
   
   const showStock = (quantity) => {
     return quantity > 0 ? (
-      <span className="badge badge-primary badge-pill"> En Stock</span>
+      <span className="badge badge-primary badge-pill" style={{backgroundColor: "#ed6436"}}> En Stock</span>
     ) : (
-      <span className="badge badge-primary badge-pill"> En Rupture de Stock</span>
+      <span className="badge badge-primary badge-pill" style={{backgroundColor: "#ed6436"}}> En Rupture de Stock</span>
     );
   }
 
   return (
 
-      <div className="card card1 h-100" >
+
+    <div className="col-md-4 mt-2 ">
+            <div className="card">
+                {DoitRediriger(redirect)}
+                <div className="card-body">
+                  <ShowImage className="card-img" item={product} url="product" />
+                </div>
+                <div className="card-body bg-light text-center">
+                    <div className="mb-2">
+                        <h6 className="font-weight-semibold mb-2"> <a href={`/product/${product._id}`} className="text-default mb-2" data-abc="true">{product.name}</a> </h6> <a href="#" class="text-muted" data-abc="true">Laptops & Notebooks</a>
+                    </div>
+                    <h3 className="mb-0 font-weight-semibold">${product.price}</h3>
+                    <div className="mb-2">{showStock(product.quantity)} </div>
+                    <button onClick={AjouterAuPanier} type="button" className="btn bg-cart"><i className="fa fa-cart-plus mr-2"></i> Ajouter au Panier</button>
+                    {supprimerProduitBoutton(MontrerSupprimerProduitBouton)}
+                    {AffichageUpdatesOptionsPanier(PanierUpdate)}
+                </div>
+            </div>
+        </div>
+      /* <div className="card card1 h-100" >
         <div className="card-body">
           {DoitRediriger(redirect)}
           <div class="ratio ratio-4x3">
@@ -117,9 +136,6 @@ const supprimerProduitBoutton = (MontrerSupprimerProduitBouton) =>{
           </div>
           <h5 className="card-title name">{product.name}</h5>
           <h6 className="card-subtitle mb-2 text-muted black-10">{product.price}</h6>
-          <p className="card-text lead mt-2">{product.description.substring(0, 110)}.....</p>
-          <p className="black-9">Categorie: {product.category && product.category.name}</p>
-          <p className="black-8">Ajouter il y a {moment(product.createdAt).fromNow()}</p>
           {showStock(product.quantity)}
           <br />
           
@@ -129,7 +145,7 @@ const supprimerProduitBoutton = (MontrerSupprimerProduitBouton) =>{
           {supprimerProduitBoutton(MontrerSupprimerProduitBouton)}
           {AffichageUpdatesOptionsPanier(PanierUpdate)}
         </div>
-      </div>
+      </div> */
 
   );
 
