@@ -40,12 +40,15 @@ const Search = (props) => {
        
     };
 
+        
+  
+    
     const handleChange = (name) => event => {
         setData({ ...data, [name]: event.target.value, searched: false });
     };
 
     const handleRecherche = () =>{
-        if(results.length>0){
+        if(results.length>0 || search.length>0){
             history.push('/recherche',{params:data})
         }
        else{

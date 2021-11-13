@@ -14,7 +14,6 @@ import profile from "./usagers/Profile";
 import Panier from "./site/Panier";
 import Product from "./site/Product";
 import Commandes from "./admin/Commandes";
-import Search from "./site/Search";
 import PageRecherche from "./site/PageRecherche"
 const Routes = () => {
     return(

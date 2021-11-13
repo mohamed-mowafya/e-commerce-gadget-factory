@@ -2,11 +2,20 @@ import Card from "./Card";
 import { useLocation } from "react-router-dom";
 import '../CSS/navbar.css';
 import Layout from "./Layout";
-const PageRecherche = (props) =>{
+import React, { useState, useEffect } from 'react';
+const PageRecherche = () =>{
+    const [erreur, setErreur] =  useState(false);
    const location = useLocation();
    const params = location.state.params;
    const results = params.results;
-    const searchedProducts = (results = []) => {
+   const search = params.search;
+ 
+
+  
+     const searchedProducts = (results = []) => {
+        if(results.length == 0){
+           // setErreur(true);
+        }
         return (
             <div>
                 <h2 className="mt-4 mb-4">
@@ -19,19 +28,15 @@ const PageRecherche = (props) =>{
             </div>
         );
     };
-    /** 
-    const searchMessage = (searched, results) => {
-        if(searched && results.length > 0){
-            return `${results.length} Produits trouver`
-        }
-        if(searched && results.length < 1){
-            return `Pas de produit trouver`
+    const searchMessage = () => {
+        if(results.length == 0){
+            return <h6 className="alert alert-danger">Aucun produit trouvé</h6>
         }
     }
-    */
 return(
     <Layout>
     <div className="container-fluid mt-2">
+    {searchMessage()}
     {searchedProducts(results)}
     </div>
     </Layout>
