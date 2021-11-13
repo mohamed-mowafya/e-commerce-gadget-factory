@@ -43,7 +43,6 @@ const Home = () => {
 
     return (
         <Layout title="Home Page" description="Ecommerce app" className="container-fluid">
-            <Search />
             <h2 className="mb-4 couleur" >Meilleures ventes</h2>
             <div className="col-12">
                 <div className="container d-flex justify-content-center mt-50 mb-50">

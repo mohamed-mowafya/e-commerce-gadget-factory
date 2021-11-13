@@ -2,10 +2,11 @@ import React from "react";
 import { Link, withRouter } from 'react-router-dom';
 import { estAuthentifier } from "../Authentification";
 import { signout } from "../Authentification";
-import '../CSS/login_signup.css'
+import '../CSS/navbar.css'
 import logo from '../images/logo.png'; 
 import { itemAuTotal } from "./panierHelper";
 import cartImage from '../images/shopping-cart2.png'; //https://lordicon.com/icons
+import Search from "./Search";
 
 const pageActive = (history, path) => {
   // History = page actuel
@@ -17,40 +18,81 @@ const pageActive = (history, path) => {
   }
 }
 const NavBar = ({ history }) => (
+  
+<nav className="navbar navbar-expand-lg navbar-dark nav_background">
+  <div className="container-fluid">
+    <a className="navbar-brand" href="/"><img src={logo}  /></a>
+    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span className="navbar-toggler-icon"></span>
+    </button>
+    <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div className="barre-recherche">
+        <Search/>
+        </div>
+        <div className="navbar-nav ms-auto">
+        <Link className="nav-link" style={pageActive(history, '/')} to="/">Accueil</Link>
+        <Link className="nav-link" style={pageActive(history, '/shop')} to="/shop">Produits</Link>
+        {!estAuthentifier() && (
+            <Link className="nav-link" style={pageActive(history, '/login')} to="/login"><i class="far fa-user logo-usager"></i></Link>          
+          )}
+        {estAuthentifier() && estAuthentifier().user.role == 0 &&(
+       <Link className="nav-link" style={pageActive(history, '/usager/dashboard')} to="/usager/dashboard">Dashboard</Link>
+      )}
+        {estAuthentifier() && estAuthentifier().user.role == 1 &&(
+        <Link className="nav-link" style={pageActive(history, '/admin/dashboard')} to="/admin/dashboard">Dashboard</Link>
+        )}
+        <Link className="nav-link" style={pageActive(history, '/cart')} to="/cart"> <img src={cartImage} width="35"/> <sup><small className="cart-badge">{itemAuTotal()}</small></sup></Link>
+                    {estAuthentifier() && (
+          <Link className="nav-link" style={{cursor: 'pointer', color: '#ffffff'}} onClick={() => signout(() => {history.push("/");})} to="/">Déconnexion</Link>
+            )}
+        </div>
+        </div>
+      </div>
+</nav>
+  /** 
   <div className="nav_background">
     <nav className="navbar navbar-expand-lg navbar-modifier">
-    <a className="navbar-brand" href="/">
-      <img src={logo}  />
-    </a>
+    
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
-      <div className="collapse navbar-collapse d-flex justify-content-end" id="navbarNavAltMarkup">
-        <div className="navbar-nav">
-
-          <Link className="nav-item nav-link" style={pageActive(history, '/')} to="/">Accueil</Link>
-
-          <Link className="nav-item nav-link" style={pageActive(history, '/shop')} to="/shop">Produits</Link>
+      <div className="collapse navbar-collapse d-flex" id="navbarNavAltMarkup">
+        <div className="flex-style">
+          <a className="navbar-brand flex-logo" href="/">
+            <img src={logo}  />
+          </a> 
+          <div className="flex-search mt-3">
+          <Search/>
+          </div>
+          <div className="flex-panier">
           {!estAuthentifier() && (
-            <div className="navbar-nav"> 
-            <Link className="nav-item nav-link" style={pageActive(history, '/login')} to="/login">Se connecter</Link>
-            <Link className="nav-item nav-link" style={pageActive(history, '/signup')} to="/signup">Inscription</Link>
-            </div>
+            <Link className="nav-item nav-link logos" style={pageActive(history, '/login')} to="/login"><i class="far fa-user logo-usager"></i></Link>          
           )}
-          {estAuthentifier() && estAuthentifier().user.role == 0 &&(
-            <Link className="nav-item nav-link" style={pageActive(history, '/usager/dashboard')} to="/usager/dashboard">Dashboard</Link>
-          )}
-          {estAuthentifier() && estAuthentifier().user.role == 1 &&(
-            <Link className="nav-item nav-link" style={pageActive(history, '/admin/dashboard')} to="/admin/dashboard">Dashboard</Link>
-          )}
-          {estAuthentifier() && (
-            <Link className="nav-item nav-link" style={{cursor: 'pointer', color: '#ffffff'}} onClick={() => signout(() => {history.push("/");})} to="/">Déconnexion</Link>
-          )}
-          <Link className="nav-item nav-link" style={pageActive(history, '/cart')} to="/cart"> <img src={cartImage} width="35"/> <sup><small className="cart-badge">{itemAuTotal()}</small></sup></Link>
+
+          <Link className="nav-item nav-link panier-logo logos" style={pageActive(history, '/cart')} to="/cart"> <img src={cartImage} width="35"/> <sup><small className="cart-badge">{itemAuTotal()}</small></sup></Link>
+          </div>
+        </div>
+
+        <div className="flex-style-2">
+        <Link className="nav-item nav-link" style={pageActive(history, '/')} to="/">Accueil</Link>
+
+      <Link className="nav-item nav-link" style={pageActive(history, '/shop')} to="/shop">Produits</Link>
+
+        {estAuthentifier() && estAuthentifier().user.role == 0 &&(
+       <Link className="nav-item nav-link" style={pageActive(history, '/usager/dashboard')} to="/usager/dashboard">Dashboard</Link>
+      )}
+        {estAuthentifier() && estAuthentifier().user.role == 1 &&(
+        <Link className="nav-item nav-link" style={pageActive(history, '/admin/dashboard')} to="/admin/dashboard">Dashboard</Link>
+        )}
+                    {estAuthentifier() && (
+          <Link className="nav-item nav-link" style={{cursor: 'pointer', color: '#ffffff'}} onClick={() => signout(() => {history.push("/");})} to="/">Déconnexion</Link>
+            )}
+          
+
         </div>
       </div>
     </nav>
   </div>
-
+*/
 )
 export default withRouter(NavBar);

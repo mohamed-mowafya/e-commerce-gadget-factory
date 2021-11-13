@@ -1,0 +1,41 @@
+
+.input-group-text{
+    padding: 0 !important;
+    border-radius: 25px !important;
+    border-style: none !important;
+    width:100%;
+}
+
+.nav_background{
+    background-color: #ed6436    ;
+    width:100% !important;
+}
+.navbar-brand{
+padding-right: 5%;
+}
+.collapse{
+    margin-top: 1.5%;
+}
+.barre-recherche{
+margin-left: auto;
+margin-right: auto;
+width:55%;
+margin-bottom: 0.8%;
+}
+.liens-navigation{
+
+}
+.navbar-collapse{
+
+}
+.navbar{
+    margin-left: auto;
+}
+
+@media only screen and (max-width: 974.8px) {
+   .nav-link{
+       display:flex;
+       margin-left: auto;
+       justify-content: center;
+   }
+  }
