@@ -6,7 +6,7 @@ import DropIn from  "braintree-web-drop-in-react";
 import { viderPanier } from "./panierHelper";
 import {getBraintreeTokenClient , processPayment,commander} from "../site/apiSite";
 import { Redirect } from "react-router-dom";
-
+import "../CSS/panier.css"
 
 const Paiement = ({product, setRun = f => f, run = undefined }) => {
 
@@ -54,10 +54,13 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
    const AfficherPaiement = ()=>{
        
      return estAuthentifier() ? (
-         <div >{AfficherDropIn()}</div>
+         <div >
+             {AfficherDropIn()}
+            <button onClick={Acheter} className="btn btn-primary btn-md col-6 btn-centre mb-2">Payer</button>
+         </div>
      ) : (
          <Link to= "/login">
-             <button className= "btn btn-primary">Connectez vous pour passer au paiement</button>
+             <button className= "btn btn-primary panier-centre">Connectez vous pour passer au paiement</button>
          </Link>
      );
      };
@@ -72,14 +75,11 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
             
            {data.clientToken !== null && product.length > 0 ? (
                
-               <div>
                    <DropIn options={{
                        authorization: data.clientToken,
                     }}
                        onInstance= {instance => (data.instance = instance)}
                    />
-                   <button onClick={Acheter} className="btn btn-primary btn-block">Payer</button>
-               </div>
            ):null }
                 
         </div>
@@ -87,7 +87,7 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
     );
 
     const AfficherEntreeAdresse = () =>(
-        <div className="form-group mb-3">
+        <div className="form-group mb-2">
         <label className="text-muted">Adresse de livraison</label>
         <textarea 
         onChange={handleChange}
@@ -174,7 +174,7 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
         
     }
    return <div>
-        <h2>Total: {getTotal()} $CAD</h2>
+        <h2 className="d-flex justify-content-center">Total: {getTotal()} $CAD</h2>
         {afficherChargement(data.loading)}
         {montrerSuccess(data.success)}
         {redirigerUtilisateur(data.success)}

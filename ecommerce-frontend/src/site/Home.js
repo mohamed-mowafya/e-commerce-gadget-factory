@@ -42,11 +42,11 @@ const Home = () => {
 
 
     return (
-        <Layout title="Home Page" description="Ecommerce app" className="container-fluid">
+        <Layout title="Home Page" className="container-fluid">
             <h2 className="mb-4 couleur" >Meilleures ventes</h2>
             <div className="col-12">
-                <div className="container d-flex justify-content-center mt-50 mb-50">
-                    <div className="row">
+                <div className="container mt-50 mb-50">
+                    <div className="row d-flex justify-content-sm-around">
                         {productsBySell.map((product, i) => (
 
                             <Card product={product} />
@@ -58,8 +58,8 @@ const Home = () => {
 
             <h2 className="mb-4">Les plus recents</h2>
             <div className="col-12">
-                <div className="container d-flex justify-content-center mt-50 mb-50">
-                    <div className="row">
+                <div className="container mt-50 mb-50">
+                    <div className="row d-flex justify-content-center">
                         {productsByArrival.map((product, i) => (
 
                             <Card product={product} />
