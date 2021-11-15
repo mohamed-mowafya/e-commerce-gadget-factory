@@ -27,7 +27,6 @@ const Routes = () => {
             <Route path= "/signup" exact component = {Signup}/>
             <Route path="/cart" exact component = {Panier}/>
             <Route path="/recherche" exact component = {PageRecherche}/>
-            <Route path="/productdetails" exact component = {ProductDetails}/>
             <RoutePrive path ="/usager/dashboard" exact component={DashboardUtilisateur}></RoutePrive>
             <RouteAdministrateur path ="/admin/dashboard" exact component={DashboardAdministrateur}></RouteAdministrateur>
             <RouteAdministrateur path ="/creer/categorie" exact component={AddCategory}></RouteAdministrateur>
@@ -35,6 +34,7 @@ const Routes = () => {
             <RouteAdministrateur path ="/admin/orders" exact component={Commandes}></RouteAdministrateur>
             <RoutePrive path="/profile/:userId" exact component={profile}></RoutePrive>
             <Route path="/product/:productId" exact component={Product}></Route>
+            <Route path="/productdetails/:productId" exact component = {ProductDetails}/>
         </Switch>
     </BrowserRouter>
     );
