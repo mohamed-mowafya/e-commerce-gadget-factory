@@ -67,7 +67,7 @@ const Search = (props) => {
 
     const searchForm = (history) => (
         <form onSubmit={searchSubmit}>
-            <span className="input-group-text">
+            <span className="input-group-text mt-2">
                 <div className="input-group input-group-lg navbar-search">
                     <input
                         type="search"
