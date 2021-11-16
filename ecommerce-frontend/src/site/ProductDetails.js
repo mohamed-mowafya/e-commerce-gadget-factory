@@ -1,195 +1,116 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
+import { read, listRelated } from "./apiSite";
+import Layout from "./Layout";
 import ShowImage from './ShowImage';
-import { ajoutItem, MisAjourItem, supprimerProduit } from "./panierHelper";
+import { ajoutItem } from "./panierHelper";
 import moment from "moment";
+import ProduitSimilaire from "./ProduitSimilaire";
 
-const Card = ({
-    // product,
-    // montrerBoutonAjouterPanier = true,
-    // showViewProductButton = true,
-    // PanierUpdate = false,
-    // MontrerSupprimerProduitBouton = false,
-    // setRun = f => f,
-    // run = undefined
-}) => {
-    //const [redirect, setRedirect] = useState(false);
-    //const [count, setCount] = useState(product.count);
+const ProductDetails = (props) => {
+    const [product, setProduct] = useState({});
+    const [relatedProduct, setRelatedProduct] = useState([]);
+    const [error, setError] = useState(false);
+    const [redirect, setRedirect] = useState(false);
+
+    const loadSingleProduct = productId => {
+        read(productId).then(data => {
+            if (data.error) {
+                setError(data.error);
+            } else {
+                setProduct(data);
+                //fetch les produits qui ont un lien avec le produit
+                listRelated(data._id).then(data => {
+                    if (data.error) {
+                        setError(data.error);
+                    } else {
+                        setRelatedProduct(data);
+                    }
+                });
+            }
+        });
+    };
+
+    const AjouterAuPanier = () => {
+        ajoutItem(product, () => { // prend en params le produit et la fonction callback
+            setRedirect(true)
+        });
+    };
+
+    const DoitRediriger = redirect => {
+        if (redirect) {
+            return <Redirect to="/cart" />
+        };
+    };
+    useEffect(() => {
+        const productId = props.match.params.productId
+        loadSingleProduct(productId)
+    }, [props]);
 
     return (
-
-
-        <section class="mb-5">
-
-        <div class="row">
-          <div class="col-md-6 mb-4 mb-md-0">
-      
-            <div id="mdb-lightbox-ui"></div>
-      
-            <div class="mdb-lightbox">
-      
-              <div class="row product-gallery mx-1">
-      
-                <div class="col-12 mb-0">
-                  <figure class="view overlay rounded z-depth-1 main-img">
-                    <a href="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
-                      data-size="710x823">
-                      <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
-                        class="img-fluid z-depth-1"/>
-                    </a>
-                  </figure>
-                  <figure class="view overlay rounded z-depth-1" style="visibility: hidden;">
-                    <a href="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg"
-                      data-size="710x823">
-                      <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg"
-                        class="img-fluid z-depth-1"/>
-                    </a>
-                  </figure>
-                  <figure class="view overlay rounded z-depth-1" style="visibility: hidden;">
-                    <a href="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg"
-                      data-size="710x823">
-                      <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg"
-                        class="img-fluid z-depth-1"/>
-                    </a>
-                  </figure>
-                  <figure class="view overlay rounded z-depth-1" style="visibility: hidden;">
-                    <a href="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/14a.jpg"
-                      data-size="710x823">
-                      <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/14a.jpg"
-                        class="img-fluid z-depth-1"/>
-                    </a>
-                  </figure>
+        <Layout
+            title=""
+            description=""
+            className="container-fluid "
+        >
+            {/* <div className="d-flex align-items-center h-100">
+                <div className="container text-center py-5">
+                    <h3 className="mb-0">Détails sur le produit</h3>
                 </div>
-                <div class="col-12">
-                  <div class="row">
-                    <div class="col-3">
-                      <div class="view overlay rounded z-depth-1 gallery-item">
-                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg"
-                          class="img-fluid"/>
-                        <div class="mask rgba-white-slight"></div>
-                      </div>
-                    </div>
-                    <div class="col-3">
-                      <div class="view overlay rounded z-depth-1 gallery-item">
-                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg"
-                          class="img-fluid"/>
-                        <div class="mask rgba-white-slight"></div>
-                      </div>
-                    </div>
-                    <div class="col-3">
-                      <div class="view overlay rounded z-depth-1 gallery-item">
-                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/14a.jpg"
-                          class="img-fluid"/>
-                        <div class="mask rgba-white-slight"></div>
-                      </div>
-                    </div>
-                    <div class="col-3">
-                      <div class="view overlay rounded z-depth-1 gallery-item">
-                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
-                          class="img-fluid"/>
-                        <div class="mask rgba-white-slight"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-      
-            </div>
-      
-          </div>
-          <div class="col-md-6">
-      
-            <h5>Fantasy T-shirt</h5>
-            <p class="mb-2 text-muted text-uppercase small">Shirts</p>
-            <ul class="rating">
-              <li>
-                <i class="fas fa-star fa-sm text-primary"></i>
-              </li>
-              <li>
-                <i class="fas fa-star fa-sm text-primary"></i>
-              </li>
-              <li>
-                <i class="fas fa-star fa-sm text-primary"></i>
-              </li>
-              <li>
-                <i class="fas fa-star fa-sm text-primary"></i>
-              </li>
-              <li>
-                <i class="far fa-star fa-sm text-primary"></i>
-              </li>
-            </ul>
-            <p><span class="mr-1"><strong>$12.99</strong></span></p>
-            <p class="pt-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, sapiente illo. Sit
-              error voluptas repellat rerum quidem, soluta enim perferendis voluptates laboriosam. Distinctio,
-              officia quis dolore quos sapiente tempore alias.</p>
-            <div class="table-responsive">
-              <table class="table table-sm table-borderless mb-0">
-                <tbody>
-                  <tr>
-                    <th class="pl-0 w-25" scope="row"><strong>Model</strong></th>
-                    <td>Shirt 5407X</td>
-                  </tr>
-                  <tr>
-                    <th class="pl-0 w-25" scope="row"><strong>Color</strong></th>
-                    <td>Black</td>
-                  </tr>
-                  <tr>
-                    <th class="pl-0 w-25" scope="row"><strong>Delivery</strong></th>
-                    <td>USA, Europe</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <hr/>
-            <div class="table-responsive mb-2">
-              <table class="table table-sm table-borderless">
-                <tbody>
-                  <tr>
-                    <td class="pl-0 pb-0 w-25">Quantity</td>
-                    <td class="pb-0">Select size</td>
-                  </tr>
-                  <tr>
-                    <td class="pl-0">
-                      <div class="def-number-input number-input safari_only mb-0">
-                        <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                          class="minus"></button>
-                        <input class="quantity" min="0" name="quantity" value="1" type="number"/>
-                        <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                          class="plus"></button>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="mt-1">
-                        <div class="form-check form-check-inline pl-0">
-                          <input type="radio" class="form-check-input" id="small" name="materialExampleRadios"
-                            checked/>
-                          <label class="form-check-label small text-uppercase card-link-secondary"
-                            for="small">Small</label>
+            </div> */}
+            <div className="container mt-5">
+                <section className="mb-5">
+                    {DoitRediriger(redirect)}
+                    <div className="row">
+                        <div className="col-md-6 mb-4 mb-md-0">
+
+                            <div id="mdb-lightbox-ui"></div>
+
+                            <div className="mdb-lightbox">
+
+                                <div className="row product-gallery mx-1 d-flex justify-content-center">
+
+                                    <div className="col-10 mb-0" >
+                                        <ShowImage className="card-img" item={product} url="product" />
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-check form-check-inline pl-0">
-                          <input type="radio" class="form-check-input" id="medium" name="materialExampleRadios"/>
-                          <label class="form-check-label small text-uppercase card-link-secondary"
-                            for="medium">Medium</label>
+                        <div className="col-md-6 mt-6">
+
+                            <h5>{product.name}</h5>
+                            <p><span className="mr-1"><strong>${product.price}</strong></span></p>
+                            <p className="pt-1">{product.description}</p>
+                            <hr />
+                            <button type="button" className="btn btn-light btn-md mr-1 mb-2" style={{ backgroundColor: "#ed6436" }} onClick={AjouterAuPanier}><i
+                                className="fas fa-shopping-cart pr-2" ></i> Ajouter au Panier</button>
                         </div>
-                        <div class="form-check form-check-inline pl-0">
-                          <input type="radio" class="form-check-input" id="large" name="materialExampleRadios"/>
-                          <label class="form-check-label small text-uppercase card-link-secondary"
-                            for="large">Large</label>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                    </div>
+
+                </section>
+
+
+
+
+
+                <section class="text-center">
+                    <h4 className="text-center my-5">
+                        <strong>Produits similaires</strong>
+                    </h4>
+                    <div class="row">
+                         {relatedProduct.map((p, i) => (
+
+                            <ProduitSimilaire key={i} product={p} />
+
+                        ))}
+                    </div>
+
+
+                </section>
             </div>
-            <button type="button" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button>
-            <button type="button" class="btn btn-light btn-md mr-1 mb-2"><i
-                class="fas fa-shopping-cart pr-2"></i>Add to cart</button>
-          </div>
-        </div>
-      
-      </section>
+        </Layout>
     );
 };
 
-export default Card;
+export default ProductDetails;

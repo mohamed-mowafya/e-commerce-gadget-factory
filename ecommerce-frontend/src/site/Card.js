@@ -111,11 +111,13 @@ const supprimerProduitBoutton = (MontrerSupprimerProduitBouton) =>{
             <div className="card">
                 {DoitRediriger(redirect)}
                 <div className="card-body">
+                <div className="card-img-actions"> 
                   <ShowImage className="card-img" item={product} url="product" />
+                  </div>
                 </div>
                 <div className="card-body bg-light text-center">
                     <div className="mb-2">
-                        <h6 className="font-weight-semibold mb-2"> <a href={`/product/${product._id}`} className="text-default mb-2" data-abc="true">{product.name}</a> </h6> <a href="#" class="text-muted" data-abc="true">{product.category.name}</a>
+                        <h6 className="font-weight-semibold mb-2"> <a href={`/productdetails/${product._id}`} className="text-default mb-2" data-abc="true">{product.name}</a> </h6> <a href="#" class="text-muted" data-abc="true">{product.category.name}</a>
                     </div>
                     <h3 className="mb-0 font-weight-semibold">${product.price}</h3>
                     <div className="mb-2">{showStock(product.quantity)} </div>
