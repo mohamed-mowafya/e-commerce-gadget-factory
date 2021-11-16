@@ -7,6 +7,7 @@ import Checkbox from "./CheckBox";
 import { prix } from "./PrixFix";
 import RadioBox from "./RadioBox";
 import "../CSS/shop.css"
+import ProductDetails from "./ProductDetails";
 
 const Shop = () => {
 

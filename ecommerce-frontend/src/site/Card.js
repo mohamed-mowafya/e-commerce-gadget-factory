@@ -94,7 +94,7 @@ const supprimerProduitBoutton = (MontrerSupprimerProduitBouton) =>{
       <div className="card-body d-flex flex-column ">
       <div className="mt-auto ">
                     <h6 className="font-weight-semibold"> 
-                    <a href={`/product/${product._id}`} className="text-center" data-abc="true">{product.name}</a> </h6> 
+                    <a href={`/productdetails/${product._id}`} className="text-center" data-abc="true">{product.name}</a> </h6> 
                     <a href="#" class="text-muted" data-abc="true">{product.category.name}</a>
       <h3 className="font-weight-semibold">${product.price}</h3>
                 <div className="">{showStock(product.quantity)} </div>
