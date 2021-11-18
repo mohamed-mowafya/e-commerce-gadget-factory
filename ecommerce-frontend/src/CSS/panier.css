@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+
+.btn-centre{
+ margin-left: 25%;
+}
+.titre-panier{
+   font-family: 'Oswald', sans-serif;
+   font-size:50px;
+}

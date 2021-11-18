@@ -145,7 +145,7 @@ exports.list = (req, res) => {
 };
 
 exports.listRelated = (req, res) => {
-    let limit = req.query.limit ? parseInt(req.query.limit) : 6
+    let limit = req.query.limit ? parseInt(req.query.limit) : 4
 
     Product.find({ _id: { $ne: req.product }, category: req.product.category })
         .limit(limit)

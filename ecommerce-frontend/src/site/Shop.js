@@ -7,6 +7,7 @@ import Checkbox from "./CheckBox";
 import { prix } from "./PrixFix";
 import RadioBox from "./RadioBox";
 import "../CSS/shop.css"
+import ProductDetails from "./ProductDetails";
 
 const Shop = () => {
 
@@ -113,23 +114,23 @@ const Shop = () => {
 
             <div className="row">
 
-                <section id="sidebar">
+                <section id="sidebar" className="">
                     <div className="py-3">
-                        <h5 className="font-weight-bold">Categories</h5>
-                        <ul className="list-group">
+                        <h5 className="font-weight-bold d-flex justify-content-start">Categories</h5>
+                        <ul className="list-group d-flex justify-content-start">
                             <Checkbox categories={categories} handleFilters={filters => handleFilters(filters, "category")} />
                         </ul>
                     </div>
                     <div className="py-3">
-                        <h5 className="font-weight-bold">Prix</h5>
-                        <form className="brand">
+                        <h5 className="font-weight-bold d-flex justify-content-start">Prix</h5>
+                        <form className="brand d-flex justify-content-start flex-column">
                             <RadioBox prices={prix} handleFilters={filters => handleFilters(filters, "price")} />
                         </form>
                     </div>
                 </section>
                 <div className="col-8">
-                    <div className="container d-flex justify-content-center mt-50 mb-50">
-                        <div className="row">
+                    <div className="container mt-50 mb-50">
+                        <div className="row d-flex justify-content-center">
                             {filteredResults.map((product, i) => (
 
 
