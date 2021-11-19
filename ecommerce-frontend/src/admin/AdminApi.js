@@ -109,3 +109,70 @@ export const getValeursEtat = (userId,token) => {
          })
          .catch(err => console.log(err));
 }
+
+/* effectuer crud sur produtits
+get tout les produits
+get un produit precis
+besoin de update un produit precis
+besoin mettre a jour un produit precis
+
+*/
+
+// vas chercher tout les produits
+export const getProduits=()=>{
+    return fetch(`${API}/product`, {
+        method: "GET",
+        
+        
+    })
+         .then(response => {
+             return response.json();
+         })
+         .catch(err => console.log(err));
+}
+
+// Efface le produit desiré
+export const effacerProduit = (productId,userId,token) => {
+    return fetch(`${API}/product/${productId}/${userId}`, {
+        method: "DELETE",
+        headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        
+    })
+         .then(response => {
+             return response.json();
+         })
+         .catch(err => console.log(err));
+}
+
+// va chercher un seul produit
+export const getSingleProduits=(productId)=>{
+    return fetch(`${API}/product/${productId}`, {
+        method: "GET",
+        
+        
+    })
+         .then(response => {
+             return response.json();
+         })
+         .catch(err => console.log(err));
+}
+
+// met à jour le produit desiré
+export const mettreAjourProduit = (productId,userId,token,product) => {
+    return fetch(`${API}/product/${productId}/${userId}`, {
+        method: "PUT",
+        headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body : product
+    })
+         .then(response => {
+             return response.json();
+         })
+         .catch(err => console.log(err));
+}
