@@ -120,59 +120,54 @@ besoin mettre a jour un produit precis
 
 // vas chercher tout les produits
 export const getProduits=()=>{
-    return fetch(`${API}/product`, {
-        method: "GET",
-        
-        
+    return fetch(`${API}/products?limit=2000000000`, {
+        method: 'GET'
     })
-         .then(response => {
-             return response.json();
-         })
-         .catch(err => console.log(err));
-}
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
 
 // Efface le produit desiré
 export const effacerProduit = (productId,userId,token) => {
     return fetch(`${API}/product/${productId}/${userId}`, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-            Accept: "application/json",
-            "Content-type": "application/json",
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
-        },
-        
+        }
     })
-         .then(response => {
-             return response.json();
-         })
-         .catch(err => console.log(err));
-}
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
 
 // va chercher un seul produit
-export const getSingleProduits=(productId)=>{
+export const getSingleProduits=productId=>{
     return fetch(`${API}/product/${productId}`, {
-        method: "GET",
-        
-        
+        method: 'GET'
     })
-         .then(response => {
-             return response.json();
-         })
-         .catch(err => console.log(err));
-}
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
 
 // met à jour le produit desiré
 export const mettreAjourProduit = (productId,userId,token,product) => {
     return fetch(`${API}/product/${productId}/${userId}`, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-            Accept: "application/json",
+            Accept: 'application/json',
             Authorization: `Bearer ${token}`
         },
-        body : product
+        body: product
     })
-         .then(response => {
-             return response.json();
-         })
-         .catch(err => console.log(err));
-}
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
