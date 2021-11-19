@@ -42,10 +42,13 @@ const GestionProduits = () => {
 
             <div className="row">
                 <div className="col-12">
+                <h2 className="text-center">
+                     {produit.length} produit(s)
+                    </h2>
                     <ul className="list-group">
 
                         {produit.map((p,i) =>(
-                            <li key={i} className="list-group d-flex justify-content-between align-items-center">
+                            <li key={i} className="list-group-item d-flex justify-content-between align-items-center">
                             
                                 {p.name}
                                 <Link to={`/admin/product/update/${p._id}`}>
