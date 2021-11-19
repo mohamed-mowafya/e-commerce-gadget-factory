@@ -157,7 +157,7 @@ export const getSingleProduits=productId=>{
 };
 
 // met à jour le produit desiré
-export const mettreAjourProduit = (productId,userId,token,product) => {
+export const updateProduit = (productId,userId,token,product) => {
     return fetch(`${API}/product/${productId}/${userId}`, {
         method: 'PUT',
         headers: {

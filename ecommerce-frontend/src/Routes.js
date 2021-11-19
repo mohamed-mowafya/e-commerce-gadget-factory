@@ -17,6 +17,7 @@ import Commandes from "./admin/Commandes";
 import PageRecherche from "./site/PageRecherche"
 import ProductDetails from "./site/ProductDetails";
 import GestionProduits from "./admin/GestionProduit";
+import MettreAjourProduit from "./admin/MettreAjourProduit";
 
 const Routes = () => {
     return(
@@ -34,6 +35,7 @@ const Routes = () => {
             <RouteAdministrateur path ="/creer/produit" exact component={AddProduct}></RouteAdministrateur>
             <RouteAdministrateur path ="/admin/orders" exact component={Commandes}></RouteAdministrateur>
             <RouteAdministrateur path ="/admin/products" exact component={GestionProduits}></RouteAdministrateur>
+            <RouteAdministrateur path ="/admin/product/update/:productId" exact component={MettreAjourProduit}></RouteAdministrateur>
             <RoutePrive path="/profile/:userId" exact component={profile}></RoutePrive>
             <Route path="/product/:productId" exact component={Product}></Route>
             <Route path="/productdetails/:productId" exact component = {ProductDetails}/>

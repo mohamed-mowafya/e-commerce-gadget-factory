@@ -51,6 +51,7 @@ const GestionProduits = () => {
                             <li key={i} className="list-group-item d-flex justify-content-between align-items-center">
                             
                                 {p.name}
+                              
                                 <Link to={`/admin/product/update/${p._id}`}>
                                     <span className="btn badge-warning badge-pill">
                                         Modifier
