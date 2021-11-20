@@ -66,7 +66,10 @@ const MettreAjourProduit = ({ match }) => {
         });
     };
 
-    // Charger toute les categories et change les valeurs du state.
+    /**
+     * Méthode qui permets de charger tout les catégries
+     * et assigne des valeurs aux variables du state.
+     */
     const initCategories = () => {
         getCategories().then(data => {
             if (data.error) {

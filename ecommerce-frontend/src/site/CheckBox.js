@@ -4,8 +4,16 @@ const Checkbox = ({ categories , handleFilters }) => {
 
     const [checked, setCheked] = useState([]);
 
-
-       // la fonction applé à chaque checbox coché
+       /**
+        * Méthode qui est appellé à chaque fois
+        * qu'un CheckBox (catégorie) est coché, à chaque
+        * catégorie coché, il est ajouté dans la variable
+        * newCheckedCategoryId.
+        * @param {*} category 
+        * Variable category qui va contenir la catégorie qui a été
+        * checked.
+        * @returns 
+        */
        const handleToggle = category => () => { 
 
         // retourne le premier index ou -1
@@ -13,14 +21,12 @@ const Checkbox = ({ categories , handleFilters }) => {
         const newCheckedCategoryId = [...checked]; 
         
         
-        // si le checked courant n'était pas en checked state, il push
         if (currentCategoryId === -1) {
             newCheckedCategoryId.push(category);
         } else {
             newCheckedCategoryId.splice(currentCategoryId, 1);
         }
 
-        //console.log(newCheckedCategoryId);
         setCheked(newCheckedCategoryId);
         handleFilters(newCheckedCategoryId);
 

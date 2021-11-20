@@ -18,7 +18,14 @@ const Card = ({
 
   const [redirect, setRedirect] = useState(false);
   const [count, setCount] = useState(product.count);
-
+  
+  /**
+   * Méthode qui permets d'afficher le bouton
+   * d'ajout au panier sur le card.
+   * Si le card est dans le panier, alors on n'affiche
+   * plus ce bouton.
+   * @param {*} montrerBoutonAjouterPanier 
+   */
   const AjouterAuPanierBoutton = (montrerBoutonAjouterPanier) =>{
     return (
       montrerBoutonAjouterPanier && (
@@ -27,6 +34,9 @@ const Card = ({
     );
 };
 
+/**
+ * 
+ */
 const AjouterAuPanier = () =>{
       ajoutItem(product, ()=> { // prend en params le produit et la fonction callback
       setRedirect(true)
@@ -106,27 +116,6 @@ const supprimerProduitBoutton = (MontrerSupprimerProduitBouton) =>{
       </div>
     </div>
   </div>
-      /* VERSION REDA =>
-    <div className="col-md-4 mt-2 ">
-            <div className="card">
-                {DoitRediriger(redirect)}
-                <div className="card-body">
-                <div className="card-img-actions"> 
-                  <ShowImage className="card-img" item={product} url="product" />
-                  </div>
-                </div>
-                <div className="card-body bg-light text-center">
-                    <div className="mb-2">
-                        <h6 className="font-weight-semibold mb-2"> <a href={`/productdetails/${product._id}`} className="text-default mb-2" data-abc="true">{product.name}</a> </h6> <a href="#" class="text-muted" data-abc="true">{product.category.name}</a>
-                    </div>
-                    <h3 className="mb-0 font-weight-semibold">${product.price}</h3>
-                    <div className="mb-2">{showStock(product.quantity)} </div>
-                    <button onClick={AjouterAuPanier} type="button" className="btn bg-cart"><i className="fa fa-cart-plus mr-2"></i> Ajouter au Panier</button>
-                    {supprimerProduitBoutton(MontrerSupprimerProduitBouton)}
-                    {AffichageUpdatesOptionsPanier(PanierUpdate)}
-                </div>
-            </div>
-        </div> */
 
   );
 
