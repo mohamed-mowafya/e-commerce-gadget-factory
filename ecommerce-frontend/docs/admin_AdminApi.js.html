@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: admin/AdminApi.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: admin/AdminApi.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {API} from "../config";
+
+export const createCategory = (userId,token,category) =>{
+    return fetch(`${API}/category/create/${userId}`,{
+        mode:"cors",
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(category)
+    })
+    
+    .then(reponse => reponse.json())
+    .catch(err =>{
+        console.log(err)
+    });
+};
+
+export const createProduct = (userId,token,product) =>{
+    return fetch(`${API}/product/create/${userId}`,{
+        mode:"cors",
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: product
+    })
+    
+    .then(reponse => reponse.json())
+    .catch(err =>{
+        console.log(err)
+    });
+};
+
+
+ /**
+  * Permet d'aller chercher les categories du backend
+  * @returns response.json()
+  */
+export const getCategories = () => {
+    return fetch(`${API}/categories`, {
+        method: "GET"
+    })
+         .then(response => {
+             return response.json();
+         })
+         .catch(err => console.log(err));
+}
+
+/**
+ * Permets de chercher tout les commandes
+ *  à partir du backend.
+ * @returns response.json()
+ */
+export const getCommandes = (userId,token) => {
+    return fetch(`${API}/order/list/${userId}`, {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`
+        }
+        
+    })
+         .then(response => {
+             return response.json();
+         })
+         .catch(err => console.log(err));
+}
+
+/***
+ * Permets de chercher les états d'une commande à partir de la BD.
+ */
+export const getValeursEtat = (userId,token) => {
+    return fetch(`${API}/order/valeurs-etat/${userId}`, {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`
+        }
+        
+    })
+         .then(response => {
+             return response.json();
+         })
+         .catch(err => console.log(err));
+}
+
+/***
+ * Permets de chercher les états d'une commande à partir de la BD.
+ */
+ export const updateEtatCommande = (userId,token,commandeId,statut) => {
+    return fetch(`${API}/order/${commandeId}/etat/${userId}`, {
+        method: "PUT",
+        headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({statut,commandeId})
+        
+    })
+         .then(response => {
+             return response.json();
+         })
+         .catch(err => console.log(err));
+}
+
+/* effectuer crud sur produtits
+get tout les produits
+get un produit precis
+besoin de update un produit precis
+besoin mettre a jour un produit precis
+
+*/
+
+// vas chercher tout les produits
+export const getProduits=()=>{
+    return fetch(`${API}/products?limit=2000000000`, {
+        method: 'GET'
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+// Efface le produit desiré
+export const effacerProduit = (productId,userId,token) => {
+    return fetch(`${API}/product/${productId}/${userId}`, {
+        method: 'DELETE',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        }
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+// va chercher un seul produit
+export const getSingleProduits=productId=>{
+    return fetch(`${API}/product/${productId}`, {
+        method: 'GET'
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+// met à jour le produit desiré
+export const updateProduit = (productId,userId,token,product) => {
+    return fetch(`${API}/product/${productId}/${userId}`, {
+        method: 'PUT',
+        headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: product
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Nov 19 2021 20:07:44 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

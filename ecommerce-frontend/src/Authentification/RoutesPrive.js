@@ -7,7 +7,6 @@ import { estAuthentifier } from "./index";
  * est authentifié, le component est retourné, sinon, il est redirigé vers la page de connexion.
  * (Évite que des utilisateurs non authentifiés accèdent à des routes protégés.)
  * @param {*} param0 
- * @returns 
  */
 const RoutePrive = ({ component: Component, ...rest }) => (
     //On retourne le route après avoir verifié l'authentification et que ca soit un usager regulier

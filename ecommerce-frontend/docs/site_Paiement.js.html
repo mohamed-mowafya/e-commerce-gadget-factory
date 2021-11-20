@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: site/Paiement.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: site/Paiement.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, {useState, useEffect} from "react";
+import { estAuthentifier } from "../Authentification";
+import { Link } from "react-router-dom";
+import 'braintree-web'
+import DropIn from  "braintree-web-drop-in-react";
+import { viderPanier } from "./panierHelper";
+import {getBraintreeTokenClient , processPayment,commander} from "../site/apiSite";
+import { Redirect } from "react-router-dom";
+import "../CSS/panier.css"
+
+const Paiement = ({product, setRun = f => f, run = undefined }) => {
+
+   
+    const [data, setData] = useState({
+        loading : false,
+        success: false,
+        clientToken: null,
+        error:'',
+        instance:{},
+    })
+
+    const [adresse,setAdresse] = useState('')
+
+    //requete au backend
+        const userId = estAuthentifier() &amp;&amp; estAuthentifier().user._id
+        const token = estAuthentifier() &amp;&amp; estAuthentifier().token
+
+        const getToken = ( userId , token) =>{
+            getBraintreeTokenClient(userId, token).then(data => {
+                if (data.error){
+                    setData ({...data, error : data.error});
+                } else {
+                    setData({clientToken : data.clientToken});
+                }
+            })
+        }
+
+        useEffect (()=> {
+            getToken(userId,token)
+        },[])
+   
+   // calcule du prix avant taxes
+   //Affichage du prix avant taxes
+   const getTotal= () =>{
+    return product.reduce((valeurActuelle, prochaineValeur)=>{
+        return valeurActuelle + prochaineValeur.count * prochaineValeur.price; 
+    },0);
+   }
+   
+   const getQuantite = () =>{
+       return product.count
+   }
+   
+   const AfficherPaiement = ()=>{
+       
+     return estAuthentifier() ? (
+         &lt;div >
+             {AfficherDropIn()}
+            &lt;button onClick={Acheter} className="btn btn-primary btn-md col-6 btn-centre mb-2">Payer&lt;/button>
+         &lt;/div>
+     ) : (
+         &lt;Link to= "/login">
+             &lt;button className= "btn btn-primary panier-centre">Connectez vous pour passer au paiement&lt;/button>
+         &lt;/Link>
+     );
+     };
+
+     const handleChange = event =>{
+        setAdresse(event.target.value);
+     }
+     const AfficherDropIn = () => (
+            // permet de faire disparairtre le message d'erreur en cliquant nimporte ou sur la page 
+          &lt;div onBlur= {() => setData ({...data, error: ""})}> 
+
+            
+           {data.clientToken !== null &amp;&amp; product.length > 0 ? (
+               
+                   &lt;DropIn options={{
+                       authorization: data.clientToken,
+                    }}
+                       onInstance= {instance => (data.instance = instance)}
+                   />
+           ):null }
+                
+        &lt;/div>
+       
+    );
+
+    const AfficherEntreeAdresse = () =>(
+        &lt;div className="form-group mb-2">
+        &lt;label className="text-muted">Adresse de livraison&lt;/label>
+        &lt;textarea 
+        onChange={handleChange}
+        value= {adresse}
+        className="form-control"
+        placeholder = "Entrez votre adresse de livraison"
+        />
+           &lt;/div>
+    )
+    
+    // requete au backend
+    const Acheter= ()=>{
+        setData({loading : true});
+        let nonce;
+
+        let getNonce = data.instance
+        .requestPaymentMethod()
+        .then(data => {
+            nonce = data.nonce
+            const paymentData = {
+                paymentMethodNonce : nonce,
+                amount : getTotal(product)
+                
+            }
+            processPayment(userId , token, paymentData)
+            .then (response => {
+                const commandeUtil = {
+                    products : product,
+                    transaction_id: response.transaction.id,
+                    montant_total: response.transaction.amount,
+                    address: adresse
+                }
+                commander(userId,token,commandeUtil)
+                setData({...data, success:response.success});
+                viderPanier(() => {
+                    setRun(!run); 
+                    console.log('paiement sucess, panier vide');
+                    setData({
+                        loading: false,
+                        success: true
+                    });
+                
+
+                })
+            })
+            .catch (error => {console.log(error)
+                    setData({loading : false});
+            });
+        })
+        .catch(error => {
+            setData({...data, error:error.message});
+        });
+    };
+    
+    const montrerErreur = error =>(
+        // si il ya a erreur, montrer le message d'erreur
+        &lt;div className="alert alert-danger" style={{display : error ? '' : "none"}}> 
+            {error}
+        &lt;/div>
+
+    )
+    // montre le message si la transaction est succes 
+    const montrerSuccess = success => (
+        &lt;div className="alert alert-info" 
+        style={{display : success ? '' : "none"}}>
+            Votre paiement a été effectué avec succèes
+        &lt;/div>
+    );
+
+ 
+    const afficherChargement = (loading) => (loading &amp;&amp; &lt;h2>Chargement...&lt;/h2>)
+
+
+    /**
+     * Si le paiement de l'utilisateur marche,
+     * il est redirigé vers la page d'accueil
+     * @param {} success 
+     */
+    const redirigerUtilisateur = success =>{
+        console.log(success)
+        if(success){
+            return &lt;Redirect to = "/"/>
+        }
+        
+    }
+   return &lt;div>
+        &lt;h2 className="d-flex justify-content-center">Total: {getTotal()} $CAD&lt;/h2>
+        {afficherChargement(data.loading)}
+        {montrerSuccess(data.success)}
+        {redirigerUtilisateur(data.success)}
+        {montrerErreur(data.error)}
+        {AfficherEntreeAdresse()}
+        {AfficherPaiement()}
+    &lt;/div>
+}
+
+export default Paiement;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Nov 19 2021 20:07:44 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

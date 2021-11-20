@@ -12,7 +12,6 @@ const Checkbox = ({ categories , handleFilters }) => {
         * @param {*} category 
         * Variable category qui va contenir la catégorie qui a été
         * checked.
-        * @returns 
         */
        const handleToggle = category => () => { 
 

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: admin/Commandes.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: admin/Commandes.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from "react";
+import Layout from "../site/Layout";
+import { estAuthentifier } from "../Authentification";
+import { Link } from "react-router-dom";
+import { createCategory, createProduct, getCategories} from "./AdminApi";
+import '../CSS/categories_products.css';
+import {getCommandes,getValeursEtat,updateEtatCommande} from './AdminApi';
+import moment from 'moment' // Module qui permets d'afficher une date lisible.
+const Commandes = () =>{
+    const [commandes,setCommandes] = useState([])
+    const [valeursEtat,setValeursEtat] = useState([])
+    const {user,token} = estAuthentifier()
+
+    /**
+     * Méthode qui va charger toutes les commandes du site 
+     * à partir de l'api.
+     */
+    const chargerCommandes = () =>{
+        getCommandes(user._id,token).then(data =>{
+            if(data.error){
+                console.log(data.error)
+            }
+            else{
+                setCommandes(data)
+            }
+            
+        })
+    }
+
+    /**
+     * Méthode qui permets de remplir la variable valeursEtat avec
+     * les enums des états de commande qui sont dans le model de la bd
+     * commande.
+     */
+    const chargerValeursEtat = () =>{
+        getValeursEtat(user._id,token).then(data =>{
+            if(data.error){
+                console.log(data.error)
+            }
+            else{
+                setValeursEtat(data)
+            }
+            
+        })
+    }
+    useEffect(()=>{
+        chargerCommandes()
+        chargerValeursEtat()
+    },[])
+
+    /**
+     * Méthode qui permets d'afficher la quantité de commandes du site.
+     */
+    const afficherNombreCommandes = () =>{
+        if(commandes.length>0){
+            return(
+                &lt;h1 className="text-danger display-2">Nombre de commandes: {commandes.length}&lt;/h1>
+            )
+        }
+        else{
+            return(
+                &lt;h1 className="text-danger display-2">Aucun commande sur le site.&lt;/h1>
+            )
+        }
+    }
+
+    const afficherInformations = (type,information) =>(
+        &lt;div className="input-group mb-2 mr-sm-2">
+            &lt;div className="input-group-prepend">
+                &lt;div className="input-group-text">{type}&lt;/div>
+            &lt;/div>
+            &lt;input type="text" value={information} className="form-control" readOnly/>
+        &lt;/div>
+    )
+
+    /**
+     * Méthode qui permets de changer l'état d'une commande.
+     */
+    const handleEtat = (event,commandeId) =>{
+        updateEtatCommande(user._id,token,commandeId,event.target.value).then(data=>{
+            if(data.error){
+                console.log("Erreur de changement d'état")
+            }
+            else{
+                chargerCommandes()
+            }
+        })
+    }
+    /**
+     * Affiche l'état d'une commande à partir de la bd et permets de changer l'état.
+     * La méthode affiche la séléction des états à partir des enums de la bd.
+     */
+    const afficherEtat = (commande) =>(
+        &lt;div className="form-group">
+            &lt;h3 className="mark mb-4">
+                État: {commande.statut}
+            &lt;/h3>
+            &lt;select className="form-control" onChange={(event) => handleEtat(event,commande._id)}>
+                &lt;option>Modifier État&lt;/option>
+                {valeursEtat.map((etat,indexEtat)=>(&lt;option key={indexEtat} value={etat}>{etat}&lt;/option>))}
+            &lt;/select>
+        &lt;/div>
+    )
+    return(
+        &lt;Layout
+            title="Commandes">
+                &lt;div className="row">
+                    {afficherNombreCommandes()}
+                    {commandes.map((commande,indexCommande)=>{
+                        return(
+                            &lt;div className="mt-5" key={indexCommande} style={{borderBottom:"5px solid indigo"}}>
+                                &lt;h2 className="mb-5">
+                                    &lt;span className="bg-primary">
+                                        ID Commande: {commande._id}
+                                    &lt;/span>
+                                &lt;/h2>
+
+                                &lt;ul className="list-group mb-2">
+                                &lt;li className="list-group-item">
+                                        État: {afficherEtat(commande)}
+                                    &lt;/li>
+                                    &lt;li className="list-group-item">
+                                        Transaction: {commande.transaction_id}
+                                    &lt;/li>
+                                    &lt;li className="list-group-item">
+                                        Montant: ${commande.montant_total}
+                                    &lt;/li>
+                                    &lt;li className="list-group-item">
+                                        Client: {commande.user.nom}, {commande.user.prenom}
+                                    &lt;/li>
+                                    &lt;li className="list-group-item">
+                                        Date: {moment(commande.createdAt).fromNow()}
+                                    &lt;/li>
+                                    &lt;li className="list-group-item">
+                                        Adresse: {commande.address}
+                                    &lt;/li>
+
+                                &lt;/ul>
+                                {commande.products.map((produit,produitIndex)=>(
+                                    &lt;div className="mb-4" key={produitIndex} style={{padding:'20px',border:'1px solid indigo'}}>
+                                        {afficherInformations('ID Produit',produit._id)}
+                                        {afficherInformations('Nom du produit',produit.name)}
+                                        {afficherInformations('Prix',produit.price)}
+                                        {afficherInformations('Quantité',produit.count)}
+                                    &lt;/div>
+                                ))}
+                            &lt;/div>
+                            
+                        )
+                    })}
+
+                &lt;/div>
+        &lt;/Layout>
+    )
+}
+
+export default Commandes</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Nov 19 2021 20:07:44 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

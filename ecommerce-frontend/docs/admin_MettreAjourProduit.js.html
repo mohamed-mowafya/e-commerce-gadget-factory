@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: admin/MettreAjourProduit.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: admin/MettreAjourProduit.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from "react";
+import Layout from "../site/Layout";
+import { estAuthentifier } from "../Authentification";
+import { Link } from "react-router-dom";
+import {updateProduit, getCategories,getSingleProduits} from "./AdminApi";
+import '../CSS/categories_products.css';
+import { Redirect } from "react-router";
+
+const MettreAjourProduit = ({ match }) => {
+    const [values, setValues] = useState({
+        name: '',
+        description: '',
+        price: '',
+        categories: [],
+        category: '',
+        shipping: '',
+        quantity: '',
+        photo: '',
+        loading: false,
+        error: false,
+        createdProduct: '',
+        redirectToProfile: false,
+        formData: ''
+    });
+    const [categories, setCategories] = useState([]);
+
+    const { user, token } = estAuthentifier();
+    const {
+        name,
+        description,
+        price,
+        category,
+        shipping,
+        quantity,
+        loading,
+        error,
+        createdProduct,
+        redirectToProfile,
+        formData
+    } = values;
+
+    /**
+     * Méthode qui permets de charger le produit désiré.
+     * @param {*} productId 
+     */
+   // Load le produit desiree
+    const init = productId => {
+        getSingleProduits(productId).then(data => {
+            if (data.error) {
+                setValues({ ...values, error: data.error });
+            } else {
+                // Rempli le state
+                setValues({
+                    ...values,
+                    name: data.name,
+                    description: data.description,
+                    price: data.price,
+                    category: data.category._id,
+                    shipping: data.shipping,
+                    quantity: data.quantity,
+                    formData: new FormData()
+                });
+                // Charge les categories
+                initCategories();
+            }
+        });
+    };
+
+    /**
+     * Méthode qui permets de charger tout les catégries
+     * et assigne des valeurs aux variables du state.
+     */
+    const initCategories = () => {
+        getCategories().then(data => {
+            if (data.error) {
+                setValues({ ...values, error: data.error });
+            } else {
+                setCategories(data);
+            }
+        });
+    };
+    
+    /**
+     * Méthode useEffect qui va charger le produit lorsque la page
+     * a complètement chargé pour l'utilisateur.
+     */
+
+    useEffect(() => {
+        init(match.params.productId);
+    }, []);
+
+    /**
+     * Méthode qui va changer les valeurs des informations des produits
+     * lorsque l'utilisateur change la valeur des champs.
+     * @param {*} name 
+     */
+
+    const handleChange = name => event => {
+        const value = name === 'photo' ? event.target.files[0] : event.target.value;
+        formData.set(name, value);
+        setValues({ ...values, [name]: value });
+    };
+
+    /**
+     * Méthode qui va mettre à jour le produit
+     * à partir de l'API.
+     * @param {*} event 
+     */
+    const clickSubmit = event => {
+        event.preventDefault();
+        setValues({ ...values, error: '', loading: true });
+
+        updateProduit(match.params.productId, user._id, token, formData).then(data => {
+            if (data.error) {
+                setValues({ ...values, error: data.error });
+            } else {
+                setValues({
+                    ...values,
+                    name: '',
+                    description: '',
+                    photo: '',
+                    price: '',
+                    quantity: '',
+                    loading: false,
+                    error: false,
+                    redirectToProfile: true,
+                    createdProduct: data.name
+                });
+            }
+        });
+    };
+
+    const newPostForm = () => (
+        &lt;form className="mb-3" onSubmit={clickSubmit}>
+            &lt;div className="form-group">
+            &lt;label className="text-dark">Image&lt;/label>
+            &lt;br>&lt;/br>
+                &lt;label className="btn btn-secondary">
+                    &lt;input onChange={handleChange('photo')} type="file" name="photo" accept="image/*" />
+                &lt;/label>
+            &lt;/div>
+
+            &lt;div className="form-group">
+                &lt;label className="text-dark">Nom&lt;/label>
+                &lt;input onChange={handleChange('name')} type="text" className="form-control" value={name} />
+            &lt;/div>
+
+            &lt;div className="form-group">
+                &lt;label className="text-dark">Description&lt;/label>
+                &lt;textarea onChange={handleChange('description')} className="form-control" value={description} />
+            &lt;/div>
+
+            &lt;div className="form-group">
+                &lt;label className="text-dark">Prix&lt;/label>
+                &lt;input onChange={handleChange('price')} type="number" className="form-control" value={price} />
+            &lt;/div>
+
+            &lt;div className="form-group">
+                &lt;label className="text-dark">Catégorie&lt;/label>
+                &lt;select onChange={handleChange('category')} className="form-control">
+                    &lt;option>Selectionner&lt;/option>
+                    {categories &amp;&amp;
+                        categories.map((c, i) => (
+                            &lt;option key={i} value={c._id}>
+                                {c.name}
+                            &lt;/option>
+                        ))}
+                &lt;/select>
+            &lt;/div>
+
+            &lt;div className="form-group">
+                &lt;label className="text-dark">Shipping&lt;/label>
+                &lt;select onChange={handleChange('shipping')} className="form-control">
+                    &lt;option>Selectionner&lt;/option>
+                    &lt;option value="0">Non&lt;/option>
+                    &lt;option value="1">Oui&lt;/option>
+                &lt;/select>
+            &lt;/div>
+
+            &lt;div className="form-group">
+                &lt;label className="text-dark">Quantité&lt;/label>
+                &lt;input onChange={handleChange('quantity')} type="number" className="form-control" value={quantity} />
+            &lt;/div>
+
+            &lt;button className="btn btn-outline-primary">Modifier le produit&lt;/button>
+        &lt;/form>
+    );
+    
+    /**
+     * Méthode qui affiche une erreur lorsque la création du produit n'est pas possible.
+     */
+    const showError = () => (
+        &lt;div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
+            {error}
+        &lt;/div>
+    );
+    
+    /**
+     * Méthode qui va afficher un message de succès après qu'un produit a été modifié.
+     */
+    const showSuccess = () => (
+        &lt;div className="alert alert-info" style={{ display: createdProduct ? '' : 'none' }}>
+            &lt;h2>{`${createdProduct}`} is updated!&lt;/h2>
+        &lt;/div>
+    );
+
+    const showLoading = () =>
+        loading &amp;&amp; (
+            &lt;div className="alert alert-success">
+                &lt;h2>Chargement...&lt;/h2>
+            &lt;/div>
+        );
+
+    const redirectUser = () => {
+        if (redirectToProfile) {
+            if (!error) {
+                return &lt;Redirect to="/admin/products" />;
+            }
+        }
+    };
+
+    return (
+        &lt;Layout title="Modifier un produit" description={`Salut ${user.name}, prêt à modifier un produit ?`}>
+            &lt;div className="row">
+                &lt;div className="col-md-8 offset-md-2">
+                    {showLoading()}
+                    {showSuccess()}
+                    {showError()}
+                    {newPostForm()}
+                    {redirectUser()}
+                &lt;/div>
+            &lt;/div>
+        &lt;/Layout>
+    );
+};
+
+export default MettreAjourProduit;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Nov 19 2021 20:07:44 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
