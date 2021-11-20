@@ -130,7 +130,7 @@ const Shop = () => {
                 </section>
                 <div className="col-8">
                     <div className="container mt-50 mb-50">
-                        <div className="row d-flex justify-content-center">
+                        <div className="row d-flex justify-content-between">
                             {filteredResults.map((product, i) => (
 
 
