@@ -39,13 +39,17 @@ const MettreAjourProduit = ({ match }) => {
         formData
     } = values;
 
+    /**
+     * Méthode qui permets de charger le produit désiré.
+     * @param {*} productId 
+     */
    // Load le produit desiree
     const init = productId => {
         getSingleProduits(productId).then(data => {
             if (data.error) {
                 setValues({ ...values, error: data.error });
             } else {
-                // popule le state
+                // Rempli le state
                 setValues({
                     ...values,
                     name: data.name,
@@ -56,13 +60,13 @@ const MettreAjourProduit = ({ match }) => {
                     quantity: data.quantity,
                     formData: new FormData()
                 });
-                // load les categories
+                // Charge les categories
                 initCategories();
             }
         });
     };
 
-    // load toute les categories and set data
+    // Charger toute les categories et change les valeurs du state.
     const initCategories = () => {
         getCategories().then(data => {
             if (data.error) {
@@ -72,10 +76,21 @@ const MettreAjourProduit = ({ match }) => {
             }
         });
     };
+    
+    /**
+     * Méthode useEffect qui va charger le produit lorsque la page
+     * a complètement chargé pour l'utilisateur.
+     */
 
     useEffect(() => {
-        init(match.params.productId); // passe le id au init , load le init quand le component est mount
+        init(match.params.productId);
     }, []);
+
+    /**
+     * Méthode qui va changer les valeurs des informations des produits
+     * lorsque l'utilisateur change la valeur des champs.
+     * @param {*} name 
+     */
 
     const handleChange = name => event => {
         const value = name === 'photo' ? event.target.files[0] : event.target.value;
@@ -83,6 +98,11 @@ const MettreAjourProduit = ({ match }) => {
         setValues({ ...values, [name]: value });
     };
 
+    /**
+     * Méthode qui va mettre à jour le produit
+     * à partir de l'API.
+     * @param {*} event 
+     */
     const clickSubmit = event => {
         event.preventDefault();
         setValues({ ...values, error: '', loading: true });
@@ -162,13 +182,19 @@ const MettreAjourProduit = ({ match }) => {
             <button className="btn btn-outline-primary">Modifier le produit</button>
         </form>
     );
-
+    
+    /**
+     * Méthode qui affiche une erreur lorsque la création du produit n'est pas possible.
+     */
     const showError = () => (
         <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
             {error}
         </div>
     );
-
+    
+    /**
+     * Méthode qui va afficher un message de succès après qu'un produit a été modifié.
+     */
     const showSuccess = () => (
         <div className="alert alert-info" style={{ display: createdProduct ? '' : 'none' }}>
             <h2>{`${createdProduct}`} is updated!</h2>

@@ -8,10 +8,13 @@ import { getProduits, effacerProduit } from "./AdminApi";
 
 const GestionProduits = () => {
 
-    const [produit, setProduits] = useState([]) // pour store le data dans le state
+    const [produit, setProduits] = useState([]) // pour sauvegarder les données dans le state
 
     const { user, token } = estAuthentifier();
 
+    /**
+     * Méthode qui permets de charger les produits du site.
+     */
     const loadProducts = () => {
         getProduits().then(data => {
             if (data.error) {
@@ -22,6 +25,10 @@ const GestionProduits = () => {
         });
     };
 
+    /**
+     * Méthode qui permets d'effacer un produit.
+     * @param {*} productId 
+     */
     const detruire = productId => {
         effacerProduit(productId, user._id, token).then(data => {
             if(data.error){
@@ -32,6 +39,11 @@ const GestionProduits = () => {
         })
     }
 
+
+    /**
+     * Méthode useEffect() est utilisé afin de charger les produits lorsque
+     * la page a chargé complètement pour l'utilisateur.
+     */
     useEffect(() => {
         loadProducts(); // methode execter quand le component mount
     }, [])

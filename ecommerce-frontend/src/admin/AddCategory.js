@@ -14,6 +14,12 @@ const AddCategory = () => {
         setSuccess('');
         setName(event.target.value);
     }
+    /**
+     * Méthode qui va appeller l'API du backend
+     * afin de créer une catégorie.
+     * @param {*} event 
+     * Variable event qui sert à empêcher la page de refresh.
+     */
     const submitCategory = (event) =>{
         setError('')
         event.preventDefault();
@@ -30,6 +36,11 @@ const AddCategory = () => {
             }
         })
     }
+
+    /**
+     * Méthode qui va contenir le form avec le HTML 
+     * afin d'ajouter une catégorie.
+     */
     const newCategoryForm = () =>(
         <div className="form-categorie">
         <form onSubmit={submitCategory}>
@@ -45,11 +56,21 @@ const AddCategory = () => {
         </form>
         </div>
     )
+
+    /**
+     * Méthode qui permets d'afficher un message du succès
+     * lorsqu'une nouvelle catégorie a été ajouté.
+     */
     const affichageSucces = () =>{
         if(success){
             return <h3 className="text-success">{name} a été crée avec succès</h3>
         }
     }
+
+    /**
+     * Méthode qui permets d'afficher un message d'erreur
+     * lorsqu'une nouvelle catégorie ne peut pas être ajouté.
+     */
     const affichageErreur = () =>{
         if(error){
             return <h3 className="text-success">{name} existe déjà</h3>

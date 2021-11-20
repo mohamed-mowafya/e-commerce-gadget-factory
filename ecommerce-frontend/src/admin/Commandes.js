@@ -11,7 +11,7 @@ const Commandes = () =>{
     const [valeursEtat,setValeursEtat] = useState([])
     const {user,token} = estAuthentifier()
 
-    /***
+    /**
      * Méthode qui va charger toutes les commandes du site 
      * à partir de l'api.
      */
@@ -27,7 +27,7 @@ const Commandes = () =>{
         })
     }
 
-    /***
+    /**
      * Méthode qui permets de remplir la variable valeursEtat avec
      * les enums des états de commande qui sont dans le model de la bd
      * commande.
@@ -48,7 +48,7 @@ const Commandes = () =>{
         chargerValeursEtat()
     },[])
 
-    /***
+    /**
      * Méthode qui permets d'afficher la quantité de commandes du site.
      */
     const afficherNombreCommandes = () =>{
@@ -73,7 +73,7 @@ const Commandes = () =>{
         </div>
     )
 
-    /***
+    /**
      * Méthode qui permets de changer l'état d'une commande.
      */
     const handleEtat = (event,commandeId) =>{
@@ -86,7 +86,7 @@ const Commandes = () =>{
             }
         })
     }
-    /***
+    /**
      * Affiche l'état d'une commande à partir de la bd et permets de changer l'état.
      * La méthode affiche la séléction des états à partir des enums de la bd.
      */
