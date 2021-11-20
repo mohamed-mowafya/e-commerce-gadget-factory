@@ -6,6 +6,7 @@ import { createCategory, createProduct, getCategories} from "./AdminApi";
 import '../CSS/categories_products.css';
 import {getCommandes,getValeursEtat,updateEtatCommande} from './AdminApi';
 import moment from 'moment' // Module qui permets d'afficher une date lisible.
+import localization from 'moment/locale/fr';
 const Commandes = () =>{
     const [commandes,setCommandes] = useState([])
     const [valeursEtat,setValeursEtat] = useState([])
@@ -46,6 +47,7 @@ const Commandes = () =>{
     useEffect(()=>{
         chargerCommandes()
         chargerValeursEtat()
+        moment.updateLocale('fr',localization) // Permets de changer l'affichage de moment en français.
     },[])
 
     /**
