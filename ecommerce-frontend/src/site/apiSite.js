@@ -5,7 +5,7 @@ import Product from "./Product";
 
 export const getProducts = sortBy => {
     // permet de fetch 6 produit en meme temps
-    return fetch(`${API}/products?sortBy=${sortBy}&order=desc&limit=6`, {
+    return fetch(`${API}/products?sortBy=${sortBy}&order=desc&limit=4`, {
         method: "GET"
     })
          .then(response => {

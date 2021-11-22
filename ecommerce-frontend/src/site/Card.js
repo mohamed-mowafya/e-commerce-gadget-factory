@@ -3,7 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import ShowImage from './ShowImage';
 import { ajoutItem,MisAjourItem , supprimerProduit} from "./panierHelper";
 import moment from "moment";
-import "../CSS/Card.css"
+import "../CSS/Card.css";
 
 const Card = ({
             product, 
