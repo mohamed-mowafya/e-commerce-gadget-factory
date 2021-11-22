@@ -6,6 +6,7 @@ import banner from '../images/banner.jpg';
 import Search from "./Search";
 import "../CSS/Home.css";
 import ProduitSimilaire from "./ProduitSimilaire";
+import { Link } from "react-router-dom";
 
 
 const Home = () => {
@@ -59,8 +60,7 @@ const Home = () => {
                             <h1 className="heading display-3 mt-5">C'est le moment de vous procurer toute la techno que vous vouliez.</h1>
                             <h4 className="subheading font-weight-bold">Découvrez les aubaines magiques sur les tablettes, les portables, les écouteurs et plus encore.</h4>
                             <div className="m-auto">
-                                <button type="button" className="btn btn-lily btn-margin btn-rounded mb-5 m-auto">Allons-y <i className="fas fa-caret-right ml-3"></i></button>
-                            </div>
+                                <Link to="/shop" className="btn btn-lily btn-margin btn-rounded mb-5 m-auto">Allons-y <i className="fas fa-caret-right ml-3"></i></Link>                 </div>
                         </div>
 
                     </div>
@@ -81,44 +81,35 @@ const Home = () => {
             <section className="section-content">
                 <div className="container">
                     <header className="section-heading">
-                        <h3 className="section-title couleur">Produits Populaire</h3>
+                        <h3 className="section-title couleur mb-3">Les Plus Populaires</h3>
                     </header>
 
                     <div className="row">
                         {productsBySell.map((product, i) => (
-                            
-                                <ProduitSimilaire product={product} />
-                           
+
+                            <ProduitSimilaire product={product} />
+
 
                         ))}
                     </div>
                 </div>
             </section>
-            <h2 className="mb-4 couleur" >Meilleures ventes</h2>
-            <div className="col-12">
-                <div className="container mt-50 mb-50">
-                    <div className="row d-flex justify-content-sm-around">
-                        {productsBySell.map((product, i) => (
 
-                            <Card product={product} />
+            <section className="section-content">
+                <div className="container">
+                    <header className="section-heading">
+                        <h3 className="section-title couleur mb-3">Les Plus Recents</h3>
+                    </header>
 
-                        ))}
-                    </div>
-                </div>
-            </div>
-
-            <h2 className="mb-4">Les plus recents</h2>
-            <div className="col-12">
-                <div className="container mt-50 mb-50">
-                    <div className="row d-flex justify-content-center">
+                    <div className="row">
                         {productsByArrival.map((product, i) => (
 
-                            <Card product={product} />
+                            <ProduitSimilaire product={product} />
 
                         ))}
                     </div>
                 </div>
-            </div>
+            </section>
         </Layout>
     );
 };
