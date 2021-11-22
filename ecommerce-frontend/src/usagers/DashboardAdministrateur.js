@@ -8,12 +8,13 @@ const DashboardAdministarteur = () => {
 
     
     const {user : {_id, nom, prenom, email, role}} = estAuthentifier()
-    console.log(email);
-    // permet de naviguer sur des liens qui appartiennent seulement a l'admi, ex : Créer un produit
+    /**
+     * Méthode qui affiche les liens (html) que l'administrateur peut accèder dans son dashboard.
+     */
     const liensAdmin  = () => {
         return(
             
-            <div className="card">
+            <div className="card mt-2">
                 <h4 className="card-header">Administration</h4>
                 <ul className = "list-group">
 
@@ -27,6 +28,9 @@ const DashboardAdministarteur = () => {
                  <li className = "list-group-item">
                      <Link  className="nav-link" to="/admin/orders">Voir les commandes</Link>
                  </li>
+                 <li className = "list-group-item">
+                     <Link  className="nav-link" to="/admin/products">Gérer les produits</Link>
+                 </li>
 
                 </ul>
 
@@ -36,18 +40,18 @@ const DashboardAdministarteur = () => {
 
     }
 
-    // retourne les information de l'Admin
+    /**
+     * Méthode qui permets de retourner les information de l'Administrateur.
+     */
     const informationsAdmin = () =>{
         return(
-            <div className="card mb-5">
+            <div className="mt-2">
        <h3 className="card-header">Informations</h3>
        <ul className = "list-group">
-
         <li className = "list-group-item">{nom}, {prenom}</li>
         <li className = "list-group-item">{email}</li>
         <li className = "list-group-item">
             {role == 1 ? 'Administrateur' : "Usager Connecté"}</li>
-
        </ul>
        </div>
         )

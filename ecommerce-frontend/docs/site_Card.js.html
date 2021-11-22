@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: site/Card.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: site/Card.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from "react";
+import { Link, Redirect } from "react-router-dom";
+import ShowImage from './ShowImage';
+import { ajoutItem,MisAjourItem , supprimerProduit} from "./panierHelper";
+import moment from "moment";
+import "../CSS/Card.css"
+
+const Card = ({
+            product, 
+            montrerBoutonAjouterPanier = true,
+            showViewProductButton = true,
+            PanierUpdate = false, 
+            MontrerSupprimerProduitBouton=false,
+            setRun = f => f,
+            run = undefined 
+          }) => {
+
+
+  const [redirect, setRedirect] = useState(false);
+  const [count, setCount] = useState(product.count);
+  
+  /**
+   * Méthode qui permets d'afficher le bouton
+   * d'ajout au panier sur le card.
+   * Si le card est dans le panier, alors on n'affiche
+   * plus ce bouton.
+   * @param {*} montrerBoutonAjouterPanier 
+   */
+  const AjouterAuPanierBoutton = (montrerBoutonAjouterPanier) =>{
+    return (
+      montrerBoutonAjouterPanier &amp;&amp; (
+        &lt;button onClick={AjouterAuPanier} type="button" className="btn bg-cart">&lt;i className="fa fa-cart-plus mr-2">&lt;/i> Ajouter au Panier&lt;/button>
+      )
+    );
+};
+
+/**
+ * 
+ */
+const AjouterAuPanier = () =>{
+      ajoutItem(product, ()=> { // prend en params le produit et la fonction callback
+      setRedirect(true)
+  });
+};
+
+const DoitRediriger = redirect =>  {
+  if (redirect){
+      return &lt;Redirect to = "/cart" />
+  };
+};
+
+const handleChange = IDproduit => event =>{
+  setRun(!run); // run le useEffect dans Cart
+  // valeur par default 1 (on peux pas avoir 0 ou -1)
+  setCount(event.target.value &lt; 1 ? 1 : event.target.value)
+ // Ne laisse pas rajouter plus que la quantité disponible
+  if(event.target.value > product.quantity){
+  setCount(product.quantity) 
+ }
+
+  if(event.target.value >= 1){
+    MisAjourItem(IDproduit, event.target.value)
+  }
+}
+
+const AffichageUpdatesOptionsPanier = PanierUpdate =>{
+  
+  return  PanierUpdate &amp;&amp;
+     &lt;div>
+        &lt;div className="input-group mb-3">
+            &lt;div className="input-group-prepend">
+                &lt;span className="input-group-text me-2 mt-2 bg-light"> Quantité &lt;/span>
+            &lt;/div>&lt;input type="number" className="form-control" 
+            value={count} onChange={handleChange(product._id)}>&lt;/input>
+       &lt;/div>
+
+    &lt;/div>
+}
+const supprimerProduitBoutton = (MontrerSupprimerProduitBouton) =>{
+  return (MontrerSupprimerProduitBouton &amp;&amp; (
+      &lt;button onClick={() => supprimerProduit(product._id,setRun(!run))} 
+          className = "btn btn-outline-danger mt-2 mb-2">
+          Supprimer
+      &lt;/button>
+  )
+  );
+};
+  
+  
+  const showStock = (quantity) => {
+    return quantity > 0 ? (
+      &lt;span className="badge badge-primary badge-pill" style={{backgroundColor: "#ed6436"}}> En Stock&lt;/span>
+    ) : (
+      &lt;span className="badge badge-primary badge-pill" style={{backgroundColor: "#ed6436"}}> En Rupture de Stock&lt;/span>
+    );
+  }
+
+  return (
+
+    &lt;div className="col-md-4 mb-3 d-flex align-items-stretch row ">
+    &lt;div className="card bg-light ">
+       {DoitRediriger(redirect)}
+    &lt;ShowImage className="card-img mb-auto" item={product} url="product" />
+      &lt;div className="card-body d-flex flex-column ">
+      &lt;div className="mt-auto ">
+                    &lt;h6 className="font-weight-semibold"> 
+                    &lt;a href={`/productdetails/${product._id}`} className="text-center" data-abc="true">{product.name}&lt;/a> &lt;/h6> 
+                    &lt;a href="#" class="text-muted" data-abc="true">{product.category.name}&lt;/a>
+      &lt;h3 className="font-weight-semibold">${product.price}&lt;/h3>
+                &lt;div className="">{showStock(product.quantity)} &lt;/div>
+                
+                {AjouterAuPanierBoutton(montrerBoutonAjouterPanier)}
+                {supprimerProduitBoutton(MontrerSupprimerProduitBouton)}
+                {AffichageUpdatesOptionsPanier(PanierUpdate)}
+                &lt;/div>
+      &lt;/div>
+    &lt;/div>
+  &lt;/div>
+
+  );
+
+};
+
+export default Card;
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Nov 19 2021 20:07:44 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

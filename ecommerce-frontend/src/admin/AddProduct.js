@@ -42,8 +42,10 @@ const AddProduct = () =>{
     } = values ;
 
 
-    // charge les categories et definit form data
-    // popule categories et transforme le data pour qu'elle soit facile a utiliser
+    /**
+     * Méthode qui permets de charger les catégories
+     * à partir du backend.
+     */
     const init = () => {
         getCategories().then(data => { 
             if (data.error) {
@@ -59,11 +61,20 @@ const AddProduct = () =>{
     };
 
 
-
+    /**
+     * Méthode useEffect qui permets de charger la catégorie
+     * dès que la page charge complètement pour l'usager.
+     */
     useEffect(() =>{
        init()
     },[])
 
+    /**
+     * Méthode qui permets de changer les valeurs du state de la page (setValues)
+     * et qui permets de changer la valeur des élements du form (formData.set())
+     * @param {*} name 
+     * Variable name contient l'élement qui a été changé.
+     */
     const changementValeur = name => event =>{
         const value = name === 'photo' ? event.target.files[0] : 
         event.target.value;
@@ -71,6 +82,11 @@ const AddProduct = () =>{
         setValues({ ...values, [name]: value });
     }
 
+    /**
+     * Méthode qui envoie les valeurs du formData à
+     * l'API du bakcend afin de créer un produit.
+     * @param {*} event 
+     */
     const submitValeurs = (event) =>{
         event.preventDefault();
         setValues({...values,error:'',loading:true});
@@ -84,6 +100,10 @@ const AddProduct = () =>{
             }
         })
     }
+    /**
+     * Méthode qui contient le form (html) et qui va servir à
+     * l'affichage. 
+     */
     const newPostForm = () =>(
         <form className="mb-3" onSubmit={submitValeurs}>
             <h4>Post Photo</h4>
@@ -130,19 +150,30 @@ const AddProduct = () =>{
             <button className="btn btn-outline-primary">Create Product  </button>
         </form>
     )
+    /**
+     * Méthode qui va afficher une erreur si la création du produit
+     * n'est pas possible
+     */
     const afficherErreur = () => (
         //afficher message d'erreur
         <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
             {error}
         </div>
     );
+    /**
+     * Méthode qui va afficher un message du succès après la création
+     * d'un produit.
+     */
     const afficherSucces = () => (
         //afficher message de succes
         <div className="alert alert-info" style={{ display: createdProduct ? '' : 'none' }}>
             <h2>{`${createdProduct}`} est crée!</h2>
         </div>
     );
-    const afficherChargeemnt = () => 
+    /**
+     * Méthode qui va afficher un message de chargement après la création d'un produit.
+     */
+    const afficherChargement = () => 
     // montre message de chargeemnt au moement de la creation d'un produit
         loading && (
             <div className="alert alert-success">
@@ -158,7 +189,7 @@ const AddProduct = () =>{
             <div className="col-md-8 offset-md-2">
             {afficherErreur()}
             {afficherSucces()}
-            {afficherChargeemnt()}
+            {afficherChargement()}
             {newPostForm()}</div>
         </div> 
         </Layout>

@@ -3,7 +3,8 @@ import Layout from "../site/Layout";
 import { estAuthentifier } from "../Authentification";
 import { Link } from "react-router-dom";
 import {getHistoriqueAchat} from './apiUsager'
-import moment from 'moment' // Module qui va faire en sorte que la date d'achat est plus lisible.
+import moment from 'moment'
+import localization from 'moment/locale/fr'; // Module moment qui va faire en sorte que la date d'achat est plus lisible.
 
 const Dashboard = () => {
     const [historique,setHistorique] = useState([])
@@ -23,15 +24,23 @@ const Dashboard = () => {
         })
     }
 
+    /**
+     * Méthode useEffect() qui va permettre d'afficher l'historique
+     * d'achat de l'utilisateur lorsque la page sera complètement
+     * chargé pour lui.
+     */
     useEffect(()=>{
         init(_id,token)
+        moment.updateLocale('fr',localization) // Permets de changer l'affichage de moment en français.
     },[])
 
-    // permet de naviguer sur des liens qui appartiennent seulement a l'usager, ex : modifier son profil
+      /**
+     * Méthode qui affiche les liens (html) que l'administrateur peut accèder dans son dashboard.
+     */
     const liensUsagers  = () => {
         return(
             
-            <div className="card">
+            <div className="mt-2">
                 <h4 className="card-header">Lien de l'usager</h4>
                 <ul className = "list-group">
 
@@ -50,10 +59,12 @@ const Dashboard = () => {
 
     }
 
-    // retourne les information de l'usager
+    /**
+     * Méthode qui retourne les informations de l'usager.
+     */
     const informationsUsager = () =>{
         return(
-            <div className="card mb-5">
+            <div className="mb-5 mt-2">
        <h3 className="card-header">Informations</h3>
        <ul className = "list-group">
         <li className = "list-group-item">Nom: {nom}, {prenom}</li>
@@ -66,10 +77,14 @@ const Dashboard = () => {
         )
     }
 
-    // retourn l'histoque d'achat de l'usager
+    /**
+     * Méthode qui permets d'afficher l'historique d'achat de l'utilisateur.
+     * @param {*} historique 
+     * Variable historique qui va contenir l'historique de l'utilisateur.
+     */
     const historiqueAchat = (historique)=>{
         return(
-            <div className ="card mb-5">
+            <div>
             <h3 className="card-header">Votre historique d'achat</h3>
      
             <ul className = "list-group"> 
@@ -82,8 +97,9 @@ const Dashboard = () => {
                                  return(
                                      <div key={index}>
                                          <h6>Produit: {produit.name}</h6>
-                                         <h6>Prix: {produit.price}</h6>
+                                         <h6>Prix: ${produit.price}</h6>
                                          <h6>Acheté: {moment(produit.createdAt).fromNow()}</h6>
+                                         <hr/>
                                         </div>
                                  )
                              })}

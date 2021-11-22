@@ -37,7 +37,10 @@ const Home = () => {
         });
     };
 
-    // run lorsqu'on load pour la premierefois ou lors des changeemnt de state
+    /**
+     * Méthode useEffect() qui va charger les produits dans la page d'accueil lorsque
+     * l'utilisateur charge sa page pour la première fois.
+     */
     useEffect(() => {
         loadProductsByArrival();
         loadProductsBySell();

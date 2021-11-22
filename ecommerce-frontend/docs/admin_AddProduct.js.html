@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: admin/AddProduct.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: admin/AddProduct.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from "react";
+import Layout from "../site/Layout";
+import { estAuthentifier } from "../Authentification";
+import { Link } from "react-router-dom";
+import { createCategory, createProduct, getCategories} from "./AdminApi";
+import '../CSS/categories_products.css';
+
+
+
+
+const AddProduct = () =>{
+    const {user,token} = estAuthentifier()
+    const [values,setValues] = useState({
+        name: '',
+        description:'',
+        price:'',
+        categories:[],
+        category:'',
+        shipping:'',
+        quantity:'',
+        photo:'',
+        loading: false,
+        error: '',
+        createdProduct:'',
+        redirectToProfile: false,
+        formData: ''
+    });
+
+    const {
+        name,
+        description,
+        price,
+        categories,
+        category,
+        shipping,
+        quantity,
+        loading,
+        error,
+        createdProduct,
+        redirectToProfile,
+        formData
+    } = values ;
+
+
+    /**
+     * Méthode qui permets de charger les catégories
+     * à partir du backend.
+     */
+    const init = () => {
+        getCategories().then(data => { 
+            if (data.error) {
+                setValues({ ...values, error: data.error });
+            } else {
+                setValues({ 
+                    ...values,
+                    categories: data,
+                    formData: new FormData()
+                });
+            }
+        });
+    };
+
+
+    /**
+     * Méthode useEffect qui permets de charger la catégorie
+     * dès que la page charge complètement pour l'usager.
+     */
+    useEffect(() =>{
+       init()
+    },[])
+
+    /**
+     * Méthode qui permets de changer les valeurs du state de la page (setValues)
+     * et qui permets de changer la valeur des élements du form (formData.set())
+     * @param {*} name 
+     * Variable name contient l'élement qui a été changé.
+     */
+    const changementValeur = name => event =>{
+        const value = name === 'photo' ? event.target.files[0] : 
+        event.target.value;
+        formData.set(name, value);
+        setValues({ ...values, [name]: value });
+    }
+
+    /**
+     * Méthode qui envoie les valeurs du formData à
+     * l'API du bakcend afin de créer un produit.
+     * @param {*} event 
+     */
+    const submitValeurs = (event) =>{
+        event.preventDefault();
+        setValues({...values,error:'',loading:true});
+        createProduct(user._id,token,formData)
+        .then(data =>{
+            if(data.error){
+                setValues({...values,error:data.error})
+            }
+            else{
+                setValues({...values,name:'',description:'',photo:'',price:'',quantity:'',loading:false, createdProduct:data.name});
+            }
+        })
+    }
+    /**
+     * Méthode qui contient le form (html) et qui va servir à
+     * l'affichage. 
+     */
+    const newPostForm = () =>(
+        &lt;form className="mb-3" onSubmit={submitValeurs}>
+            &lt;h4>Post Photo&lt;/h4>
+            &lt;div className="form-group">
+                &lt;lable className="btn btn-secondary">
+                &lt;input onChange={changementValeur('photo')} type="file" name="photo" accept="image/*"/>
+                &lt;/lable>
+            &lt;/div>
+            &lt;div className="form-group">
+                &lt;label className="text-muted">Name&lt;/label>
+                &lt;input type="text" onChange={changementValeur('name')} className="form-control" value = {name}>&lt;/input>
+            &lt;/div>
+            &lt;div className="form-group">
+                &lt;label className="text-muted">Description&lt;/label>
+                &lt;textarea type="text" onChange={changementValeur('description')} className="form-control" 
+                value = {description}>&lt;/textarea>
+
+            &lt;/div>
+            &lt;div className="form-group">
+                &lt;label className="text-muted">Price&lt;/label>
+                &lt;input type="number" onChange={changementValeur('price')} className="form-control" value = {price}>&lt;/input>
+            &lt;/div>
+            &lt;div className="form-group">
+                &lt;label className="text-muted">Category&lt;/label>
+                &lt;select onChange={changementValeur('category')} className="form-control">
+                &lt;option>Choisissez&lt;/option>
+                    {categories &amp;&amp; categories.map((c, i ) => (&lt;option key={i} value ={c._id}>{c.name}&lt;/option>))}
+                &lt;/select>
+
+            &lt;/div>
+            &lt;div className="form-group">
+                &lt;label className="text-muted">Shipping&lt;/label>
+                &lt;select onChange={changementValeur('shipping')} className="form-control">
+                    &lt;option>Choisissez&lt;/option>
+                    &lt;option value="0">Yes&lt;/option>
+                    &lt;option value="0">No&lt;/option>
+                &lt;/select>
+
+            &lt;/div>
+            &lt;div className="form-group">
+                &lt;label className="text-muted">Quantity&lt;/label>
+                &lt;input type="number" onChange={changementValeur('quantity')} className="form-control" value = {quantity}>&lt;/input>
+            &lt;/div>
+            &lt;button className="btn btn-outline-primary">Create Product  &lt;/button>
+        &lt;/form>
+    )
+    /**
+     * Méthode qui va afficher une erreur si la création du produit
+     * n'est pas possible
+     */
+    const afficherErreur = () => (
+        //afficher message d'erreur
+        &lt;div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
+            {error}
+        &lt;/div>
+    );
+    /**
+     * Méthode qui va afficher un message du succès après la création
+     * d'un produit.
+     */
+    const afficherSucces = () => (
+        //afficher message de succes
+        &lt;div className="alert alert-info" style={{ display: createdProduct ? '' : 'none' }}>
+            &lt;h2>{`${createdProduct}`} est crée!&lt;/h2>
+        &lt;/div>
+    );
+    /**
+     * Méthode qui va afficher un message de chargement après la création d'un produit.
+     */
+    const afficherChargement = () => 
+    // montre message de chargeemnt au moement de la creation d'un produit
+        loading &amp;&amp; (
+            &lt;div className="alert alert-success">
+                &lt;h2>Chargement...&lt;/h2>
+            &lt;/div>
+        );
+
+
+
+    return(
+        &lt;Layout>
+        &lt;div className="row">
+            &lt;div className="col-md-8 offset-md-2">
+            {afficherErreur()}
+            {afficherSucces()}
+            {afficherChargement()}
+            {newPostForm()}&lt;/div>
+        &lt;/div> 
+        &lt;/Layout>
+    )
+}
+export default AddProduct</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Nov 19 2021 20:07:44 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

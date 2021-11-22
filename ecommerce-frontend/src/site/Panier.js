@@ -17,12 +17,12 @@ const Panier = () =>{
 
     const AffichageItems = items => {
         return(
-    <div className="container px-2 py-3 mx-auto">
+    <div className="container mx-auto">
     <div className="d-flex justify-content-center">
             <h2 className="heading mb-3 titre-panier d-flex justify-content-center">Votre panier</h2>
     </div>
-    <div className="d-flex justify-content-center border-top">
-            <div className="row d-flex mt-auto justify-content-center">
+    <div className="d-flex justify-content-center">
+            <div className="row d-flex mt-auto justify-content-center col-10">
                 {items.map((product,i) =>
                     (<Card 
                         key={i} product={product}  
@@ -55,7 +55,7 @@ return (
             {items.length > 0 ? AffichageItems(items) : PanierVideMessage()}
 
             <hr />
-        <div className="col-10 me-auto ms-auto">
+        <div className="me-auto ms-auto">
             <Paiement product = {items}/>
         </div>
 

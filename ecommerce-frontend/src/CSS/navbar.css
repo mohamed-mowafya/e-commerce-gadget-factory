@@ -37,4 +37,13 @@ margin-bottom: 0.8%;
        margin-left: auto;
        justify-content: center;
    }
+   .navbar{
+       width:100vw;
+   }
+   .barre-recherche{
+       margin-left: 15%;
+       width: 60vw;
+       display:flex;
+       justify-content: center;
+   }
   }

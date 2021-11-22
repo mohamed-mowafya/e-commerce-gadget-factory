@@ -8,8 +8,21 @@ import { itemAuTotal } from "./panierHelper";
 import cartImage from '../images/shopping-cart2.png'; //https://lordicon.com/icons
 import Search from "./Search";
 
+/**
+ * Méthode qui permets de changer la couleur
+ * du lien de navigation actuel pour que 
+ * l'utilisateur puisse savoir sur quel
+ * page il est.
+ * @param {*} history 
+ * Variable history qui prendre en paramètre le lien de navigation.
+ * @param {*} path 
+ * Variable path qui va contenir la page actuel et qui va 
+ * servir à comparer si le lien de navigation correspond 
+ * à la page actuel.
+ * @returns Une couleur blanche est retourné si le lien de navigation
+ * n'est pas la page actuel, sinon une couleure bleue est retournée.
+ */
 const pageActive = (history, path) => {
-  // History = page actuel
   if (history.location.pathname === path) {
     return { color: '#b4d8ee' };
   }
