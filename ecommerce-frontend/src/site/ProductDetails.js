@@ -53,11 +53,6 @@ const ProductDetails = (props) => {
             description=""
             className="container-fluid "
         >
-            {/* <div className="d-flex align-items-center h-100">
-                <div className="container text-center py-5">
-                    <h3 className="mb-0">Détails sur le produit</h3>
-                </div>
-            </div> */}
             <div className="container mt-5">
                 <section className="mb-5">
                     {DoitRediriger(redirect)}
