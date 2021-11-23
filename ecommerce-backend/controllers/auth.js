@@ -7,19 +7,19 @@ const dotenv = require('dotenv');
 dotenv.config()
 
 
-exports.signup =  (req, res) => {
+exports.signup = (req, res) => {
 
 
 
     const user = new User(req.body);
 
-    user.save((err,user) => {
+    user.save((err, user) => {
 
 
-        if(err) {
+        if (err) {
 
             return res.status(400).json({
-                err:errorHandler(err)
+                err: errorHandler(err)
             });
         }
 
@@ -43,38 +43,38 @@ exports.signup =  (req, res) => {
 
 
 
-exports.signin =  (req, res) => {
+exports.signin = (req, res) => {
 
 
     // chercher l.utilisateur avec email:
-    const {email,mdp} = req.body
-     User.findOne({email} , (error,user) => {
+    const { email, mdp } = req.body
+    User.findOne({ email }, (error, user) => {
 
 
-            if(error || !user) {
+        if (error || !user) {
 
 
-                return res.status(400).json ({
+            return res.status(400).json({
 
-                    error:"Mauvais utilisateur ."
-                });
-            }
+                error: "Mauvais utilisateur ."
+            });
+        }
 
-            // si utilisateur existe :
+        // si utilisateur existe :
 
 
-            if(!user.authenticate(mdp)) {
-                return res.status(401).json(
-                    {
-                        error : "Email ou le mot de passe sont incorrectes !"
-                    }
-                );
-            }
+        if (!user.authenticate(mdp)) {
+            return res.status(401).json(
+                {
+                    error: "Email ou le mot de passe sont incorrectes !"
+                }
+            );
+        }
 
-            const token = jwt.sign({_id:user._id} , process.env.JWT_SECRET)
-            res.cookie('t',token,{expire: new Date()+ 9999})
-            const {_id,nom,prenom,email,role}=user
-            return res.json({token,user:{_id,email,nom,prenom,role}})
+        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET)
+        res.cookie('t', token, { expire: new Date() + 9999 })
+        const { _id, nom, prenom, email, role } = user
+        return res.json({ token, user: { _id, email, nom, prenom, role } })
 
     });
 
@@ -87,11 +87,11 @@ exports.signin =  (req, res) => {
 
 
 
-exports.signout =  (req, res) => {
+exports.signout = (req, res) => {
 
 
     res.clearCookie("t");
-    res.json({message: "Déconnexion réussie"});
+    res.json({ message: "Déconnexion réussie" });
 
 };
 
@@ -100,8 +100,8 @@ exports.signout =  (req, res) => {
 
 exports.requireSignin = expressJwt({
 
-    secret : process.env.JWT_SECRET,
-    algorithms:["HS256"],
+    secret: process.env.JWT_SECRET,
+    algorithms: ["HS256"],
     userProperty: "auth"
 
 })

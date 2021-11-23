@@ -7,7 +7,7 @@ import '../CSS/navbar.css';
 import PageRecherche from "./PageRecherche";
 
 const Search = (props) => {
-    let history = useHistory(); 
+    let history = useHistory();
     const [data, setData] = useState({
         search: '',
         results: [],
@@ -15,18 +15,18 @@ const Search = (props) => {
     });
 
 
-    const {search, results, searched } = data;
+    const { search, results, searched } = data;
     const searchData = () => {
         if (search) {
-            list({ search: search})
-            .then (response => {
-                if (response.error) {
-                    console.log(response.error)
-                } else {
+            list({ search: search })
+                .then(response => {
+                    if (response.error) {
+                        console.log(response.error)
+                    } else {
                         setData({ ...data, results: response, searched: true });
-                   
-                }
-            })
+
+                    }
+                })
 
         }
     };
@@ -34,26 +34,26 @@ const Search = (props) => {
     const searchSubmit = (e) => {
         e.preventDefault()
         searchData()
-        if(results.length>0){
+        if (results.length > 0) {
             handleRecherche();
         }
-       
+
     };
 
-        
-  
-    
+
+
+
     const handleChange = (name) => event => {
         setData({ ...data, [name]: event.target.value, searched: false });
     };
 
-    const handleRecherche = () =>{
-        if(results.length>0 || search.length>0){
-            history.push('/recherche',{params:data})
+    const handleRecherche = () => {
+        if (results.length > 0 || search.length > 0) {
+            history.push('/recherche', { params: data })
         }
-       else{
-           return;
-       }
+        else {
+            return;
+        }
     }
 
     /***
@@ -61,9 +61,9 @@ const Search = (props) => {
      * soit changé. Si elle est changé, l'utilisateur est dirigé vers la page de recherche.
      */
     useEffect(() => {
-        handleRecherche(); 
+        handleRecherche();
     }, [results]);
-    
+
 
     const searchForm = (history) => (
         <form onSubmit={searchSubmit}>

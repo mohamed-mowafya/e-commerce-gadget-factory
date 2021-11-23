@@ -1,8 +1,8 @@
-import {API} from "../config";
+import { API } from "../config";
 
-export const createCategory = (userId,token,category) =>{
-    return fetch(`${API}/category/create/${userId}`,{
-        mode:"cors",
+export const createCategory = (userId, token, category) => {
+    return fetch(`${API}/category/create/${userId}`, {
+        mode: "cors",
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -11,16 +11,16 @@ export const createCategory = (userId,token,category) =>{
         },
         body: JSON.stringify(category)
     })
-    
-    .then(reponse => reponse.json())
-    .catch(err =>{
-        console.log(err)
-    });
+
+        .then(reponse => reponse.json())
+        .catch(err => {
+            console.log(err)
+        });
 };
 
-export const createProduct = (userId,token,product) =>{
-    return fetch(`${API}/product/create/${userId}`,{
-        mode:"cors",
+export const createProduct = (userId, token, product) => {
+    return fetch(`${API}/product/create/${userId}`, {
+        mode: "cors",
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -28,26 +28,26 @@ export const createProduct = (userId,token,product) =>{
         },
         body: product
     })
-    
-    .then(reponse => reponse.json())
-    .catch(err =>{
-        console.log(err)
-    });
+
+        .then(reponse => reponse.json())
+        .catch(err => {
+            console.log(err)
+        });
 };
 
 
- /**
-  * Permet d'aller chercher les categories du backend
-  * @returns response.json()
-  */
+/**
+ * Permet d'aller chercher les categories du backend
+ * @returns response.json()
+ */
 export const getCategories = () => {
     return fetch(`${API}/categories`, {
         method: "GET"
     })
-         .then(response => {
-             return response.json();
-         })
-         .catch(err => console.log(err));
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
 }
 
 /**
@@ -55,7 +55,7 @@ export const getCategories = () => {
  *  à partir du backend.
  * @returns response.json()
  */
-export const getCommandes = (userId,token) => {
+export const getCommandes = (userId, token) => {
     return fetch(`${API}/order/list/${userId}`, {
         method: "GET",
         headers: {
@@ -63,18 +63,18 @@ export const getCommandes = (userId,token) => {
             "Content-type": "application/json",
             Authorization: `Bearer ${token}`
         }
-        
+
     })
-         .then(response => {
-             return response.json();
-         })
-         .catch(err => console.log(err));
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
 }
 
 /***
  * Permets de chercher les états d'une commande à partir de la BD.
  */
-export const getValeursEtat = (userId,token) => {
+export const getValeursEtat = (userId, token) => {
     return fetch(`${API}/order/valeurs-etat/${userId}`, {
         method: "GET",
         headers: {
@@ -82,18 +82,18 @@ export const getValeursEtat = (userId,token) => {
             "Content-type": "application/json",
             Authorization: `Bearer ${token}`
         }
-        
+
     })
-         .then(response => {
-             return response.json();
-         })
-         .catch(err => console.log(err));
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
 }
 
 /***
  * Permets de chercher les états d'une commande à partir de la BD.
  */
- export const updateEtatCommande = (userId,token,commandeId,statut) => {
+export const updateEtatCommande = (userId, token, commandeId, statut) => {
     return fetch(`${API}/order/${commandeId}/etat/${userId}`, {
         method: "PUT",
         headers: {
@@ -101,13 +101,13 @@ export const getValeursEtat = (userId,token) => {
             "Content-type": "application/json",
             Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({statut,commandeId})
-        
+        body: JSON.stringify({ statut, commandeId })
+
     })
-         .then(response => {
-             return response.json();
-         })
-         .catch(err => console.log(err));
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
 }
 
 /* effectuer crud sur produtits
@@ -119,7 +119,7 @@ besoin mettre a jour un produit precis
 */
 
 // vas chercher tout les produits
-export const getProduits=()=>{
+export const getProduits = () => {
     return fetch(`${API}/products?limit=2000000000`, {
         method: 'GET'
     })
@@ -130,7 +130,7 @@ export const getProduits=()=>{
 };
 
 // Efface le produit desiré
-export const effacerProduit = (productId,userId,token) => {
+export const effacerProduit = (productId, userId, token) => {
     return fetch(`${API}/product/${productId}/${userId}`, {
         method: 'DELETE',
         headers: {
@@ -146,7 +146,7 @@ export const effacerProduit = (productId,userId,token) => {
 };
 
 // va chercher un seul produit
-export const getSingleProduits=productId=>{
+export const getSingleProduits = productId => {
     return fetch(`${API}/product/${productId}`, {
         method: 'GET'
     })
@@ -157,7 +157,7 @@ export const getSingleProduits=productId=>{
 };
 
 // met à jour le produit desiré
-export const updateProduit = (productId,userId,token,product) => {
+export const updateProduit = (productId, userId, token, product) => {
     return fetch(`${API}/product/${productId}/${userId}`, {
         method: 'PUT',
         headers: {

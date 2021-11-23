@@ -1,7 +1,7 @@
-import {API} from "../config"
-export const signupAPI = user =>{
-    return fetch(`${API}/signup`,{
-        mode:"cors",
+import { API } from "../config"
+export const signupAPI = user => {
+    return fetch(`${API}/signup`, {
+        mode: "cors",
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -9,15 +9,15 @@ export const signupAPI = user =>{
         },
         body: JSON.stringify(user)
     })
-    
-    .then(reponse => reponse.json())
-    .catch(err =>{
-        console.log(err)
-    });
+
+        .then(reponse => reponse.json())
+        .catch(err => {
+            console.log(err)
+        });
 };
-export const loginAPI = user =>{
-    return fetch(`${API}/signin`,{
-        mode:"cors",
+export const loginAPI = user => {
+    return fetch(`${API}/signin`, {
+        mode: "cors",
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -25,40 +25,40 @@ export const loginAPI = user =>{
         },
         body: JSON.stringify(user)
     })
-    
-    .then(reponse => reponse.json())
-    .catch(err =>{
-        console.log(err)
-    });
+
+        .then(reponse => reponse.json())
+        .catch(err => {
+            console.log(err)
+        });
 };
-export const authentifier = (data,cb) =>{
-    if(typeof window !='undefined'){
+export const authentifier = (data, cb) => {
+    if (typeof window != 'undefined') {
         localStorage.setItem('jwt', JSON.stringify(data))
         cb()
     }
 }
 //Permet de vérifier si l'utilisateur est authentifié
 export const estAuthentifier = () => {
-    if(typeof window =='undefined'){
+    if (typeof window == 'undefined') {
         return false;
-    }if (localStorage.getItem("jwt")){
+    } if (localStorage.getItem("jwt")) {
         return JSON.parse(localStorage.getItem("jwt"));
     } else {
         return false;
     }
 
-    }
+}
 
 export const signout = cb => {
-    if(typeof window !='undefined'){
+    if (typeof window != 'undefined') {
         localStorage.removeItem('jwt');
         cb();
         return fetch('${API}/signout', {
             method: "GET",
         })
-        .then(reponse => {
-            console.log('signout', reponse);
-        })
-        .catch(err => console.log(err));
+            .then(reponse => {
+                console.log('signout', reponse);
+            })
+            .catch(err => console.log(err));
     }
 };

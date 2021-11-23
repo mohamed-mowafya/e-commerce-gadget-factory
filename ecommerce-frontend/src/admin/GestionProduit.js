@@ -31,9 +31,9 @@ const GestionProduits = () => {
      */
     const detruire = productId => {
         effacerProduit(productId, user._id, token).then(data => {
-            if(data.error){
+            if (data.error) {
                 console.log(data.error)
-            }else{
+            } else {
                 loadProducts();
             }
         })
@@ -54,16 +54,16 @@ const GestionProduits = () => {
 
             <div className="row">
                 <div className="col-12">
-                <h2 className="text-center">
-                     {produit.length} produit(s)
+                    <h2 className="text-center">
+                        {produit.length} produit(s)
                     </h2>
                     <ul className="list-group">
 
-                        {produit.map((p,i) =>(
+                        {produit.map((p, i) => (
                             <li key={i} className="list-group-item d-flex justify-content-between align-items-center">
-                            
+
                                 {p.name}
-                              
+
                                 <Link to={`/admin/product/update/${p._id}`}>
                                     <span className="btn badge-warning badge-pill">
                                         Modifier
@@ -83,7 +83,7 @@ const GestionProduits = () => {
                 </div>
 
             </div>
-            
+
         </Layout>
     );
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "../site/Layout";
 import { estAuthentifier } from "../Authentification";
 import { Link } from "react-router-dom";
-import {updateProduit, getCategories,getSingleProduits} from "./AdminApi";
+import { updateProduit, getCategories, getSingleProduits } from "./AdminApi";
 import '../CSS/categories_products.css';
 import { Redirect } from "react-router";
 
@@ -43,7 +43,7 @@ const MettreAjourProduit = ({ match }) => {
      * Méthode qui permets de charger le produit désiré.
      * @param {*} productId 
      */
-   // Load le produit desiree
+    // Load le produit desiree
     const init = productId => {
         getSingleProduits(productId).then(data => {
             if (data.error) {
@@ -79,7 +79,7 @@ const MettreAjourProduit = ({ match }) => {
             }
         });
     };
-    
+
     /**
      * Méthode useEffect qui va charger le produit lorsque la page
      * a complètement chargé pour l'utilisateur.
@@ -133,8 +133,8 @@ const MettreAjourProduit = ({ match }) => {
     const newPostForm = () => (
         <form className="mb-3" onSubmit={clickSubmit}>
             <div className="form-group">
-            <label className="text-dark">Image</label>
-            <br></br>
+                <label className="text-dark">Image</label>
+                <br></br>
                 <label className="btn btn-secondary">
                     <input onChange={handleChange('photo')} type="file" name="photo" accept="image/*" />
                 </label>
@@ -185,7 +185,7 @@ const MettreAjourProduit = ({ match }) => {
             <button className="btn btn-outline-primary">Modifier le produit</button>
         </form>
     );
-    
+
     /**
      * Méthode qui affiche une erreur lorsque la création du produit n'est pas possible.
      */
@@ -194,7 +194,7 @@ const MettreAjourProduit = ({ match }) => {
             {error}
         </div>
     );
-    
+
     /**
      * Méthode qui va afficher un message de succès après qu'un produit a été modifié.
      */

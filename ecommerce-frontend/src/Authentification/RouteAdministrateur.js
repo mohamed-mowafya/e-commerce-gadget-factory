@@ -1,4 +1,4 @@
-import React, {component} from "react";
+import React, { component } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { estAuthentifier } from "./index";
 
@@ -8,7 +8,7 @@ import { estAuthentifier } from "./index";
  * sinon il est redirigé vers la page de connexion.
  */
 const RouteAdministarteur = ({ component: Component, ...rest }) => (
-    <Route    
+    <Route
         {...rest}
         render={props =>
             estAuthentifier() && estAuthentifier().user.role == 1 ? (

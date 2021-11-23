@@ -1,7 +1,7 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 
-const RadioBox = ({ prices , handleFilters }) => {
-   
+const RadioBox = ({ prices, handleFilters }) => {
+
     const [value, setValue] = useState(0);
 
     const handleChange = event => {
@@ -9,19 +9,19 @@ const RadioBox = ({ prices , handleFilters }) => {
         setValue(event.target.value); //-> update
     };
 
- // -> a chaque changement dans input, sera envoyer au parent (Shop)
+    // -> a chaque changement dans input, sera envoyer au parent (Shop)
     return prices.map((p, i) => (
-        <div key={i} className="form-inline d-flex align-items-center py-1"> 
-            <label className="tick">{p.name} 
+        <div key={i} className="form-inline d-flex align-items-center py-1">
+            <label className="tick">{p.name}
                 <input onChange={handleChange}
-                        value={`${p._id}`}
-                        name={p}  /* -> Permet de cocher 1 choix parmis les prix */
-                        type="radio" /> 
-                <span className ="check"></span> 
-            </label> 
+                    value={`${p._id}`}
+                    name={p}  /* -> Permet de cocher 1 choix parmis les prix */
+                    type="radio" />
+                <span className="check"></span>
+            </label>
         </div>
     ));
 };
 
-    
+
 export default RadioBox;

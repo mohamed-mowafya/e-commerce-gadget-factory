@@ -11,11 +11,11 @@ const userSchema = new mongoose.Schema(
             required: true,
             maxlength: 32
         },
-        prenom:{
+        prenom: {
             type: String,
             trim: true,
-            required:true,
-            maxlength:32
+            required: true,
+            maxlength: 32
         },
         email: {
             type: String,
@@ -54,12 +54,12 @@ const userSchema = new mongoose.Schema(
 // le field virtuel
 userSchema
     .virtual('mdp')
-    .set(function(mdp) {
+    .set(function (mdp) {
         this._password = mdp;
         this.salt = uuidv1();
         this.hashed_password = this.encrypterLeMotDePasse(mdp);
     })
-    .get(function() {
+    .get(function () {
         return this._password;
     });
 
@@ -68,22 +68,22 @@ userSchema
 
 userSchema.methods = {
 
-    authenticate: function(plainText) {
+    authenticate: function (plainText) {
         return this.encrypterLeMotDePasse(plainText) === this.hashed_password;
     },
-    getSalt: function(){
+    getSalt: function () {
         return this.salt;
     },
-    
-    encrypterLeMotDePasse: function(password) {
+
+    encrypterLeMotDePasse: function (password) {
         if (!password) return '';
         try {
-        if(this.salt == undefined){
+            if (this.salt == undefined) {
                 this.salt = uuidv1();
                 this.getSalt();
             }
 
-          // lien pour utiliser cypto  https://www.geeksforgeeks.org/node-js-crypto-createhmac-method/
+            // lien pour utiliser cypto  https://www.geeksforgeeks.org/node-js-crypto-createhmac-method/
             return crypto
                 .createHmac('sha1', this.salt) // 
                 .update(password)

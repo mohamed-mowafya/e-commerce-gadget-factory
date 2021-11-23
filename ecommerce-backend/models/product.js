@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const {ObjectId} = mongoose.Schema
+const { ObjectId } = mongoose.Schema
 
 const productSchema = new mongoose.Schema(
     {
@@ -37,14 +37,14 @@ const productSchema = new mongoose.Schema(
             contentType: String
         },
         shipping: {
-           required: false,
-           type: Boolean
+            required: false,
+            type: Boolean
         },
 
 
 
-        
-    },    
+
+    },
     { timestamps: true }
 );
 

@@ -8,14 +8,14 @@ import '../CSS/Layout.css'
  * (Elle est appelé à chaque component.)
  */
 const Layout = ({
-    title ='title',
-    description ='Description',
+    title = 'title',
+    description = 'Description',
     className,
-    children}) => (
+    children }) => (
     <div>
-    <Navbar/>
-    <div className={className}>{children}</div>
+        <Navbar />
+        <div className={className}>{children}</div>
     </div>
-    );
+);
 
 export default Layout;

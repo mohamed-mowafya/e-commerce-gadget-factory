@@ -3,20 +3,20 @@ import Layout from "./Layout";
 import { read, listRelated } from "./apiSite";
 import Card from "./Card";
 
-const Product = (props) =>{
-    const [product, setProduct] =  useState({});
-    const [relatedProduct, setRelatedProduct] =  useState([]);
-    const [error, setError] =  useState(false);
+const Product = (props) => {
+    const [product, setProduct] = useState({});
+    const [relatedProduct, setRelatedProduct] = useState([]);
+    const [error, setError] = useState(false);
 
     const loadSingleProduct = productId => {
         read(productId).then(data => {
-            if(data.error) {
+            if (data.error) {
                 setError(data.error);
-            } else{
+            } else {
                 setProduct(data);
                 //fetch les produits qui ont un lien avec le produit
                 listRelated(data._id).then(data => {
-                    if(data.error) {
+                    if (data.error) {
                         setError(data.error);
                     } else {
                         setRelatedProduct(data);
@@ -33,14 +33,14 @@ const Product = (props) =>{
 
     return (
         <Layout title="Home Page" description="Ecommerce app" className="container-fluid">
-            
+
             <div className="row">
                 <div className="col-8">
                     {
                         product &&
                         product.description && (
-                        <Card product={product} showViewProductButton={false} />
-                    )}
+                            <Card product={product} showViewProductButton={false} />
+                        )}
                 </div>
 
                 <div className="col-4">
@@ -53,7 +53,7 @@ const Product = (props) =>{
                 </div>
             </div>
         </Layout>
-        );
+    );
 }
 
 export default Product;
