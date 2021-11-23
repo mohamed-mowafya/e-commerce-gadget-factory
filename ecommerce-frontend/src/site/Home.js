@@ -8,7 +8,10 @@ import "../CSS/Home.css";
 import ProduitSimilaire from "./ProduitSimilaire";
 import { Link } from "react-router-dom";
 
-
+/**
+ * Cette classe englobe l'entièreté de la page d'acceuil.
+ * @returns Retourne l'affichage de la page d'acceuil.
+ */
 const Home = () => {
 
     const [productsBySell, setProductsBySell] = useState([]);
@@ -16,7 +19,10 @@ const Home = () => {
     const [error, setError] = useState(false); // false par defaut
 
 
-
+    /**
+     * Cette méthode permet de remplir la variable productsBySell 
+     * par les produits les plus vendues. 
+     */
     const loadProductsBySell = () => {
         getProducts('sold').then(data => {
             if (data.error) {
@@ -27,6 +33,10 @@ const Home = () => {
         });
     };
 
+    /**
+     * Cette méthode permet de remplir la variable productsByArrival 
+     * par les produits les plus récents. 
+     */
     const loadProductsByArrival = () => {
         getProducts('createdAt').then(data => {
             console.log(data);

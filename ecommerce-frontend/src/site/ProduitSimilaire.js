@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import ShowImage from './ShowImage';
 
-const Card = ({
+/**
+ * Cette classe englobe l'entièreté d'une carte d'un produit similaire.
+ * @returns Retourne l'affichage d'un produit similaire.
+ */
+const ProduitSimilaire = ({
     product,
     montrerBoutonAjouterPanier = true,
     showViewProductButton = true,
@@ -11,10 +15,6 @@ const Card = ({
     setRun = f => f,
     run = undefined
 }) => {
-
-
-    const [redirect, setRedirect] = useState(false);
-    const [count, setCount] = useState(product.count);
 
     return (
         <div class="col-md-6 col-lg-3 mb-5">
@@ -34,4 +34,4 @@ const Card = ({
 
 };
 
-export default Card;
+export default ProduitSimilaire;

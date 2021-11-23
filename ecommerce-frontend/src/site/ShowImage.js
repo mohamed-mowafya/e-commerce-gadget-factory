@@ -2,6 +2,11 @@ import React from "react";
 import { API } from "../config";
 
 // l'objet peux etre soit une image oit un url
+/**
+ * Méthode qui permet de faire la requete pour pouvoir afficher l'image en fonction du id du produit.
+ * @param {*} param0 
+ * @returns 
+ */
 const ShowImage = ({ item, url }) => (
    
         <img 
