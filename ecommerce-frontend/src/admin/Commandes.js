@@ -3,7 +3,7 @@ import Layout from "../site/Layout";
 import { estAuthentifier } from "../Authentification";
 import { Link } from "react-router-dom";
 import { createCategory, createProduct, getCategories} from "./AdminApi";
-import '../CSS/categories_products.css';
+import '../CSS/admin.css';
 import {getCommandes,getValeursEtat,updateEtatCommande} from './AdminApi';
 import moment from 'moment' // Module qui permets d'afficher une date lisible.
 import localization from 'moment/locale/fr';

@@ -1,0 +1,27 @@
+table,td,th{
+    width: 300px;
+    
+  }
+  .table-color{
+    background-color:#00305396;
+  }
+  .cell-1 {
+    border-collapse: separate;
+    border-spacing: 0 4em;
+    border-bottom: 2px solid #eee;
+    background-clip: padding-box
+  }
+  .font-oswald{
+    font-family: 'Oswald', sans-serif;
+  }
+  @media only screen and (max-width: 974.8px) {
+    h4{
+        margin-left:110%;
+      }
+      .container{
+         width: 220% !important;
+      }
+      .navbar{
+        width:220% !important;
+      }
+   }

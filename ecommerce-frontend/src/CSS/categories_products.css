@@ -17,30 +17,10 @@
   margin-left: 27%;
 }
 
-table,td,th{
-  width: 300px;
-  
+.form-produit{
+  background-color: #eee;
+  padding-right: 1.5%;
+  padding-left: 1.5%;
+  padding-top: 1.5%;
+  padding-bottom: 1.5%;
 }
-.table-color{
-  background-color:#00305396;
-}
-.cell-1 {
-  border-collapse: separate;
-  border-spacing: 0 4em;
-  border-bottom: 2px solid #eee;
-  background-clip: padding-box
-}
-.font-oswald{
-  font-family: 'Oswald', sans-serif;
-}
-@media only screen and (max-width: 974.8px) {
-  h4{
-    
-  }
-  .container{
-     
-  }
-  .navbar{
-   
-  }
- }
