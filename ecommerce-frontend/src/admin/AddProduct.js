@@ -105,37 +105,32 @@ const AddProduct = () =>{
      * l'affichage. 
      */
     const newPostForm = () =>(
-        <form className="mb-3" onSubmit={submitValeurs}>
-            <h4>Post Photo</h4>
-            <div className="form-group">
-                <lable className="btn btn-secondary">
-                <input onChange={changementValeur('photo')} type="file" name="photo" accept="image/*"/>
-                </lable>
-            </div>
-            <div className="form-group">
-                <label className="text-muted">Name</label>
+        <form className="mt-5 form-produit" onSubmit={submitValeurs}>
+            <h3 className="d-flex justify-content-center">Créer un produit</h3>
+            <div className="form-group mb-2">
+                <label className="text-muted">Nom</label>
                 <input type="text" onChange={changementValeur('name')} className="form-control" value = {name}></input>
             </div>
-            <div className="form-group">
+            <div className="form-group mb-2">
                 <label className="text-muted">Description</label>
                 <textarea type="text" onChange={changementValeur('description')} className="form-control" 
                 value = {description}></textarea>
 
             </div>
-            <div className="form-group">
-                <label className="text-muted">Price</label>
+            <div className="form-group mb-2">
+                <label className="text-muted">Prix</label>
                 <input type="number" onChange={changementValeur('price')} className="form-control" value = {price}></input>
             </div>
-            <div className="form-group">
-                <label className="text-muted">Category</label>
+            <div className="form-group mb-2">
+                <label className="text-muted">Catégorie</label>
                 <select onChange={changementValeur('category')} className="form-control">
                 <option>Choisissez</option>
                     {categories && categories.map((c, i ) => (<option key={i} value ={c._id}>{c.name}</option>))}
                 </select>
 
             </div>
-            <div className="form-group">
-                <label className="text-muted">Shipping</label>
+            <div className="form-group mb-2">
+                <label className="text-muted">Livraison</label>
                 <select onChange={changementValeur('shipping')} className="form-control">
                     <option>Choisissez</option>
                     <option value="0">Yes</option>
@@ -143,11 +138,17 @@ const AddProduct = () =>{
                 </select>
 
             </div>
-            <div className="form-group">
-                <label className="text-muted">Quantity</label>
+            
+            <div className="form-group mb-2">
+                <label className="text-muted">Quantité</label>
                 <input type="number" onChange={changementValeur('quantity')} className="form-control" value = {quantity}></input>
             </div>
-            <button className="btn btn-outline-primary">Create Product  </button>
+            <div className="form-group mb-2">
+                <input onChange={changementValeur('photo')} type="file" name="photo" accept="image/*"/>
+            </div>
+            <div className="d-flex justify-content-center mt-4">
+            <button className="btn btn-outline-primary d-flex justify-content-center btn-md w-50">Créer</button>
+            </div>
         </form>
     )
     /**
