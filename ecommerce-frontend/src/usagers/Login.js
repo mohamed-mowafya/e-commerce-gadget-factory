@@ -5,7 +5,7 @@ import '../CSS/login_signup.css'
 import { Redirect } from "react-router";
 import { estAuthentifier } from "../Authentification";
 import { loginAPI, authentifier } from "../Authentification";
-import imageConnexion from '../images/image_connexion.png'; 
+import imageConnexion from '../images/image_connexion.png';
 const Login = () => {
     const [valeursUsager, setValeursUsager] = useState({
         email: '',
@@ -46,17 +46,17 @@ const Login = () => {
                 <div className="row d-flex justify-content-center align-items-center h-100">
                     <div className="col-md-9 col-lg-6 col-xl-5">
                         <img src={imageConnexion} className="img-fluid"
-                            alt="Image Connexion"/>
+                            alt="Image Connexion" />
                     </div>
                     <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                    <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Connexion</p>
-                        <form action="POST">                           
+                        <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Connexion</p>
+                        <form action="POST">
                             <div className="form-outline mb-4">
                                 <input onChange={changementValeurs('email')} type="email" id="form3Example3" className="form-control form-control-lg"
                                     placeholder="Adresse email" value={email} />
                             </div>
 
-                            
+
                             <div className="form-outline mb-3">
                                 <input onChange={changementValeurs('mdp')} type="password" id="form3Example4" className="form-control form-control-lg"
                                     placeholder="Mot de passe" value={mdp} />
@@ -64,7 +64,7 @@ const Login = () => {
 
                             <div className="text-center text-lg-start mt-4 pt-2">
                                 <button type="button" className="btn btn-primary btn-lg"
-                                    style={{paddingLeft: "2.5rem;", paddingRight: "2.5rem;" , backgroundColor: "#ed6436"}} onClick={submitValeurs}>Se Connecter</button>
+                                    style={{ paddingLeft: "2.5rem;", paddingRight: "2.5rem;", backgroundColor: "#ed6436" }} onClick={submitValeurs}>Se Connecter</button>
                                 <p className="small fw-bold mt-2 pt-1 mb-0">Pas de compte? <a href="/signup"
                                     className="link-danger">Inscrivez-vous</a></p>
                             </div>

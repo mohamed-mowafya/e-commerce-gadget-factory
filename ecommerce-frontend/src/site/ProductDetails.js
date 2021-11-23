@@ -94,7 +94,7 @@ const ProductDetails = (props) => {
                         <strong>Produits similaires</strong>
                     </h4>
                     <div class="row">
-                         {relatedProduct.map((p, i) => (
+                        {relatedProduct.map((p, i) => (
 
                             <ProduitSimilaire key={i} product={p} />
 

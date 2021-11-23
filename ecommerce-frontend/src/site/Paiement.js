@@ -1,163 +1,164 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { estAuthentifier } from "../Authentification";
 import { Link } from "react-router-dom";
 import 'braintree-web'
-import DropIn from  "braintree-web-drop-in-react";
+import DropIn from "braintree-web-drop-in-react";
 import { viderPanier } from "./panierHelper";
-import {getBraintreeTokenClient , processPayment,commander} from "../site/apiSite";
+import { getBraintreeTokenClient, processPayment, commander } from "../site/apiSite";
 import { Redirect } from "react-router-dom";
 import "../CSS/panier.css"
 
-const Paiement = ({product, setRun = f => f, run = undefined }) => {
+const Paiement = ({ product, setRun = f => f, run = undefined }) => {
 
-   
+
     const [data, setData] = useState({
-        loading : false,
+        loading: false,
         success: false,
         clientToken: null,
-        error:'',
-        instance:{},
+        error: '',
+        instance: {},
     })
 
-    const [adresse,setAdresse] = useState('')
+    const [adresse, setAdresse] = useState('')
 
     //requete au backend
-        const userId = estAuthentifier() && estAuthentifier().user._id
-        const token = estAuthentifier() && estAuthentifier().token
+    const userId = estAuthentifier() && estAuthentifier().user._id
+    const token = estAuthentifier() && estAuthentifier().token
 
-        const getToken = ( userId , token) =>{
-            getBraintreeTokenClient(userId, token).then(data => {
-                if (data.error){
-                    setData ({...data, error : data.error});
-                } else {
-                    setData({clientToken : data.clientToken});
-                }
-            })
-        }
+    const getToken = (userId, token) => {
+        getBraintreeTokenClient(userId, token).then(data => {
+            if (data.error) {
+                setData({ ...data, error: data.error });
+            } else {
+                setData({ clientToken: data.clientToken });
+            }
+        })
+    }
 
-        useEffect (()=> {
-            getToken(userId,token)
-        },[])
-   
-   // calcule du prix avant taxes
-   //Affichage du prix avant taxes
-   const getTotal= () =>{
-    return product.reduce((valeurActuelle, prochaineValeur)=>{
-        return valeurActuelle + prochaineValeur.count * prochaineValeur.price; 
-    },0);
-   }
-   
-   const getQuantite = () =>{
-       return product.count
-   }
-   
-   const AfficherPaiement = ()=>{
-       
-     return estAuthentifier() ? (
-         <div >
-             {AfficherDropIn()}
-            <button onClick={Acheter} className="btn btn-primary btn-md col-6 btn-centre mb-2">Payer</button>
-         </div>
-     ) : (
-         <Link to= "/login">
-             <button className= "btn btn-primary panier-centre">Connectez vous pour passer au paiement</button>
-         </Link>
-     );
-     };
+    useEffect(() => {
+        getToken(userId, token)
+    }, [])
 
-     const handleChange = event =>{
+    // calcule du prix avant taxes
+    //Affichage du prix avant taxes
+    const getTotal = () => {
+        return product.reduce((valeurActuelle, prochaineValeur) => {
+            return valeurActuelle + prochaineValeur.count * prochaineValeur.price;
+        }, 0);
+    }
+
+    const getQuantite = () => {
+        return product.count
+    }
+
+    const AfficherPaiement = () => {
+
+        return estAuthentifier() ? (
+            <div >
+                {AfficherDropIn()}
+                <button onClick={Acheter} className="btn btn-primary btn-md col-6 btn-centre mb-2">Payer</button>
+            </div>
+        ) : (
+            <Link to="/login">
+                <button className="btn btn-primary panier-centre">Connectez vous pour passer au paiement</button>
+            </Link>
+        );
+    };
+
+    const handleChange = event => {
         setAdresse(event.target.value);
-     }
-     const AfficherDropIn = () => (
-            // permet de faire disparairtre le message d'erreur en cliquant nimporte ou sur la page 
-          <div onBlur= {() => setData ({...data, error: ""})}> 
+    }
+    const AfficherDropIn = () => (
+        // permet de faire disparairtre le message d'erreur en cliquant nimporte ou sur la page 
+        <div onBlur={() => setData({ ...data, error: "" })}>
 
-            
-           {data.clientToken !== null && product.length > 0 ? (
-               
-                   <DropIn options={{
-                       authorization: data.clientToken,
-                    }}
-                       onInstance= {instance => (data.instance = instance)}
-                   />
-           ):null }
-                
+
+            {data.clientToken !== null && product.length > 0 ? (
+
+                <DropIn options={{
+                    authorization: data.clientToken,
+                }}
+                    onInstance={instance => (data.instance = instance)}
+                />
+            ) : null}
+
         </div>
-       
+
     );
 
-    const AfficherEntreeAdresse = () =>(
+    const AfficherEntreeAdresse = () => (
         <div className="form-group mb-2">
-        <label className="text-muted">Adresse de livraison</label>
-        <textarea 
-        onChange={handleChange}
-        value= {adresse}
-        className="form-control"
-        placeholder = "Entrez votre adresse de livraison"
-        />
-           </div>
+            <label className="text-muted">Adresse de livraison</label>
+            <textarea
+                onChange={handleChange}
+                value={adresse}
+                className="form-control"
+                placeholder="Entrez votre adresse de livraison"
+            />
+        </div>
     )
-    
+
     // requete au backend
-    const Acheter= ()=>{
-        setData({loading : true});
+    const Acheter = () => {
+        setData({ loading: true });
         let nonce;
 
         let getNonce = data.instance
-        .requestPaymentMethod()
-        .then(data => {
-            nonce = data.nonce
-            const paymentData = {
-                paymentMethodNonce : nonce,
-                amount : getTotal(product)
-                
-            }
-            processPayment(userId , token, paymentData)
-            .then (response => {
-                const commandeUtil = {
-                    products : product,
-                    transaction_id: response.transaction.id,
-                    montant_total: response.transaction.amount,
-                    address: adresse
-                }
-                commander(userId,token,commandeUtil)
-                setData({...data, success:response.success});
-                viderPanier(() => {
-                    setRun(!run); 
-                    console.log('paiement sucess, panier vide');
-                    setData({
-                        loading: false,
-                        success: true
-                    });
-                
+            .requestPaymentMethod()
+            .then(data => {
+                nonce = data.nonce
+                const paymentData = {
+                    paymentMethodNonce: nonce,
+                    amount: getTotal(product)
 
-                })
+                }
+                processPayment(userId, token, paymentData)
+                    .then(response => {
+                        const commandeUtil = {
+                            products: product,
+                            transaction_id: response.transaction.id,
+                            montant_total: response.transaction.amount,
+                            address: adresse
+                        }
+                        commander(userId, token, commandeUtil)
+                        setData({ ...data, success: response.success });
+                        viderPanier(() => {
+                            setRun(!run);
+                            console.log('paiement sucess, panier vide');
+                            setData({
+                                loading: false,
+                                success: true
+                            });
+
+
+                        })
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        setData({ loading: false });
+                    });
             })
-            .catch (error => {console.log(error)
-                    setData({loading : false});
+            .catch(error => {
+                setData({ ...data, error: error.message });
             });
-        })
-        .catch(error => {
-            setData({...data, error:error.message});
-        });
     };
-    
-    const montrerErreur = error =>(
+
+    const montrerErreur = error => (
         // si il ya a erreur, montrer le message d'erreur
-        <div className="alert alert-danger" style={{display : error ? '' : "none"}}> 
+        <div className="alert alert-danger" style={{ display: error ? '' : "none" }}>
             {error}
         </div>
 
     )
     // montre le message si la transaction est succes 
     const montrerSuccess = success => (
-        <div className="alert alert-info" 
-        style={{display : success ? '' : "none"}}>
+        <div className="alert alert-info"
+            style={{ display: success ? '' : "none" }}>
             Votre paiement a été effectué avec succèes
         </div>
     );
 
- 
+
     const afficherChargement = (loading) => (loading && <h2>Chargement...</h2>)
 
 
@@ -166,14 +167,14 @@ const Paiement = ({product, setRun = f => f, run = undefined }) => {
      * il est redirigé vers la page d'accueil
      * @param {} success 
      */
-    const redirigerUtilisateur = success =>{
+    const redirigerUtilisateur = success => {
         console.log(success)
-        if(success){
-            return <Redirect to = "/"/>
+        if (success) {
+            return <Redirect to="/" />
         }
-        
+
     }
-   return <div>
+    return <div>
         <h2 className="d-flex justify-content-center">Total: {getTotal()} $CAD</h2>
         {afficherChargement(data.loading)}
         {montrerSuccess(data.success)}

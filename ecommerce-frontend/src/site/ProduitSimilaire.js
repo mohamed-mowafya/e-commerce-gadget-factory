@@ -20,7 +20,7 @@ const ProduitSimilaire = ({
         <div class="col-md-6 col-lg-3 mb-5">
 
             <div class="view zoom overlay z-depth-2 rounded">
-            <ShowImage className="card-img" item={product} url="product" />
+                <ShowImage className="card-img" item={product} url="product" />
             </div>
 
             <div class="d-flex flex-column pt-4 justify-content-center">

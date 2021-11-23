@@ -1,13 +1,13 @@
 export const ajoutItem = (item, next) => {
     let cart = []
-    if(typeof window !== 'undefined'){
+    if (typeof window !== 'undefined') {
         //Prend les item du local storage avec le nom cart
-        if (localStorage.getItem('cart')){ 
+        if (localStorage.getItem('cart')) {
             cart = JSON.parse(localStorage.getItem('cart')) // Popule les items dans cart[]
         }
         cart.push({
             ...item,
-            count : 1 // incemente de le count
+            count: 1 // incemente de le count
         })
         // evite de dupliquer le meme produit dans le cart
         //le set enleve automatiquement la duplication
@@ -21,18 +21,18 @@ export const ajoutItem = (item, next) => {
 };
 
 // determine le nombre total de produit dans le panier
-export const itemAuTotal = () =>{
-    if(typeof window !== 'undefined'){
-        if(localStorage.getItem('cart')){
+export const itemAuTotal = () => {
+    if (typeof window !== 'undefined') {
+        if (localStorage.getItem('cart')) {
             return JSON.parse(localStorage.getItem('cart')).length;
         }
     }
     return 0;
 }
 // Get le panier du localStorage 
-export const getPanier = () =>{
-    if(typeof window !== 'undefined'){
-        if(localStorage.getItem('cart')){
+export const getPanier = () => {
+    if (typeof window !== 'undefined') {
+        if (localStorage.getItem('cart')) {
             return JSON.parse(localStorage.getItem('cart'));
         }
     }
@@ -41,13 +41,13 @@ export const getPanier = () =>{
 
 // permet de changer la quantite de chaque item dans le panier
 export const MisAjourItem = (IDproduit, count) => {
-    let cart=[]
-    if(typeof window !== 'undefined'){
-        if(localStorage.getItem('cart')){
+    let cart = []
+    if (typeof window !== 'undefined') {
+        if (localStorage.getItem('cart')) {
             cart = JSON.parse(localStorage.getItem('cart'))
         }
-        cart.map((product, i) =>{
-            if(product._id === IDproduit ){
+        cart.map((product, i) => {
+            if (product._id === IDproduit) {
                 cart[i].count = count
             }
         })
@@ -58,13 +58,13 @@ export const MisAjourItem = (IDproduit, count) => {
 
 // Permet de supprimer un article dans le panier
 export const supprimerProduit = (IDproduit) => {
-    let cart=[]
-    if(typeof window !== 'undefined'){
-        if(localStorage.getItem('cart')){
+    let cart = []
+    if (typeof window !== 'undefined') {
+        if (localStorage.getItem('cart')) {
             cart = JSON.parse(localStorage.getItem('cart'))
         }
-        cart.map((product, i) =>{
-            if(product._id === IDproduit){
+        cart.map((product, i) => {
+            if (product._id === IDproduit) {
                 cart.splice(i, 1) // enleve un 
             }
         })
@@ -75,7 +75,7 @@ export const supprimerProduit = (IDproduit) => {
 
 
 export const viderPanier = next => {
-    if(typeof window !== 'undefined') {
+    if (typeof window !== 'undefined') {
         localStorage.removeItem('cart');
         next();
     }

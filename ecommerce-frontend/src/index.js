@@ -4,7 +4,7 @@ import Routes from './Routes';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './CSS/site.css'
 ReactDOM.render(
-    <Routes />,
+  <Routes />,
   document.getElementById('root')
 );
 

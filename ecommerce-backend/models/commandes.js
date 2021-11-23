@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const { ObjectId } = mongoose.Schema;
- 
+
 const SchemaChariot = new mongoose.Schema(
   {
     product: { type: ObjectId, ref: "Product" },
@@ -11,9 +11,9 @@ const SchemaChariot = new mongoose.Schema(
   },
   { timestamps: true }
 );
- 
+
 const ItemChariot = mongoose.model("ItemChariot", SchemaChariot);
- 
+
 const SchemaCommande = new mongoose.Schema(
   {
     products: [SchemaChariot],
@@ -30,7 +30,7 @@ const SchemaCommande = new mongoose.Schema(
   },
   { timestamps: true }
 );
- 
+
 const Commande = mongoose.model("Commande", SchemaCommande);
- 
-module.exports = {Commande , ItemChariot };
+
+module.exports = { Commande, ItemChariot };
