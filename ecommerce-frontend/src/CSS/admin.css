@@ -14,6 +14,19 @@ table,td,th{
   .font-oswald{
     font-family: 'Oswald', sans-serif;
   }
+  .table-body tr:hover {
+    background-color: #eee;
+}
+
+.text-expand-prix{
+    display: flex;
+    justify-content: center;
+    white-space: nowrap;
+}
+.text-expand{
+   float:left;
+}
+
   @media only screen and (max-width: 974.8px) {
     h4{
         margin-left:110%;

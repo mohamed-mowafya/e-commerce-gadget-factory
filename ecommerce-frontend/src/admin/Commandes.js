@@ -11,7 +11,6 @@ const Commandes = () =>{
     const [commandes,setCommandes] = useState([])
     const [valeursEtat,setValeursEtat] = useState([])
     const {user,token} = estAuthentifier()
-
     /**
      * Méthode qui va charger toutes les commandes du site 
      * à partir de l'api.
@@ -48,8 +47,16 @@ const Commandes = () =>{
         chargerCommandes()
         chargerValeursEtat()   
         moment.updateLocale('fr',localization) // Permets de changer l'affichage de moment en français.
+        ajoutJQuery()
     },[])
     
+    const ajoutJQuery = () =>{
+        const script = document.createElement("script");
+        script.src = "./CacherTable.js";
+        script.async = true;
+    
+        document.body.appendChild(script);
+    }
     /**
      * Méthode qui permets d'afficher la quantité de commandes du site.
      */
@@ -115,8 +122,9 @@ const Commandes = () =>{
                                 <th className="text-center font-oswald">Modifier État</th>
                             </tr>
                         </thead>
-                        <tbody className="table-body">
                         {commandes.map((commande,indexCommande)=>( 
+                        <tbody className="table-body">
+                        
                             <tr class="cell-1">
                                 <td className="text-center font-oswald">{commande._id}</td>
                                 <td className="text-center font-oswald">{commande.user.nom}, {commande.user.prenom}</td>
@@ -127,10 +135,22 @@ const Commandes = () =>{
                                 onChange={(event) => handleEtat(event,commande._id)}>
                                 <option>Modifier</option>
                                 {valeursEtat.map((etat,indexEtat)=>(<option key={indexEtat} value={etat}>{etat}</option>))}
-                                </select>      </td>
+                                </select></td>
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={"#demo" + commande._id} aria-expanded="true">
+      </button>
                             </tr>
-                            ))}
+                             {commande.products.map((produit,produitIndex)=>(
+                                 <tr> 
+                                 <div id={"demo" + commande._id} className="accordion-collapse collapse hidden justify-content-center">
+                                     <div className="d-flex column"> 
+                                     <h6 className="text-expand ms-3">{produit.name}</h6>
+                                     </div>
+                                     </div>    
+                                 </tr>
+                             ))}
+                             
                         </tbody>
+                         ))}
                     </table>
                             
                 </div>
