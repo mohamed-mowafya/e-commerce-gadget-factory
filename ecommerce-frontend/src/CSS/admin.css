@@ -17,6 +17,20 @@ table,td,th{
   .table-body tr:hover {
     background-color: #eee;
 }
+.ellipsis{
+ display:flex;
+ justify-content:end;
+  width:85%;
+}
+.btn-ellipse{
+  border: none;
+  background-color:transparent;
+}
+
+.btn-ellipse:focus{
+  border: none;
+  outline: none;
+}
 
 .text-expand-prix{
     display: flex;
@@ -31,10 +45,5 @@ table,td,th{
     h4{
         margin-left:110%;
       }
-      .container{
-         width: 220% !important;
-      }
-      .navbar{
-        width:220% !important;
-      }
+  
    }

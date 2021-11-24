@@ -120,8 +120,10 @@ const Commandes = () => {
                                 <th className="text-center font-oswald">Total</th>
                                 <th className="text-center font-oswald">Créé</th>
                                 <th className="text-center font-oswald">Modifier État</th>
+                                <th></th>
                             </tr>
                         </thead>
+                        
                         {commandes.map((commande, indexCommande) => (
                             <tbody className="table-body">
 
@@ -136,8 +138,14 @@ const Commandes = () => {
                                         <option>Modifier</option>
                                         {valeursEtat.map((etat, indexEtat) => (<option key={indexEtat} value={etat}>{etat}</option>))}
                                     </select></td>
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={"#demo" + commande._id} aria-expanded="true">
+                                    <td>
+                                    <button className="collapsed btn-ellipse ellipsis" data-bs-toggle="collapse" data-bs-target={"#demo" + commande._id} aria-expanded="true">
+
+                                    <i class="fas fa-ellipsis-h"></i>
                                     </button>
+                                    
+                                    </td>
+                                    
                                 </tr>
                                 {commande.products.map((produit, produitIndex) => (
                                     <tr>

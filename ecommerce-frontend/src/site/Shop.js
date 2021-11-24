@@ -7,8 +7,10 @@ import Checkbox from "./CheckBox";
 import { prix } from "./PrixFix";
 import RadioBox from "./RadioBox";
 import "../CSS/shop.css"
+import "../CSS/animationImage.css"
 import ProductDetails from "./ProductDetails";
 import FormeSimple from "./chatbot/FormSimple";
+import bck from "../images/bck2.png"
 
 const Shop = () => {
 
@@ -112,6 +114,14 @@ const Shop = () => {
             description=""
             className="container-fluid "
         >
+
+            <div class="products-right-grids-position animated wow slideInRight" data-wow-delay=".5s">
+						<img src={bck} alt=" " class="img-responsive img1" />
+						<div class="products-right-grids-position1">
+							<h4>Trouvez ce dont vous cherchez</h4>
+							<p>Découvrez les aubaines magiques sur les tablettes, les portables, les écouteurs et plus encore.</p>
+						</div>
+					</div>
 
             <div className="row">
 
