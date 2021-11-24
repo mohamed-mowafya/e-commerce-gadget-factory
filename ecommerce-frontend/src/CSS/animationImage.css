@@ -1,0 +1,121 @@
+.grid-left-grid1:hover img,.products-right-grids-position:hover img{
+    -webkit-transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    transform: scale(1.5);
+}
+
+.grid-left-grid1 img,.products-right-grids-position img{
+    -webkit-transition: all 3s ease-in-out;
+    -moz-transition: all 3s ease-in-out;
+    -o-transition: all 3s ease-in-out;
+    transition: all 3s ease-in-out;
+}
+.products-right-grids-position{
+	position: relative;
+	display: block;
+    overflow: hidden;
+    
+    width: 100%;
+    height: 300px;
+   
+    margin-top: 30px;
+}
+.products-right-grids-position1{
+	position:absolute;
+	top:60%;
+    left: 3%;
+    top: 22%;
+}
+
+
+.products-right-grids-position1 p {
+    width: 100%;
+    font-size: 12px;
+    margin:1em 0 0;
+	color:rgb(0, 0, 0);
+	font-size:14px;
+	width:85%;
+	line-height:1.8em;
+}
+
+.products-right-grids-position1 h4 {
+    width: 75%;
+    font-size: 1.2em; width: 93%;
+    font-size: 1em;width: 63%;
+    text-transform: uppercase;
+    font-size: 1.5em;
+    color: rgb(0, 0, 0);
+    letter-spacing: 3px;
+    padding-bottom: .53em;
+    border-bottom: 1px solid rgb(0, 0, 0);
+    width: 50%;
+}
+
+
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+  }
+  
+  .animated.infinite {
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+  }
+  
+  .animated.hinge {
+    -webkit-animation-duration: 2s;
+    animation-duration: 2s;
+  }
+
+  .animated.flip {
+    -webkit-backface-visibility: visible;
+    -ms-backface-visibility: visible;
+    backface-visibility: visible;
+    -webkit-animation-name: flip;
+    animation-name: flip;
+  }
+
+  @-webkit-keyframes slideInRight {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateX(2000px);
+      transform: translateX(2000px);
+    }
+  
+    100% {
+      -webkit-transform: translateX(0);
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slideInRight {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateX(2000px);
+      -ms-transform: translateX(2000px);
+      transform: translateX(2000px);
+    }
+  
+    100% {
+      -webkit-transform: translateX(0);
+      -ms-transform: translateX(0);
+      transform: translateX(0);
+    }
+  }
+  
+  .slideInRight {
+    -webkit-animation-name: slideInRight;
+    animation-name: slideInRight;
+  }
+
+  .img-responsive {
+  display: flex;
+  justify-content: center;
+  max-width: 100%;
+  height: auto;
+  margin: auto;
+  margin-top: auto;
+}
