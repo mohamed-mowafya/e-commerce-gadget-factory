@@ -7,6 +7,7 @@ import Search from "./Search";
 import "../CSS/Home.css";
 import ProduitSimilaire from "./ProduitSimilaire";
 import { Link } from "react-router-dom";
+import FormeSimple from "./chatbot/FormSimple";
 
 /**
  * Cette classe englobe l'entièreté de la page d'acceuil.
@@ -120,6 +121,7 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+            <FormeSimple/>
         </Layout>
     );
 };

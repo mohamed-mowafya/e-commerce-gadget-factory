@@ -8,6 +8,7 @@ import { prix } from "./PrixFix";
 import RadioBox from "./RadioBox";
 import "../CSS/shop.css"
 import ProductDetails from "./ProductDetails";
+import FormeSimple from "./chatbot/FormSimple";
 
 const Shop = () => {
 
@@ -144,6 +145,7 @@ const Shop = () => {
                     </div>
                 </div>
             </div>
+            <FormeSimple/>
         </Layout>
     );
 };
