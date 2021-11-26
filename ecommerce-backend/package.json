@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Team-Logiciel/e-commerce#readme",
   "dependencies": {
+    "@sendgrid/mail": "^7.6.0",
     "body-parser": "^1.19.0",
     "braintree": "^3.7.0",
     "cookie-parser": "^1.4.5",
