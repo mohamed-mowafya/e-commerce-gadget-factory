@@ -5,11 +5,23 @@ table,td,th{
   .table-color{
     background-color:#00305396;
   }
+
+  .table-color-prod{
+    background-color:#00305396;
+  }
+  .prod-nom{
+   
+  }
   .cell-1 {
     border-collapse: separate;
     border-spacing: 0 4em;
     border-bottom: 2px solid #eee;
     background-clip: padding-box
+  }
+
+  .cell-produits{
+    border-collapse: separate;
+    border-bottom: hidden;
   }
   .font-oswald{
     font-family: 'Oswald', sans-serif;
@@ -22,6 +34,11 @@ table,td,th{
  justify-content:end;
   width:85%;
 }
+
+.span-cursor{
+  cursor:pointer;
+  text-decoration:none;
+}
 .btn-ellipse{
   border: none;
   background-color:transparent;
@@ -32,6 +49,12 @@ table,td,th{
   outline: none;
 }
 
+.table-head{
+  
+}
+.text-prod{
+  font-size: 20px;
+}
 .text-expand-prix{
     display: flex;
     justify-content: center;

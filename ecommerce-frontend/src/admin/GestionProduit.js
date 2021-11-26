@@ -4,7 +4,7 @@ import { estAuthentifier } from "../Authentification";
 import { Link } from "react-router-dom";
 import { createCategory } from "./AdminApi";
 import { getProduits, effacerProduit } from "./AdminApi";
-
+import '../CSS/admin.css'
 
 const GestionProduits = () => {
 
@@ -50,38 +50,47 @@ const GestionProduits = () => {
 
     return (
         <Layout title="" className="">
-
-
-            <div className="row">
-                <div className="col-12">
-                    <h2 className="text-center">
-                        {produit.length} produit(s)
-                    </h2>
-                    <ul className="list-group">
-
+            <div className="container mt-4">
+                <div className="table-responsive">
+                    <table className="table w-100">
+                        <thead className="table-color-prod">
+                            <tr className="table-head">
+                                <th colspan="3" className="text-center text-prod font-oswald">Liste de produits</th>
+                            </tr>
+                        </thead>
                         {produit.map((p, i) => (
-                            <li key={i} className="list-group-item d-flex justify-content-between align-items-center">
+                            <tbody className="table-body">
 
-                                {p.name}
-
-                                <Link to={`/admin/product/update/${p._id}`}>
-                                    <span className="btn badge-warning badge-pill">
-                                        Modifier
-                                    </span>
-                                </Link>
-                                <span
+                                <tr class="cell-produits cell-produits">
+                                    <td className="text-center font-oswald prod-nom">{p.name}</td>
+                                    <div className="d-flex justify-content-end">
+                                    <td className="text-center font-oswald">
+                                     
+                                    <Link to={`/admin/product/update/${p._id}`}>    
+                                    <span className="badge rounded-pill bg-primary">
+                                        Modifier 
+                                        </span>
+                                    </Link>
+                                      
+                                        </td>
+                                    <td className="text-center font-oswald">
+                                    <span
                                     onClick={() => detruire(p._id)}
-                                    className="btn badge-danger badge-pill"
-                                >
+                                    className="badge rounded-pill bg-danger span-cursor"
+                                    >
                                     Supprimer
-                                </span>
-                            </li>
-                        ))}
-                    </ul>
+                                    </span>
+                                        
+                                        </td>   
+                                        </div>
+                                    
+                                </tr>
 
+                            </tbody>
+                        ))}
+                    </table>
 
                 </div>
-
             </div>
 
         </Layout>
