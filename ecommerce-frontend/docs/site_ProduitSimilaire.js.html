@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Authentification/RoutesPrive.js</title>
+    <title>JSDoc: Source: site/ProduitSimilaire.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Authentification/RoutesPrive.js</h1>
+    <h1 class="page-title">Source: site/ProduitSimilaire.js</h1>
 
     
 
@@ -26,38 +26,43 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React, { component } from "react";
-import { Route, Redirect } from "react-router-dom";
-import { estAuthentifier } from "./index";
+            <pre class="prettyprint source linenums"><code>import React, { useState } from "react";
+import { Link, Redirect } from "react-router-dom";
+import ShowImage from './ShowImage';
 
 /**
- * Méthode qui retourne la route si l'utilisateur est authentifié, s'il 
- * est authentifié, le component est retourné, sinon, il est redirigé vers la page de connexion.
- * (Évite que des utilisateurs non authentifiés accèdent à des routes protégés.)
- * @param {*} param0 
+ * Cette classe englobe l'entièreté d'une carte d'un produit similaire.
+ * @returns Retourne l'affichage d'un produit similaire.
  */
-const RoutePrive = ({ component: Component, ...rest }) => (
-    //On retourne le route après avoir verifié l'authentification et que ca soit un usager regulier
-    //Si ça passe , le component est retourné ,  si non, il est redirigé à la page de connexion
-    &lt;Route
-        {...rest}
-        render={props =>
-            estAuthentifier() &amp;&amp; estAuthentifier().user.role === 0 ? (
-                &lt;Component {...props} />
-            ) : (
-                &lt;Redirect
-                    to={{
-                        pathname: "/login",
-                        state: { from: props.location }
-                    }}
-                />
-            )
-        }
-    />
-);
+const ProduitSimilaire = ({
+    product,
+    montrerBoutonAjouterPanier = true,
+    showViewProductButton = true,
+    PanierUpdate = false,
+    MontrerSupprimerProduitBouton = false,
+    setRun = f => f,
+    run = undefined
+}) => {
 
+    return (
+        &lt;div class="col-md-6 col-lg-3 mb-5">
 
-export default RoutePrive;</code></pre>
+            &lt;div class="view zoom overlay z-depth-2 rounded">
+                &lt;ShowImage className="card-img" item={product} url="product" />
+            &lt;/div>
+
+            &lt;div class="d-flex flex-column pt-4 justify-content-center">
+
+                &lt;h5>&lt;a href={`/productdetails/${product._id}`} className="" data-abc="true">{product.name}&lt;/a>&lt;/h5>
+                &lt;h6>${product.price}&lt;/h6>
+            &lt;/div>
+        &lt;/div>
+
+    );
+
+};
+
+export default ProduitSimilaire;</code></pre>
         </article>
     </section>
 

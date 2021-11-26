@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Authentification/RoutesPrive.js</title>
+    <title>JSDoc: Source: site/ShowImage.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Authentification/RoutesPrive.js</h1>
+    <h1 class="page-title">Source: site/ShowImage.js</h1>
 
     
 
@@ -26,38 +26,24 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React, { component } from "react";
-import { Route, Redirect } from "react-router-dom";
-import { estAuthentifier } from "./index";
+            <pre class="prettyprint source linenums"><code>import React from "react";
+import { API } from "../config";
 
+// l'objet peux etre soit une image oit un url
 /**
- * Méthode qui retourne la route si l'utilisateur est authentifié, s'il 
- * est authentifié, le component est retourné, sinon, il est redirigé vers la page de connexion.
- * (Évite que des utilisateurs non authentifiés accèdent à des routes protégés.)
+ * Méthode qui permet de faire la requete pour pouvoir afficher l'image en fonction du id du produit.
  * @param {*} param0 
  */
-const RoutePrive = ({ component: Component, ...rest }) => (
-    //On retourne le route après avoir verifié l'authentification et que ca soit un usager regulier
-    //Si ça passe , le component est retourné ,  si non, il est redirigé à la page de connexion
-    &lt;Route
-        {...rest}
-        render={props =>
-            estAuthentifier() &amp;&amp; estAuthentifier().user.role === 0 ? (
-                &lt;Component {...props} />
-            ) : (
-                &lt;Redirect
-                    to={{
-                        pathname: "/login",
-                        state: { from: props.location }
-                    }}
-                />
-            )
-        }
-    />
+const ShowImage = ({ item, url }) => (
+
+        &lt;img
+                src={`${API}/${url}/photo/${item._id}`} className="img-fluid" style={{ height: "350", maxWidth: "96" }} alt={item.name}
+        />
+
 );
 
-
-export default RoutePrive;</code></pre>
+export default ShowImage;
+</code></pre>
         </article>
     </section>
 

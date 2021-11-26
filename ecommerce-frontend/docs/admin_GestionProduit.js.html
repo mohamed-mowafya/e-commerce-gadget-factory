@@ -32,7 +32,7 @@ import { estAuthentifier } from "../Authentification";
 import { Link } from "react-router-dom";
 import { createCategory } from "./AdminApi";
 import { getProduits, effacerProduit } from "./AdminApi";
-
+import '../CSS/admin.css'
 
 const GestionProduits = () => {
 
@@ -59,9 +59,9 @@ const GestionProduits = () => {
      */
     const detruire = productId => {
         effacerProduit(productId, user._id, token).then(data => {
-            if(data.error){
+            if (data.error) {
                 console.log(data.error)
-            }else{
+            } else {
                 loadProducts();
             }
         })
@@ -78,40 +78,49 @@ const GestionProduits = () => {
 
     return (
         &lt;Layout title="" className="">
+            &lt;div className="container mt-4">
+                &lt;div className="table-responsive">
+                    &lt;table className="table w-100">
+                        &lt;thead className="table-color-prod">
+                            &lt;tr className="table-head">
+                                &lt;th colspan="3" className="text-center text-prod font-oswald">Liste de produits&lt;/th>
+                            &lt;/tr>
+                        &lt;/thead>
+                        {produit.map((p, i) => (
+                            &lt;tbody className="table-body">
 
-
-            &lt;div className="row">
-                &lt;div className="col-12">
-                &lt;h2 className="text-center">
-                     {produit.length} produit(s)
-                    &lt;/h2>
-                    &lt;ul className="list-group">
-
-                        {produit.map((p,i) =>(
-                            &lt;li key={i} className="list-group-item d-flex justify-content-between align-items-center">
-                            
-                                {p.name}
-                              
-                                &lt;Link to={`/admin/product/update/${p._id}`}>
-                                    &lt;span className="btn badge-warning badge-pill">
-                                        Modifier
-                                    &lt;/span>
-                                &lt;/Link>
-                                &lt;span
+                                &lt;tr class="cell-produits cell-produits">
+                                    &lt;td className="text-center font-oswald prod-nom">{p.name}&lt;/td>
+                                    &lt;div className="d-flex justify-content-end">
+                                    &lt;td className="text-center font-oswald">
+                                     
+                                    &lt;Link to={`/admin/product/update/${p._id}`}>    
+                                    &lt;span className="badge rounded-pill bg-primary">
+                                        Modifier 
+                                        &lt;/span>
+                                    &lt;/Link>
+                                      
+                                        &lt;/td>
+                                    &lt;td className="text-center font-oswald">
+                                    &lt;span
                                     onClick={() => detruire(p._id)}
-                                    className="btn badge-danger badge-pill"
-                                >
+                                    className="badge rounded-pill bg-danger span-cursor"
+                                    >
                                     Supprimer
-                                &lt;/span>
-                            &lt;/li>
-                        ))}
-                    &lt;/ul>
+                                    &lt;/span>
+                                        
+                                        &lt;/td>   
+                                        &lt;/div>
+                                    
+                                &lt;/tr>
 
+                            &lt;/tbody>
+                        ))}
+                    &lt;/table>
 
                 &lt;/div>
-
             &lt;/div>
-            
+
         &lt;/Layout>
     );
 
@@ -127,13 +136,13 @@ export default GestionProduits;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Card">Card</a></li><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#ProduitSimilaire">ProduitSimilaire</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li><li><a href="global.html#ShowImage">ShowImage</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Nov 19 2021 20:07:44 GMT-0500 (Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Nov 25 2021 23:45:55 GMT-0500 (Eastern Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -30,28 +30,28 @@
 import Layout from "../site/Layout";
 import { estAuthentifier } from "../Authentification";
 import { Link } from "react-router-dom";
-import { createCategory, createProduct, getCategories} from "./AdminApi";
-import '../CSS/categories_products.css';
-import {getCommandes,getValeursEtat,updateEtatCommande} from './AdminApi';
+import { createCategory, createProduct, getCategories } from "./AdminApi";
+import '../CSS/admin.css';
+import { getCommandes, getValeursEtat, updateEtatCommande } from './AdminApi';
 import moment from 'moment' // Module qui permets d'afficher une date lisible.
-const Commandes = () =>{
-    const [commandes,setCommandes] = useState([])
-    const [valeursEtat,setValeursEtat] = useState([])
-    const {user,token} = estAuthentifier()
-
+import localization from 'moment/locale/fr';
+const Commandes = () => {
+    const [commandes, setCommandes] = useState([])
+    const [valeursEtat, setValeursEtat] = useState([])
+    const { user, token } = estAuthentifier()
     /**
      * Méthode qui va charger toutes les commandes du site 
      * à partir de l'api.
      */
-    const chargerCommandes = () =>{
-        getCommandes(user._id,token).then(data =>{
-            if(data.error){
+    const chargerCommandes = () => {
+        getCommandes(user._id, token).then(data => {
+            if (data.error) {
                 console.log(data.error)
             }
-            else{
+            else {
                 setCommandes(data)
             }
-            
+
         })
     }
 
@@ -60,56 +60,65 @@ const Commandes = () =>{
      * les enums des états de commande qui sont dans le model de la bd
      * commande.
      */
-    const chargerValeursEtat = () =>{
-        getValeursEtat(user._id,token).then(data =>{
-            if(data.error){
+    const chargerValeursEtat = () => {
+        getValeursEtat(user._id, token).then(data => {
+            if (data.error) {
                 console.log(data.error)
             }
-            else{
+            else {
                 setValeursEtat(data)
             }
-            
+
         })
     }
-    useEffect(()=>{
+    useEffect(() => {
         chargerCommandes()
         chargerValeursEtat()
-    },[])
+        moment.updateLocale('fr', localization) // Permets de changer l'affichage de moment en français.
+        ajoutJQuery()
+    }, [])
 
+    const ajoutJQuery = () => {
+        const script = document.createElement("script");
+        script.src = "./CacherTable.js";
+        script.async = true;
+
+        document.body.appendChild(script);
+    }
     /**
      * Méthode qui permets d'afficher la quantité de commandes du site.
      */
-    const afficherNombreCommandes = () =>{
-        if(commandes.length>0){
-            return(
-                &lt;h1 className="text-danger display-2">Nombre de commandes: {commandes.length}&lt;/h1>
+    const afficherNombreCommandes = () => {
+        if (commandes.length > 0) {
+            return (
+                &lt;h1 classNameName="text-danger display-2">Nombre de commandes: {commandes.length}&lt;/h1>
             )
         }
-        else{
-            return(
-                &lt;h1 className="text-danger display-2">Aucun commande sur le site.&lt;/h1>
+        else {
+            return (
+                &lt;h1 classNameName="text-danger display-2">Aucun commande sur le site.&lt;/h1>
             )
         }
     }
 
-    const afficherInformations = (type,information) =>(
-        &lt;div className="input-group mb-2 mr-sm-2">
-            &lt;div className="input-group-prepend">
-                &lt;div className="input-group-text">{type}&lt;/div>
+    const afficherInformations = (type, information) => (
+        &lt;div classNameName="input-group mb-2 mr-sm-2">
+            &lt;div classNameName="input-group-prepend">
+                &lt;div classNameName="input-group-text">{type}&lt;/div>
             &lt;/div>
-            &lt;input type="text" value={information} className="form-control" readOnly/>
+            &lt;input type="text" value={information} classNameName="form-control" readOnly />
         &lt;/div>
     )
 
     /**
      * Méthode qui permets de changer l'état d'une commande.
      */
-    const handleEtat = (event,commandeId) =>{
-        updateEtatCommande(user._id,token,commandeId,event.target.value).then(data=>{
-            if(data.error){
+    const handleEtat = (event, commandeId) => {
+        updateEtatCommande(user._id, token, commandeId, event.target.value).then(data => {
+            if (data.error) {
                 console.log("Erreur de changement d'état")
             }
-            else{
+            else {
                 chargerCommandes()
             }
         })
@@ -118,66 +127,71 @@ const Commandes = () =>{
      * Affiche l'état d'une commande à partir de la bd et permets de changer l'état.
      * La méthode affiche la séléction des états à partir des enums de la bd.
      */
-    const afficherEtat = (commande) =>(
-        &lt;div className="form-group">
-            &lt;h3 className="mark mb-4">
-                État: {commande.statut}
-            &lt;/h3>
-            &lt;select className="form-control" onChange={(event) => handleEtat(event,commande._id)}>
-                &lt;option>Modifier État&lt;/option>
-                {valeursEtat.map((etat,indexEtat)=>(&lt;option key={indexEtat} value={etat}>{etat}&lt;/option>))}
-            &lt;/select>
-        &lt;/div>
+    const afficherEtat = (commande) => (
+        &lt;h5 className="text-secondary d-flex justify-content-center font-oswald">
+            État: {commande.statut}
+        &lt;/h5>
     )
-    return(
+
+    return (
         &lt;Layout
             title="Commandes">
-                &lt;div className="row">
-                    {afficherNombreCommandes()}
-                    {commandes.map((commande,indexCommande)=>{
-                        return(
-                            &lt;div className="mt-5" key={indexCommande} style={{borderBottom:"5px solid indigo"}}>
-                                &lt;h2 className="mb-5">
-                                    &lt;span className="bg-primary">
-                                        ID Commande: {commande._id}
-                                    &lt;/span>
-                                &lt;/h2>
+            &lt;h2 className="d-flex justify-content-center mt-2 fw-bold font-oswald">Commandes&lt;/h2>
+            &lt;div className="container mt-3">
+                &lt;div className="table-responsive">
+                    &lt;table className="table">
+                        &lt;thead className="table-color">
+                            &lt;tr>
+                                &lt;th className="text-center font-oswald">Numéro de commande&lt;/th>
+                                &lt;th className="text-center font-oswald">Nom&lt;/th>
+                                &lt;th className="text-center font-oswald">État&lt;/th>
+                                &lt;th className="text-center font-oswald">Total&lt;/th>
+                                &lt;th className="text-center font-oswald">Créé&lt;/th>
+                                &lt;th className="text-center font-oswald">Modifier État&lt;/th>
+                                &lt;th>&lt;/th>
+                            &lt;/tr>
+                        &lt;/thead>
+                        
+                        {commandes.map((commande, indexCommande) => (
+                            &lt;tbody className="table-body">
 
-                                &lt;ul className="list-group mb-2">
-                                &lt;li className="list-group-item">
-                                        État: {afficherEtat(commande)}
-                                    &lt;/li>
-                                    &lt;li className="list-group-item">
-                                        Transaction: {commande.transaction_id}
-                                    &lt;/li>
-                                    &lt;li className="list-group-item">
-                                        Montant: ${commande.montant_total}
-                                    &lt;/li>
-                                    &lt;li className="list-group-item">
-                                        Client: {commande.user.nom}, {commande.user.prenom}
-                                    &lt;/li>
-                                    &lt;li className="list-group-item">
-                                        Date: {moment(commande.createdAt).fromNow()}
-                                    &lt;/li>
-                                    &lt;li className="list-group-item">
-                                        Adresse: {commande.address}
-                                    &lt;/li>
+                                &lt;tr class="cell-1">
+                                    &lt;td className="text-center font-oswald">{commande._id}&lt;/td>
+                                    &lt;td className="text-center font-oswald">{commande.user.nom}, {commande.user.prenom}&lt;/td>
+                                    &lt;td className="text-center font-oswald"> {afficherEtat(commande)}&lt;/td>
+                                    &lt;td className="text-center font-oswald">${commande.montant_total}&lt;/td>
+                                    &lt;td className="text-center font-oswald">{moment(commande.createdAt).fromNow()}&lt;/td>
+                                    &lt;td className="ms-auto me-auto font-oswald">   &lt;select className="form-control"
+                                        onChange={(event) => handleEtat(event, commande._id)}>
+                                        &lt;option>Modifier&lt;/option>
+                                        {valeursEtat.map((etat, indexEtat) => (&lt;option key={indexEtat} value={etat}>{etat}&lt;/option>))}
+                                    &lt;/select>&lt;/td>
+                                    &lt;td>
+                                    &lt;button className="collapsed btn-ellipse ellipsis" data-bs-toggle="collapse" data-bs-target={"#demo" + commande._id} aria-expanded="true">
 
-                                &lt;/ul>
-                                {commande.products.map((produit,produitIndex)=>(
-                                    &lt;div className="mb-4" key={produitIndex} style={{padding:'20px',border:'1px solid indigo'}}>
-                                        {afficherInformations('ID Produit',produit._id)}
-                                        {afficherInformations('Nom du produit',produit.name)}
-                                        {afficherInformations('Prix',produit.price)}
-                                        {afficherInformations('Quantité',produit.count)}
-                                    &lt;/div>
+                                    &lt;i class="fas fa-ellipsis-h">&lt;/i>
+                                    &lt;/button>
+                                    
+                                    &lt;/td>
+                                    
+                                &lt;/tr>
+                                {commande.products.map((produit, produitIndex) => (
+                                    &lt;tr>
+                                        &lt;div id={"demo" + commande._id} className="accordion-collapse collapse hidden justify-content-center">
+                                            &lt;div className="d-flex column">
+                                                &lt;h6 className="text-expand ms-3">{produit.name}&lt;/h6>
+                                            &lt;/div>
+                                        &lt;/div>
+                                    &lt;/tr>
                                 ))}
-                            &lt;/div>
-                            
-                        )
-                    })}
+
+                            &lt;/tbody>
+                        ))}
+                    &lt;/table>
 
                 &lt;/div>
+            &lt;/div>
+
         &lt;/Layout>
     )
 }
@@ -192,13 +206,13 @@ export default Commandes</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Card">Card</a></li><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#ProduitSimilaire">ProduitSimilaire</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li><li><a href="global.html#ShowImage">ShowImage</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Nov 19 2021 20:07:44 GMT-0500 (Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Nov 25 2021 23:45:55 GMT-0500 (Eastern Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

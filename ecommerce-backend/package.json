@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon app.js",
-    "test": "nodemon --exec mocha -R min"
+    "test": "nodemon --exec mocha -R min",
+    "generate-docs": "jsdoc -c ./conf.json"
   },
   "repository": {
     "type": "git",
