@@ -3,6 +3,9 @@ const { errorHandler } = require('../helpers/dbErrorHandler');
 const jwt = require("jsonwebtoken"); // generer un token 
 const expressJwt = require('express-jwt'); // valider l'autorisation du signin
 
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey('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');
+
 const dotenv = require('dotenv');
 dotenv.config()
 
@@ -28,17 +31,57 @@ exports.signup = (req, res) => {
         user.salt = undefined;
 
 
-        res.json({
-            user
-        });
+        res.json({user});
 
-
-
-
-
-    });
-
-};
+            // Envoyer un email de confirmation
+           
+            const emailData2 = {
+                to: user.email,
+                from: 'viktomikto@gmail.com',
+                subject: `Inscription sur Le Gadget's Factorie`,
+                html: `
+                <h1>Salut,  ${user.nom},  merci de votre insciption!!! .</h1>
+                <hr />
+                <hr />
+                <hr />
+                <h3> Bon magasinage !</h3>
+                
+            `
+            };
+            sgMail
+                .send(emailData2)
+                .then(() => {}, error => {
+                    console.error(error);
+                
+                    if (error.response) {
+                      console.error(error.response.body)
+                    }
+                  });
+                //ES8
+                (async () => {
+                  try {
+                    await sgMail.send(emailData2);
+                  } catch (error) {
+                    console.error(error);
+                
+                    if (error.response) {
+                      console.error(error.response.body)
+                    }
+                  }
+                })();
+                
+    
+           
+                
+    
+    
+        })
+    
+    
+       
+    
+    };
+    
 
 
 
