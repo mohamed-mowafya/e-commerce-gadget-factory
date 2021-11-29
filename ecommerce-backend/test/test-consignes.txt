@@ -1,0 +1,25 @@
+Avant de lancer les tests il faut suivres ces consignes : 
+
+1-Changer le nom de la BD dans App.js de MONGO_URI a MONGO_URI_TEST pour ne pas faire de changement sur la BD principale 
+
+2-Il faut lancer le fichier test_models.js en premier pour drop les anciens donnees dans la BD test et en cree des nouveaux 
+
+3-Il faut changer les id suivants dans le fichier test_routes.js : 
+
+    - "Afficher user by id" : mettre un nouveau user id recuperer de la BD test 
+
+    - "Afficher order by user id" : mettre un nouveau user id recuperer de la BD test
+
+    - "Afficher category by id" : mettre un nouveau category id recuperer de la BD test
+
+    - "Doit retourner une category" : mettre un nouveau category id recuperer de la BD test
+
+    - "Afficher produit specifique" : mettre un nouveau product id recuperer de la BD test
+
+    - "Afficher produit" : mettre un nouveau product id recuperer de la BD test
+
+    - "Afficher une commande en fonction du userId" : mettre un nouveau user id recuperer de la BD test 
+
+    - "Afficher l'etat de la commande en fonction du userId" : mettre un nouveau user id recuperer de la BD test 
+
+    - "Afficher un token pour user" : mettre un nouveau user id recuperer de la BD test 

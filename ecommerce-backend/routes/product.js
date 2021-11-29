@@ -3,23 +3,21 @@ const router = express.Router();
 
 
 
-const { create, productById, read, remove, update, list, listRelated, listCategories, listBySearch, photo, listSearch } = require('../controllers/product');
+const {create, productById, read, remove, update, list, listRelated, listCategories, listBySearch, photo, listSearch} = require('../controllers/product');
 
-const { requireSignin, isAdmin, isAuth } = require('../controllers/auth');
-const { userById } = require('../controllers/user');
-
-router.get('/product/:productId', read)
-router.post("/product/create/:userId", requireSignin, isAuth, isAdmin, create);
-router.delete('/product/:productId/:userId', requireSignin, isAuth, isAdmin, remove);
-router.put('/product/:productId/:userId', requireSignin, isAuth, isAdmin, update);
-router.post("/products/by/search", listBySearch);
-
+const { requireSignin,isAdmin,isAuth} = require('../controllers/auth');
+const { userById} = require('../controllers/user');
 
 router.get('/products', list);
 router.get("/products/search", listSearch);
 router.get('/products/related/:productId', listRelated),
-    router.get('/products/categories', listCategories)
-router.get('/product/photo/:productId', photo)
+router.get('/products/categories', listCategories)//marche pas
+router.get('/product/:productId', read)
+router.get('/product/photo/:productId', photo)//marche pas
+router.post("/product/create/:userId",requireSignin, isAuth,isAdmin,create);
+router.delete('/product/:productId/:userId',requireSignin, isAuth,isAdmin, remove);
+router.put('/product/:productId/:userId',requireSignin, isAuth,isAdmin, update);
+router.post("/products/by/search", listBySearch);
 
 router.param('userId', userById);
 router.param('productId', productById);
