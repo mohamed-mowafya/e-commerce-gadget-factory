@@ -23,7 +23,7 @@ dotenv.config();
 
 // la connexion avec la BD :
 mongoose
-  .connect(process.env.MONGO_URI_TEST, { useNewUrlParser: true })//MONGO_URI : A changer par MONGO_URI_TEST avant de lancer les tests
+  .connect(process.env.MONGO_URI, { useNewUrlParser: true })//MONGO_URI : A changer par MONGO_URI_TEST avant de lancer les tests
   .then(() => console.log("DB Marche"))
   .catch((err) => console.log(err));
 
