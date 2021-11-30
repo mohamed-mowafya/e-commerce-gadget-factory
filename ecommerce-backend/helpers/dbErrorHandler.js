@@ -2,6 +2,8 @@
 
 /**
  * Get unique error field name
+ * @param {*} error 
+ * @returns 
  */
 const uniqueMessage = error => {
     let output;
@@ -21,8 +23,11 @@ const uniqueMessage = error => {
     return output;
 };
 
+
 /**
  * Get the erroror message from error object
+ * @param {*} error 
+ * @returns 
  */
 exports.errorHandler = error => {
     let message = "";
