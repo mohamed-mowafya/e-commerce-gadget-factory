@@ -12,6 +12,10 @@ import ProductDetails from "./ProductDetails";
 import FormeSimple from "./chatbot/FormSimple";
 import bck from "../images/bck2.png"
 
+/**
+ * Cette classe englobe l'entièreté de la page Shop ce qui permet de gerer l'affichage des cartes et des differents filtres.
+ * @returns Retourne l'affichage de la page Shop.
+ */
 const Shop = () => {
 
     const [myFilters, setMyFilters] = useState({
@@ -25,7 +29,9 @@ const Shop = () => {
     const [filteredResults, setFilteredResults] = useState([]);
 
 
-
+    /**
+     * Cette méthode permet d'obtenir les produits selon le filtre choisis par l'utilisateur.
+     */
     const ChargerResultatFiltres = (nouveauFiltres) => {
         getProduitsFiltrer(skip, limit, nouveauFiltres).then(data => {
             if (data.error) {
@@ -39,6 +45,10 @@ const Shop = () => {
 
     };
 
+
+    /**
+     * Cette méthode permet de pouvoir charger un certain nombre de produit avant d'afficher le boutton "Plus".
+     */
     const chargerPlus = () => {
         let toSkip = skip + limit;
 
@@ -53,6 +63,11 @@ const Shop = () => {
         });
     };
 
+
+    /**
+     * Cette méthode permet de changer l'allure du bouton.
+     * @returns Cette méthode retourne l'affichage du boutton Plus.
+     */
     const bouttonChargerPlus = () => {
         return (
             size > 0 &&
@@ -81,6 +96,10 @@ const Shop = () => {
     },
         []);
 
+    
+    /**
+     * Cette méthode permet d'afficher les filtres existants selon la catégorie.
+     */
     const handleFilters = (filters, filterBy) => {
         const newFilters = { ...myFilters };
         newFilters.filters[filterBy] = filters;
@@ -95,6 +114,9 @@ const Shop = () => {
         setMyFilters(newFilters)
     };
 
+    /**
+     *  Cette méthode permet d'obtenir les prix qu'on veut afficher comme filtre.
+     */
     const handlePrice = valeur => {
         const data = prix;
         let array = [];
