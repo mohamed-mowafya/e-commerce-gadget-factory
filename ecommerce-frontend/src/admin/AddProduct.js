@@ -105,51 +105,50 @@ const AddProduct = () => {
      * l'affichage. 
      */
     const newPostForm = () => (
-        <form className="mt-5 form-produit" onSubmit={submitValeurs}>
-            <h3 className="d-flex justify-content-center">Créer un produit</h3>
-            <div className="form-group mb-2">
-                <label className="text-muted">Nom</label>
-                <input type="text" onChange={changementValeur('name')} className="form-control" value={name}></input>
-            </div>
-            <div className="form-group mb-2">
-                <label className="text-muted">Description</label>
-                <textarea type="text" onChange={changementValeur('description')} className="form-control"
+        <div className="form-produit mt-4 mb-2">
+        <h3 className="d-flex justify-content-center font-oswald form-margin header-produit">Créer un produit</h3>
+       
+        <form onSubmit={submitValeurs}>
+            <div className="d-flex column justify-content-center">
+            <div className="form-group mb-4 d-flex row justify-content-center me-4">
+                <label className="text-muted font-oswald">Nom</label>
+                <input type="text" onChange={changementValeur('name')} className="form-control mb-3" value={name}></input>
+
+                <label className="text-muted font-oswald">Description</label>
+                <textarea type="text" onChange={changementValeur('description')} className="form-control mb-3"
                     value={description}></textarea>
 
-            </div>
-            <div className="form-group mb-2">
-                <label className="text-muted">Prix</label>
+                <label className="text-muted font-oswald">Prix</label>
                 <input type="number" onChange={changementValeur('price')} className="form-control" value={price}></input>
+
+
             </div>
-            <div className="form-group mb-2">
-                <label className="text-muted">Catégorie</label>
-                <select onChange={changementValeur('category')} className="form-control">
+            <div className="form-group mb-3 d-flex row justify-content-center ms-4">
+            <label className="text-muted font-oswald">Catégorie</label>
+                <select onChange={changementValeur('category')} className="form-control mb-4 mt-1">
                     <option>Choisissez</option>
                     {categories && categories.map((c, i) => (<option key={i} value={c._id}>{c.name}</option>))}
                 </select>
-
-            </div>
-            <div className="form-group mb-2">
-                <label className="text-muted">Livraison</label>
-                <select onChange={changementValeur('shipping')} className="form-control">
+                <label className="text-muted font-oswald" id="m-livr">Livraison</label>
+                <select onChange={changementValeur('shipping')} className="form-control mb-5">
                     <option>Choisissez</option>
                     <option value="0">Yes</option>
                     <option value="0">No</option>
                 </select>
-
+                <label className="text-muted font-oswald">Quantité</label>
+                <input type="number" onChange={changementValeur('quantity')} className="form-control" id= "m-quant" value={quantity}></input>
             </div>
 
-            <div className="form-group mb-2">
-                <label className="text-muted">Quantité</label>
-                <input type="number" onChange={changementValeur('quantity')} className="form-control" value={quantity}></input>
+           
             </div>
-            <div className="form-group mb-2">
+            <div className="form-group">
                 <input onChange={changementValeur('photo')} type="file" name="photo" accept="image/*" />
             </div>
-            <div className="d-flex justify-content-center mt-4">
-                <button className="btn btn-outline-primary d-flex justify-content-center btn-md w-50">Créer</button>
+            <div className="d-flex justify-content-center btn-margin">
+                <button className="btn btn-secondary d-flex justify-content-center btn-md w-50">Créer</button>
             </div>
         </form>
+        </div>
     )
     /**
      * Méthode qui va afficher une erreur si la création du produit
@@ -186,13 +185,9 @@ const AddProduct = () => {
 
     return (
         <Layout>
-            <div className="row">
                 <div className="col-md-8 offset-md-2">
-                    {afficherErreur()}
-                    {afficherSucces()}
-                    {afficherChargement()}
                     {newPostForm()}</div>
-            </div>
+        
         </Layout>
     )
 }

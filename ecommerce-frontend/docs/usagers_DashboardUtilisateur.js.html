@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: usagers/DashboardUtilisateur.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: usagers/DashboardUtilisateur.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from "react";
+import Layout from "../site/Layout";
+import { estAuthentifier } from "../Authentification";
+import { Link } from "react-router-dom";
+import { getHistoriqueAchat } from './apiUsager'
+import moment from 'moment'
+import localization from 'moment/locale/fr'; // Module moment qui va faire en sorte que la date d'achat est plus lisible.
+
+const Dashboard = () => {
+    const [historique, setHistorique] = useState([])
+
+    //Pour pouvoir update le profile 
+    const { user: { _id, nom, prenom, email, role } } = estAuthentifier();
+
+    const token = estAuthentifier().token
+    const init = (userId, token) => {
+        getHistoriqueAchat(userId, token).then(data => {
+            if (data.error) {
+                console.log(data.error)
+            }
+            else {
+                setHistorique(data)
+            }
+        })
+    }
+
+    /**
+     * Méthode useEffect() qui va permettre d'afficher l'historique
+     * d'achat de l'utilisateur lorsque la page sera complètement
+     * chargé pour lui.
+     */
+    useEffect(() => {
+        init(_id, token)
+        moment.updateLocale('fr', localization) // Permets de changer l'affichage de moment en français.
+    }, [])
+
+    /**
+   * Méthode qui affiche les liens (html) que l'administrateur peut accèder dans son dashboard.
+   */
+    const liensUsagers = () => {
+        return (
+
+            &lt;div className="mt-2">
+                &lt;h4 className="card-header">Lien de l'usager&lt;/h4>
+                &lt;ul className="list-group">
+
+                    &lt;li className="list-group-item">
+                        &lt;Link className="nav-link" to="/cart">Mon panier&lt;/Link>
+                    &lt;/li>
+                    &lt;li className="list-group-item">
+                        &lt;Link className="nav-link" to={`/profile/${_id}`}>Modifier mon profile&lt;/Link>
+                    &lt;/li>
+
+                &lt;/ul>
+
+            &lt;/div>
+
+        )
+
+    }
+
+    /**
+     * Méthode qui retourne les informations de l'usager.
+     */
+    const informationsUsager = () => {
+        return (
+            &lt;div className="mb-5 mt-2">
+                &lt;h3 className="card-header">Informations&lt;/h3>
+                &lt;ul className="list-group">
+                    &lt;li className="list-group-item">Nom: {nom}, {prenom}&lt;/li>
+                    &lt;li className="list-group-item">Courriel: {email}&lt;/li>
+                    &lt;li className="list-group-item">
+                        {role === 1 ? 'Role: Administrateur' : "Role: Usager"}&lt;/li>
+
+                &lt;/ul>
+            &lt;/div>
+        )
+    }
+
+    /**
+     * Méthode qui permets d'afficher l'historique d'achat de l'utilisateur.
+     * @param {*} historique 
+     * Variable historique qui va contenir l'historique de l'utilisateur.
+     */
+    const historiqueAchat = (historique) => {
+        return (
+            &lt;div>
+                &lt;h3 className="card-header">Votre historique d'achat&lt;/h3>
+
+                &lt;ul className="list-group">
+
+                    &lt;li className="list-group-item">
+                        {historique.map((historiqueItem, index) => {
+                            return (
+                                &lt;div>
+                                    {historiqueItem.products.map((produit, index) => {
+                                        return (
+                                            &lt;div key={index}>
+                                                &lt;h6>Produit: {produit.name}&lt;/h6>
+                                                &lt;h6>Prix: ${produit.price}&lt;/h6>
+                                                &lt;h6>Acheté: {moment(produit.createdAt).fromNow()}&lt;/h6>
+                                                &lt;hr />
+                                            &lt;/div>
+                                        )
+                                    })}
+                                &lt;/div>
+                            )
+                        })}
+                    &lt;/li>
+
+
+                &lt;/ul>
+
+
+            &lt;/div>
+        )
+    }
+
+
+    return (
+        &lt;Layout title="Dashboard de l'utilisateur" description={`Bonjour ${nom}!`} className="container-fluid">
+
+
+            &lt;div className="row">
+                &lt;div className="col-3">
+                    {liensUsagers()}
+
+                &lt;/div>
+                &lt;div className="col-9">
+                    {informationsUsager()}
+                    {historiqueAchat(historique)}
+
+                &lt;/div>
+            &lt;/div>
+        &lt;/Layout>
+    );
+
+
+};
+
+export default Dashboard;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Card">Card</a></li><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#ProduitSimilaire">ProduitSimilaire</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li><li><a href="global.html#ShowImage">ShowImage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Nov 25 2021 23:45:55 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

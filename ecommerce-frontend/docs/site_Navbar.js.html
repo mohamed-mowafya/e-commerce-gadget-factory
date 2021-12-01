@@ -31,7 +31,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { estAuthentifier } from "../Authentification";
 import { signout } from "../Authentification";
 import '../CSS/navbar.css'
-import logo from '../images/logo.png'; 
+import logo from '../images/logo.png';
 import { itemAuTotal } from "./panierHelper";
 import cartImage from '../images/shopping-cart2.png'; //https://lordicon.com/icons
 import Search from "./Search";
@@ -59,37 +59,37 @@ const pageActive = (history, path) => {
   }
 }
 const NavBar = ({ history }) => (
-  
-&lt;nav className="navbar navbar-expand-lg navbar-dark nav_background">
-  &lt;div className="container-fluid">
-    &lt;a className="navbar-brand" href="/">&lt;img src={logo}  />&lt;/a>
-    &lt;button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      &lt;span className="navbar-toggler-icon">&lt;/span>
-    &lt;/button>
-    &lt;div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-      &lt;div className="barre-recherche">
-        &lt;Search/>
+
+  &lt;nav className="navbar navbar-expand-lg navbar-dark nav_background">
+    &lt;div className="container-fluid">
+      &lt;a className="navbar-brand" href="/">&lt;img src={logo} />&lt;/a>
+      &lt;button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        &lt;span className="navbar-toggler-icon">&lt;/span>
+      &lt;/button>
+      &lt;div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+        &lt;div className="barre-recherche">
+          &lt;Search />
         &lt;/div>
         &lt;div className="navbar-nav ms-auto">
-        &lt;Link className="nav-link" style={pageActive(history, '/')} to="/">Accueil&lt;/Link>
-        &lt;Link className="nav-link" style={pageActive(history, '/shop')} to="/shop">Produits&lt;/Link>
-        {!estAuthentifier() &amp;&amp; (
-            &lt;Link className="nav-link" style={pageActive(history, '/login')} to="/login">&lt;i class="far fa-user logo-usager">&lt;/i>&lt;/Link>          
+          &lt;Link className="nav-link" style={pageActive(history, '/')} to="/">Accueil&lt;/Link>
+          &lt;Link className="nav-link" style={pageActive(history, '/shop')} to="/shop">Produits&lt;/Link>
+          {!estAuthentifier() &amp;&amp; (
+            &lt;Link className="nav-link" style={pageActive(history, '/login')} to="/login">&lt;i class="far fa-user logo-usager">&lt;/i>&lt;/Link>
           )}
-        {estAuthentifier() &amp;&amp; estAuthentifier().user.role == 0 &amp;&amp;(
-       &lt;Link className="nav-link" style={pageActive(history, '/usager/dashboard')} to="/usager/dashboard">Dashboard&lt;/Link>
-      )}
-        {estAuthentifier() &amp;&amp; estAuthentifier().user.role == 1 &amp;&amp;(
-        &lt;Link className="nav-link" style={pageActive(history, '/admin/dashboard')} to="/admin/dashboard">Dashboard&lt;/Link>
-        )}
-        &lt;Link className="nav-link" style={pageActive(history, '/cart')} to="/cart"> &lt;i class="fas fa-shopping-cart">&lt;/i>&lt;sup>&lt;small className="cart-badge">{itemAuTotal()}&lt;/small>&lt;/sup>&lt;/Link>
-                    {estAuthentifier() &amp;&amp; (
-          &lt;Link className="nav-link" style={{cursor: 'pointer', color: '#ffffff'}} onClick={() => signout(() => {history.push("/");})} to="/">Déconnexion&lt;/Link>
-            )}
-        &lt;/div>
+          {estAuthentifier() &amp;&amp; estAuthentifier().user.role == 0 &amp;&amp; (
+            &lt;Link className="nav-link" style={pageActive(history, '/usager/dashboard')} to="/usager/dashboard">Dashboard&lt;/Link>
+          )}
+          {estAuthentifier() &amp;&amp; estAuthentifier().user.role == 1 &amp;&amp; (
+            &lt;Link className="nav-link" style={pageActive(history, '/admin/dashboard')} to="/admin/dashboard">Dashboard&lt;/Link>
+          )}
+          &lt;Link className="nav-link" style={pageActive(history, '/cart')} to="/cart"> &lt;i class="fas fa-shopping-cart">&lt;/i>&lt;sup>&lt;small className="cart-badge">{itemAuTotal()}&lt;/small>&lt;/sup>&lt;/Link>
+          {estAuthentifier() &amp;&amp; (
+            &lt;Link className="nav-link" style={{ cursor: 'pointer', color: '#ffffff' }} onClick={() => signout(() => { history.push("/"); })} to="/">Déconnexion&lt;/Link>
+          )}
         &lt;/div>
       &lt;/div>
-&lt;/nav>
+    &lt;/div>
+  &lt;/nav>
 )
 export default withRouter(NavBar);</code></pre>
         </article>
@@ -101,13 +101,13 @@ export default withRouter(NavBar);</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Card">Card</a></li><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#ProduitSimilaire">ProduitSimilaire</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li><li><a href="global.html#ShowImage">ShowImage</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Nov 19 2021 20:07:44 GMT-0500 (Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Nov 25 2021 23:45:55 GMT-0500 (Eastern Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

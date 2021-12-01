@@ -3,6 +3,7 @@ import Layout from "../site/Layout";
 import { estAuthentifier } from "../Authentification";
 import { Link, Redirect } from "react-router-dom";
 import { read, update, updateUser } from "./apiUsager"
+import "../CSS/profile.css"
 const Profile = ({ match }) => {
     const [values, setValues] = useState({
         nom: "",
@@ -54,29 +55,19 @@ const Profile = ({ match }) => {
      * @param {*} hashed_password  
      */
     const modifierProfile = (nom, prenom, email, hashed_password) => (
-        <form>
-            <div className="form-group">
-                <label className="text-muted">Nom</label>
-                <input type="text" onChange={handleChange('nom')} className="form-control" value={nom} />
+        <div class="wrapper bg-white mt-sm-5">
+        <h4 class="pb-4 border-bottom mt-auto d-flex justify-content-center">Modifier votre profile</h4>
+        <div class="py-2">
+            <div class="column py-2">
+                <div class="col-md-12"> <label for="firstname">Nom</label> <input type="text" class="bg-light form-control" value={nom} onChange={handleChange("nom")}/> </div>
+                <div class="col-md-12 pt-md-0 pt-3"> <label for="lastname">Prénom</label> <input type="text" class="bg-light form-control"value={prenom} onChange={handleChange("prenom")}/> </div>
+                <div class="col-md-12"> <label for="email">Email Address</label> <input type="text" class="bg-light form-control" value={email} onChange={handleChange("email")}/> </div>
+                <label for="password">Mot de passe</label> <input type="password" class="bg-light form-control" onChange={handleChange("mdp")}/>
+                <label for="password">Confirmer</label> <input type="password" class="bg-light form-control" onChange={handleChange("mdp2")}/>
             </div>
-            <div className="form-group">
-                <label className="text-muted">Prenom</label>
-                <input required type="text" onChange={handleChange('prenom')} className="form-control" value={prenom} />
-            </div>
-            <div className="form-group">
-                <label className="text-muted">Email</label>
-                <input required type="email" onChange={handleChange('email')} className="form-control" value={email} />
-            </div>
-            <div className="form-group">
-                <label className="text-muted">Mot de passe</label>
-                <input id="mdp" type="password" onChange={handleChange('mdp')} className="form-control" />
-            </div>
-            <div className="form-group">
-                <label className="text-muted">Confirmer mot de passe</label>
-                <input id="mdp2" type="password" onChange={handleChange('mdp2')} className="form-control" />
-            </div>
-            <button onClick={envoyerInformations} className="btn btn-primary">Modifier</button>
-        </form>
+            <div class="py-3 pb-4 d-flex justify-content-center me-2"> <button class="btn btn-primary ms-auto me-auto" onClick={envoyerInformations}>Sauvegarder</button></div>
+        </div>
+    </div>
     )
 
     /***
@@ -153,7 +144,6 @@ const Profile = ({ match }) => {
     }, [])
     return (
         <Layout title="Modification de profile" description="Modifier votre profile" className="container-fluid">
-            <h2 className="mb-4">Modifier votre profile</h2>
             {erreurMDP()}
             {modifierProfile(nom, prenom, email, hashed_password)}
             {rediriger(succes)}

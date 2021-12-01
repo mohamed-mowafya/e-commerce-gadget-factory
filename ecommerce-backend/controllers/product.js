@@ -5,7 +5,13 @@ const Product = require('../models/product');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 const product = require('../models/product');
 
-
+/**
+ * Methode pour cherhcer un produit 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @param {*} id 
+ */
 exports.productById = (req, res, next, id) => {
     Product.findById(id)
         .populate('category')
@@ -20,11 +26,22 @@ exports.productById = (req, res, next, id) => {
         });
 };
 
+/**
+ * Methode pour trouver un prodit avec son id 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.read = (req, res) => {
     req.product.photo = undefined
     return res.json(req.product);
 };
 
+/**
+ * Methode pour cree un produit
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.create = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true
@@ -67,6 +84,11 @@ exports.create = (req, res) => {
     })
 };
 
+/**
+ * Methode pour supprimer un produit
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.remove = (req, res) => {
     let product = req.product
     product.remove((err) => {
@@ -81,6 +103,11 @@ exports.remove = (req, res) => {
     });
 };
 
+/**
+ * Methode pour mettre a jour les donnees d'un produit
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true
@@ -123,7 +150,11 @@ exports.update = (req, res) => {
     })
 };
 
-
+/**
+ * Methode pour lister tout les produits disponible
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.list = (req, res) => {
     let order = req.query.order ? req.query.order : 'asc'
     let sortBy = req.query.sortBy ? req.query.sortBy : '_id'
@@ -144,8 +175,13 @@ exports.list = (req, res) => {
         });
 };
 
+/**
+ * Methode pour chercher un produit par id
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.listRelated = (req, res) => {
-    let limit = req.query.limit ? parseInt(req.query.limit) : 4
+    let limit = req.query.limit ? parseInt(req.query.limit) : 6
 
     Product.find({ _id: { $ne: req.product }, category: req.product.category })
         .limit(limit)
@@ -160,6 +196,11 @@ exports.listRelated = (req, res) => {
         })
 }
 
+/**
+ * Methode pour afficher un produit en fonction de sa category
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.listCategories = (req, res) => {
     Product.distinct("category", {}, (err, categories) => {
         if (err) {
@@ -171,6 +212,11 @@ exports.listCategories = (req, res) => {
     });
 };
 
+/**
+ * Methode pour afficher les produits les plus recherches 
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.listBySearch = (req, res) => {
     let order = req.body.order ? req.body.order : "desc";
     let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
@@ -210,6 +256,13 @@ exports.listBySearch = (req, res) => {
         });
 };
 
+/**
+ * Methode pour afficher la photo d'un produit
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
 exports.photo = (req, res, next) => {
     if (req.product.photo.data) {
         res.set('Content-Type', req.product.photo.contentType);
@@ -218,6 +271,11 @@ exports.photo = (req, res, next) => {
     next();
 };
 
+/**
+ * Methode pour afficher les produits en fonction des categories les plus rechercher 
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.listSearch = (req, res) => {
     // creer un query objet qui va contenir les valeurs de la recherche et de la categorie rechercher
     const query = {};
@@ -240,17 +298,23 @@ exports.listSearch = (req, res) => {
     }
 }
 
-exports.soustraireQuantite = (req, res, next) => {
-    let produitsASoustraire = req.body.order.products.map((produit) => {
-        return {
-            updateOne: {
-                filter: { _id: produit._id },
-                update: { $inc: { quantity: -produit.count, sold: +produit.count } }
+/**
+ * Methode qui va soustraire les produits l'ors de leurs achat 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+exports.soustraireQuantite = (req,res,next) =>{
+    let produitsASoustraire = req.body.order.products.map((produit)=>{
+        return{
+            updateOne:{
+                filter:{_id: produit._id},
+                update:{$inc: {quantity: -produit.count,sold: +produit.count}}
             }
         }
     })
-    Product.bulkWrite(produitsASoustraire, {}, (err, produits) => {
-        if (err) {
+    Product.bulkWrite(produitsASoustraire,{},(err,produits)=>{
+        if(err){
             return res.status(400).json({
                 error: 'Erreur de update produit'
             })

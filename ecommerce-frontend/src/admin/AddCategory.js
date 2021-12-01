@@ -50,7 +50,7 @@ const AddCategory = () => {
                     <label className="text-muted">Nom</label>
                     <input type="text" className="form-control" onChange={changerValeurs} value={name} required autoFocus></input>
                 </div>
-                <button className="btn btn-outline-primary btn-categorie">
+                <button className="btn btn-outline-primary btn-categorie d-flex justify-content-center">
                     Créer catégorie
                 </button>
             </form>

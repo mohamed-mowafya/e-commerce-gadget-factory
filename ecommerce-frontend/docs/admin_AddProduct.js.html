@@ -30,26 +30,26 @@
 import Layout from "../site/Layout";
 import { estAuthentifier } from "../Authentification";
 import { Link } from "react-router-dom";
-import { createCategory, createProduct, getCategories} from "./AdminApi";
+import { createCategory, createProduct, getCategories } from "./AdminApi";
 import '../CSS/categories_products.css';
 
 
 
 
-const AddProduct = () =>{
-    const {user,token} = estAuthentifier()
-    const [values,setValues] = useState({
+const AddProduct = () => {
+    const { user, token } = estAuthentifier()
+    const [values, setValues] = useState({
         name: '',
-        description:'',
-        price:'',
-        categories:[],
-        category:'',
-        shipping:'',
-        quantity:'',
-        photo:'',
+        description: '',
+        price: '',
+        categories: [],
+        category: '',
+        shipping: '',
+        quantity: '',
+        photo: '',
         loading: false,
         error: '',
-        createdProduct:'',
+        createdProduct: '',
         redirectToProfile: false,
         formData: ''
     });
@@ -67,7 +67,7 @@ const AddProduct = () =>{
         createdProduct,
         redirectToProfile,
         formData
-    } = values ;
+    } = values;
 
 
     /**
@@ -75,11 +75,11 @@ const AddProduct = () =>{
      * à partir du backend.
      */
     const init = () => {
-        getCategories().then(data => { 
+        getCategories().then(data => {
             if (data.error) {
                 setValues({ ...values, error: data.error });
             } else {
-                setValues({ 
+                setValues({
                     ...values,
                     categories: data,
                     formData: new FormData()
@@ -93,9 +93,9 @@ const AddProduct = () =>{
      * Méthode useEffect qui permets de charger la catégorie
      * dès que la page charge complètement pour l'usager.
      */
-    useEffect(() =>{
-       init()
-    },[])
+    useEffect(() => {
+        init()
+    }, [])
 
     /**
      * Méthode qui permets de changer les valeurs du state de la page (setValues)
@@ -103,9 +103,9 @@ const AddProduct = () =>{
      * @param {*} name 
      * Variable name contient l'élement qui a été changé.
      */
-    const changementValeur = name => event =>{
-        const value = name === 'photo' ? event.target.files[0] : 
-        event.target.value;
+    const changementValeur = name => event => {
+        const value = name === 'photo' ? event.target.files[0] :
+            event.target.value;
         formData.set(name, value);
         setValues({ ...values, [name]: value });
     }
@@ -115,68 +115,68 @@ const AddProduct = () =>{
      * l'API du bakcend afin de créer un produit.
      * @param {*} event 
      */
-    const submitValeurs = (event) =>{
+    const submitValeurs = (event) => {
         event.preventDefault();
-        setValues({...values,error:'',loading:true});
-        createProduct(user._id,token,formData)
-        .then(data =>{
-            if(data.error){
-                setValues({...values,error:data.error})
-            }
-            else{
-                setValues({...values,name:'',description:'',photo:'',price:'',quantity:'',loading:false, createdProduct:data.name});
-            }
-        })
+        setValues({ ...values, error: '', loading: true });
+        createProduct(user._id, token, formData)
+            .then(data => {
+                if (data.error) {
+                    setValues({ ...values, error: data.error })
+                }
+                else {
+                    setValues({ ...values, name: '', description: '', photo: '', price: '', quantity: '', loading: false, createdProduct: data.name });
+                }
+            })
     }
     /**
      * Méthode qui contient le form (html) et qui va servir à
      * l'affichage. 
      */
-    const newPostForm = () =>(
-        &lt;form className="mb-3" onSubmit={submitValeurs}>
-            &lt;h4>Post Photo&lt;/h4>
-            &lt;div className="form-group">
-                &lt;lable className="btn btn-secondary">
-                &lt;input onChange={changementValeur('photo')} type="file" name="photo" accept="image/*"/>
-                &lt;/lable>
-            &lt;/div>
-            &lt;div className="form-group">
-                &lt;label className="text-muted">Name&lt;/label>
-                &lt;input type="text" onChange={changementValeur('name')} className="form-control" value = {name}>&lt;/input>
-            &lt;/div>
-            &lt;div className="form-group">
-                &lt;label className="text-muted">Description&lt;/label>
-                &lt;textarea type="text" onChange={changementValeur('description')} className="form-control" 
-                value = {description}>&lt;/textarea>
+    const newPostForm = () => (
+        &lt;div className="form-produit mt-4 mb-2">
+        &lt;h3 className="d-flex justify-content-center font-oswald form-margin header-produit">Créer un produit&lt;/h3>
+       
+        &lt;form onSubmit={submitValeurs}>
+            &lt;div className="d-flex column justify-content-center">
+            &lt;div className="form-group mb-4 d-flex row justify-content-center me-4">
+                &lt;label className="text-muted font-oswald">Nom&lt;/label>
+                &lt;input type="text" onChange={changementValeur('name')} className="form-control mb-3" value={name}>&lt;/input>
+
+                &lt;label className="text-muted font-oswald">Description&lt;/label>
+                &lt;textarea type="text" onChange={changementValeur('description')} className="form-control mb-3"
+                    value={description}>&lt;/textarea>
+
+                &lt;label className="text-muted font-oswald">Prix&lt;/label>
+                &lt;input type="number" onChange={changementValeur('price')} className="form-control" value={price}>&lt;/input>
+
 
             &lt;/div>
-            &lt;div className="form-group">
-                &lt;label className="text-muted">Price&lt;/label>
-                &lt;input type="number" onChange={changementValeur('price')} className="form-control" value = {price}>&lt;/input>
-            &lt;/div>
-            &lt;div className="form-group">
-                &lt;label className="text-muted">Category&lt;/label>
-                &lt;select onChange={changementValeur('category')} className="form-control">
-                &lt;option>Choisissez&lt;/option>
-                    {categories &amp;&amp; categories.map((c, i ) => (&lt;option key={i} value ={c._id}>{c.name}&lt;/option>))}
+            &lt;div className="form-group mb-3 d-flex row justify-content-center ms-4">
+            &lt;label className="text-muted font-oswald">Catégorie&lt;/label>
+                &lt;select onChange={changementValeur('category')} className="form-control mb-4 mt-1">
+                    &lt;option>Choisissez&lt;/option>
+                    {categories &amp;&amp; categories.map((c, i) => (&lt;option key={i} value={c._id}>{c.name}&lt;/option>))}
                 &lt;/select>
-
-            &lt;/div>
-            &lt;div className="form-group">
-                &lt;label className="text-muted">Shipping&lt;/label>
-                &lt;select onChange={changementValeur('shipping')} className="form-control">
+                &lt;label className="text-muted font-oswald" id="m-livr">Livraison&lt;/label>
+                &lt;select onChange={changementValeur('shipping')} className="form-control mb-5">
                     &lt;option>Choisissez&lt;/option>
                     &lt;option value="0">Yes&lt;/option>
                     &lt;option value="0">No&lt;/option>
                 &lt;/select>
+                &lt;label className="text-muted font-oswald">Quantité&lt;/label>
+                &lt;input type="number" onChange={changementValeur('quantity')} className="form-control" id= "m-quant" value={quantity}>&lt;/input>
+            &lt;/div>
 
+           
             &lt;/div>
             &lt;div className="form-group">
-                &lt;label className="text-muted">Quantity&lt;/label>
-                &lt;input type="number" onChange={changementValeur('quantity')} className="form-control" value = {quantity}>&lt;/input>
+                &lt;input onChange={changementValeur('photo')} type="file" name="photo" accept="image/*" />
             &lt;/div>
-            &lt;button className="btn btn-outline-primary">Create Product  &lt;/button>
+            &lt;div className="d-flex justify-content-center btn-margin">
+                &lt;button className="btn btn-secondary d-flex justify-content-center btn-md w-50">Créer&lt;/button>
+            &lt;/div>
         &lt;/form>
+        &lt;/div>
     )
     /**
      * Méthode qui va afficher une erreur si la création du produit
@@ -201,8 +201,8 @@ const AddProduct = () =>{
     /**
      * Méthode qui va afficher un message de chargement après la création d'un produit.
      */
-    const afficherChargement = () => 
-    // montre message de chargeemnt au moement de la creation d'un produit
+    const afficherChargement = () =>
+        // montre message de chargeemnt au moement de la creation d'un produit
         loading &amp;&amp; (
             &lt;div className="alert alert-success">
                 &lt;h2>Chargement...&lt;/h2>
@@ -211,15 +211,11 @@ const AddProduct = () =>{
 
 
 
-    return(
+    return (
         &lt;Layout>
-        &lt;div className="row">
-            &lt;div className="col-md-8 offset-md-2">
-            {afficherErreur()}
-            {afficherSucces()}
-            {afficherChargement()}
-            {newPostForm()}&lt;/div>
-        &lt;/div> 
+                &lt;div className="col-md-8 offset-md-2">
+                    {newPostForm()}&lt;/div>
+        
         &lt;/Layout>
     )
 }
@@ -233,13 +229,13 @@ export default AddProduct</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Card">Card</a></li><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#ProduitSimilaire">ProduitSimilaire</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li><li><a href="global.html#ShowImage">ShowImage</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Nov 19 2021 20:07:44 GMT-0500 (Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Nov 25 2021 23:45:55 GMT-0500 (Eastern Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
