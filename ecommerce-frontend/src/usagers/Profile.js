@@ -47,7 +47,7 @@ const Profile = ({ match }) => {
      * @param {*} name 
      */
     const handleChange = name => (event) => {
-        setValues({ ...values, [name]: event.target.value },)
+        setValues({ ...values, [name]: event.target.value ,error:false})
     }
 
     /**
@@ -82,6 +82,7 @@ const Profile = ({ match }) => {
      * */
     const envoyerInformations = event => {
         event.preventDefault()
+        setValues({...values,error:false})
         verifierMDP()
         loginAPI({ email, mdp: mdp_a })
         .then(data => {
@@ -89,8 +90,8 @@ const Profile = ({ match }) => {
                     setVisible(true)
                     setValues({ ...values, error: true, succes: false })
                     document.getElementById("erreurMDP").innerHTML = "Votre ancienne mot de passe est incorrecte!";
-                    console.log("iciii"+ succes)
                 } else {
+                    console.log(error + " iciii")
                     if (!error) {
                         update(match.params.userId, token, { nom, prenom, email, hashed_password }).then(data => {
                             if (data.error) {
@@ -160,7 +161,7 @@ const Profile = ({ match }) => {
 
     useEffect(() => {
         initaliser(match.params.userId)
-    }, [])
+    }, [error])
     return (
         <Layout title="Modification de profile" description="Modifier votre profile" className="container-fluid">
             {erreurMDP()}
