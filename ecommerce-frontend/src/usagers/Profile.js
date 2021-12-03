@@ -3,6 +3,7 @@ import Layout from "../site/Layout";
 import { estAuthentifier } from "../Authentification";
 import { Link, Redirect } from "react-router-dom";
 import { read, update, updateUser } from "./apiUsager"
+import { loginAPI, authentifier } from "../Authentification";
 import "../CSS/profile.css"
 const Profile = ({ match }) => {
     const [values, setValues] = useState({
@@ -11,14 +12,17 @@ const Profile = ({ match }) => {
         email: "",
         mdp: "",
         mdp2: "",
+        mdp_a:"",
         hashed_password: "",
         error: false,
+        ancien_mdp_err:false,
         succes: false
     }
     );
     const { token } = estAuthentifier()
     const [visible, setVisible] = useState(false); // Permets d'afficher et cacher le message d'erreur
-    var { nom, prenom, email, hashed_password, error, succes, mdp, mdp2 } = values;
+    const [estAuth,setEstAuth] = useState(false);
+    var { nom, prenom, email, hashed_password, error, succes, mdp, mdp2,mdp_a,ancien_mdp_err} = values;
 
     /**
      * Méthode qui permets d'initialiser les informations de l'usager
@@ -56,12 +60,13 @@ const Profile = ({ match }) => {
      */
     const modifierProfile = (nom, prenom, email, hashed_password) => (
         <div class="wrapper bg-white mt-sm-5">
-        <h4 class="pb-4 border-bottom mt-auto d-flex justify-content-center">Modifier votre profile</h4>
+        <h4 class="pb-4 border-bottom mt-auto d-flex justify-content-center profile-titre">Modifier votre profile</h4>
         <div class="py-2">
             <div class="column py-2">
                 <div class="col-md-12"> <label for="firstname">Nom</label> <input type="text" class="bg-light form-control" value={nom} onChange={handleChange("nom")}/> </div>
                 <div class="col-md-12 pt-md-0 pt-3"> <label for="lastname">Prénom</label> <input type="text" class="bg-light form-control"value={prenom} onChange={handleChange("prenom")}/> </div>
                 <div class="col-md-12"> <label for="email">Email Address</label> <input type="text" class="bg-light form-control" value={email} onChange={handleChange("email")}/> </div>
+                <label for="password">Ancien mot de passe</label> <input type="password" class="bg-light form-control" onChange={handleChange("mdp_a")}/>
                 <label for="password">Mot de passe</label> <input type="password" class="bg-light form-control" onChange={handleChange("mdp")}/>
                 <label for="password">Confirmer</label> <input type="password" class="bg-light form-control" onChange={handleChange("mdp2")}/>
             </div>
@@ -71,26 +76,38 @@ const Profile = ({ match }) => {
     )
 
     /***
-     * Méthode qui va envoyer les informations changés par l'utilisateur
+     * Méthode qui va envoyer les informations changés par l'utilisateur et s'assurer
+     * qu'il connaît son ancien mdp.
      * vers le backend
      * */
     const envoyerInformations = event => {
         event.preventDefault()
         verifierMDP()
-        if (!error) {
-            update(match.params.userId, token, { nom, prenom, email, hashed_password }).then(data => {
-
+        loginAPI({ email, mdp: mdp_a })
+        .then(data => {
                 if (data.error) {
-                    console.log(data.error);
+                    setVisible(true)
+                    setValues({ ...values, error: true, succes: false })
+                    document.getElementById("erreurMDP").innerHTML = "Votre ancienne mot de passe est incorrecte!";
+                    console.log("iciii"+ succes)
+                } else {
+                    if (!error) {
+                        update(match.params.userId, token, { nom, prenom, email, hashed_password }).then(data => {
+                            if (data.error) {
+                                console.log(data.error);
+                            }
+                            else {
+                                updateUser(data, () => {
+                                    setValues({ ...values, nom: data.nom, email: data.email,succes: true })
+                                })
+                            }
+                        })
+                    }
                 }
-                else {
-                    updateUser(data, () => {
-                        setValues({ ...values, nom: data.nom, email: data.email })
-                    })
-                }
-            })
+            });
         }
-    }
+ 
+
 
     /***
      * Méthode qui va permettre de vérifier si le nouveau mot de passe
@@ -98,27 +115,28 @@ const Profile = ({ match }) => {
      * Source : https://stackoverflow.com/questions/12090077/javascript-regular-expression-password-validation-having-special-characters
      */
     const verifierMDP = () => {
+
         if (mdp == mdp2 && mdp.length > 0) {
             var regexMDP = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9_]).{8,}");
             if (!regexMDP.test(mdp)) {
                 setVisible(true)
-                setValues({ ...values, error: true, succes: false })
+                setValues({ ...values, error: true })
                 document.getElementById("erreurMDP").innerHTML = "Votre mot de passe doit contenir au moins 8 caractères, "
                     + "un chiffre, une lettre en majuscule et un symbole."
             }
             else {
                 setVisible(false)
-                setValues({ ...values, error: false, succes: true })
+                setValues({ ...values, error: false })
                 hashed_password = mdp;
             }
         }
-        else {
-
-            setValues({ ...values, error: true, succes: false })
+        else{
+            setValues({ ...values, error: true })
             setVisible(true)
             document.getElementById("erreurMDP").innerHTML = "Les deux champs de mot de passe doivent être pareils et remplis."
 
         }
+
 
     }
 
@@ -126,6 +144,7 @@ const Profile = ({ match }) => {
      * Méthode qui réderige l'utilisateur apres'il a changer ses informations.
      */
     const rediriger = (succes) => {
+  
         if (succes) {
             return <Redirect to="/" />
         }

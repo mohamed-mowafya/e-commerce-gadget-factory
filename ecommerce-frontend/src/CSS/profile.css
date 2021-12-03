@@ -112,4 +112,8 @@ select:focus {
     #deactivate {
         line-height: 18px
     }
+
+    .profile-titre{
+        margin-left: -4%;
+    }
 }

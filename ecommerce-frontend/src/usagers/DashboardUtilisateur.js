@@ -98,7 +98,7 @@ const Dashboard = () => {
                                             <div key={index}>
                                                 <h6>Produit: {produit.name}</h6>
                                                 <h6>Prix: ${produit.price}</h6>
-                                                <h6>Acheté: {moment(produit.createdAt).fromNow()}</h6>
+                                                <h6>Acheté: {moment(historiqueItem.createdAt).fromNow()}</h6>
                                                 <hr />
                                             </div>
                                         )
