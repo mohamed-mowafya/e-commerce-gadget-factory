@@ -28,3 +28,77 @@
     margin-right: 20%;
     margin-bottom: 6rem;
   }
+
+  .parallax-effect {
+    background-image: linear-gradient(to right top, #ff2222, #153b81, #5881ce, #eec372, #f76a19);
+    min-height: 125px;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+    vertical-align: middle;
+  }
+  .parallax-effect2 {
+    background-image: url("../images/bck2.png");
+    min-height: 125px;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+    vertical-align: middle;
+  }
+  .text {
+    font-size: 50px;
+    text-align: left;
+    font-family: 'Raleway', Arial, sans-serif;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    color: #5d4267;
+    background-color:#fffbf7;
+    
+    
+  }
+
+
+/* Css de la deuxieme section */
+section.hand-crafted {
+    background: #fffbf7;
+    margin-bottom: 50px;
+    margin-top: 25px;
+}
+section.hand-crafted p {
+  color: #73828e;
+}
+
+
+h3.tittle {
+  font-size: 2.7em;
+  letter-spacing: 1px;
+  color: #093964;
+  font-weight: 700;
+}
+
+@media(max-width:1366px) {
+
+  h3.tittle,
+  .ab-info h4 {
+      font-size: 2.5em;
+  }
+}
+
+.py-5 {
+  padding-top: 3rem !important;
+}
+
+.py-lg-5 {
+  padding-top: 3rem !important;
+}
+
+@media(max-width:992px) {
+
+  .banner-image {
+      margin-top: 2em;
+  }
+}

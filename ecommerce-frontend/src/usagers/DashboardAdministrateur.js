@@ -14,7 +14,7 @@ const DashboardAdministarteur = () => {
     const liensAdmin  = () => {
         return(
             
-            <div className="card mt-2">
+            <div className="card mt-2 ">
                 <h4 className="card-header d-flex justify-content-center">Administration</h4>
                 <ul className = "list-group">
 
@@ -33,9 +33,11 @@ const DashboardAdministarteur = () => {
                  </li>
 
                 </ul>
+                
 
             </div>
-
+            
+            
         )
 
     }

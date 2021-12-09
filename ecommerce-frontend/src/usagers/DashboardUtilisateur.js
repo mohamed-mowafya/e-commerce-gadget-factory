@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { getHistoriqueAchat } from './apiUsager'
 import moment from 'moment'
 import localization from 'moment/locale/fr'; // Module moment qui va faire en sorte que la date d'achat est plus lisible.
-
+import "../CSS/Dashboard.css"
 const Dashboard = () => {
     const [historique, setHistorique] = useState([])
 
@@ -118,7 +118,7 @@ const Dashboard = () => {
 
 
     return (
-        <Layout title="Dashboard de l'utilisateur" description={`Bonjour ${nom}!`} className="container-fluid">
+        <Layout title="Dashboard de l'utilisateur" className="container-fluid">
 
 
             <div className="row">
@@ -132,7 +132,7 @@ const Dashboard = () => {
 
                 </div>
             </div>
-        </Layout>
+                    </Layout>
     );
 
 
