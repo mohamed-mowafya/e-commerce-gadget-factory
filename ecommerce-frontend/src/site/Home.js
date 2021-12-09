@@ -118,9 +118,9 @@ const Home = () => {
 
                     <h3 class="mb-md-5 tittle">Découvrez nos dernières offres.</h3>
 
-                    <p>Naviguez parmi nos meilleur produits. Nous offrons une variété de produits éléctronique choisi 
-                        spécielement pour vous. Ceux-ci sont les meilleur en rapport de qualité-prix. Ne manquez pas nos offres les plus populaires.</p>
-                    <p class="mt-3">Noubliez pas jeter un coup d'eoil dans nos derniers arrivéé
+                    <p>Naviguez parmi nos meilleurs produits. Nous offrons une variété de produits électronique choisi spécialement pour vous. Ceux-ci sont 
+                        les meilleurs en rapports de qualité-prix. Ne manquez pas nos offres les plus populaires.</p>
+                    <p class="mt-3">Noubliez par jeter un coup d'oeil dans nos tout nouveaux articles
                         </p> 
                 </div>
                 <div class="col-lg-6 banner-image">
