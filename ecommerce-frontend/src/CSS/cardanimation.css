@@ -1,0 +1,68 @@
+.new-collections-grid1-image-pos a{
+	transition:.5s ease-in-out;
+	-webkit-transition:.5s ease-in-out;
+	-moz-transition:.5s ease-in-out;
+	-o-transition:.5s ease-in-out;
+
+    padding:10px 50px;
+	color:#fff;
+	background:#D8703F;
+	text-decoration:none;
+	font-size: 14px;
+}
+.new-collections-grid1-image-pos{
+	position:absolute;
+
+	transition:.5s ease-in-out;
+	-webkit-transition:.5s ease-in-out;
+	-moz-transition:.5s ease-in-out;
+	-o-transition:.5s ease-in-out;
+	z-index:9999;
+	display:none;
+
+    top: 50%;
+    left: 30% !important;
+}
+.new-collections-grid1-image-pos a:hover{
+	background:#ffa229;
+}
+
+
+.new-collections-grid1:hover .new-collections-grid1-image-pos{
+	display:block;
+}
+.new-collections-grid1{
+	padding: 1em;
+	background: #fff;
+
+    position: relative;
+}
+
+
+.new-collections-grid1 h4 a:hover{
+	color:#D8703F;
+}
+
+.new-collections-grid1:before {
+    content: "";
+    position: absolute;
+    width: 0%;
+    
+    left: 50%;
+    top: 0;
+    background:rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    z-index: 3;
+
+    height: 100% !important;
+}
+.new-collections-grid1:hover:before {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height:0%;
+
+    height: 100% !important;
+}
+
+
