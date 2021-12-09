@@ -1,0 +1,16 @@
+.main-footer{
+    color: rgb(196, 196, 196);
+    background-color: #14181f  ;
+    padding-top:3em ;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+.liFooter{
+  text-align-last:  left;
+  color: rgb(157, 139, 168);
+}
+.h4Footer{
+    text-align-last:  left;
+    color: rgb(43, 174, 226);
+}
