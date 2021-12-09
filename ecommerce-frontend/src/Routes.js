@@ -18,7 +18,7 @@ import PageRecherche from "./site/PageRecherche"
 import ProductDetails from "./site/ProductDetails";
 import GestionProduits from "./admin/GestionProduit";
 import MettreAjourProduit from "./admin/MettreAjourProduit";
-
+import Footer from "./site/Footer";
 const Routes = () => {
     return (
         <BrowserRouter>
@@ -40,6 +40,7 @@ const Routes = () => {
                 <Route path="/product/:productId" exact component={Product}></Route>
                 <Route path="/productdetails/:productId" exact component={ProductDetails} />
             </Switch>
+            <Footer/>
         </BrowserRouter>
     );
 };
