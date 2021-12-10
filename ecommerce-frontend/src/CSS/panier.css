@@ -18,5 +18,13 @@
 
 .font-chariot{
    font-family: 'Oswald', sans-serif;
-   font-size: 35px;
+   font-size: 45px;
+}
+.panier-div:only-child{
+   margin-left:auto !important;
+}
+
+.panier-grid{
+     display: grid;
+     grid-gap: 8px;
 }
