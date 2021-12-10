@@ -58,7 +58,7 @@ const Panier = () => {
                     )}
                     </div>
                 </div>
-            <div className="me-2 ms-auto mt-2">
+            <div className="me-4 ms-auto mt-2">
             <Paiement product={items} />
             </div>
         </div>
