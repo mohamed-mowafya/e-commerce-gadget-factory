@@ -125,17 +125,31 @@ const Card = ({
     );
   }
 
-  return (
-
-    <div className="col-md-4 mb-3 d-flex align-items-stretch row ">
-      <div className="card bg-light ">
-        {DoitRediriger(redirect)}
-        <div class="new-collections-grid1  " data-wow-delay=".5s">			
+  const montrerAnimation = () =>{
+    if(!montrerBoutonAjouterPanier){
+      return(
+        <ShowImage className="card-img mb-auto" item={product} url="product" />
+      )
+    }
+    else{
+    return(
+      <div class="new-collections-grid1" data-wow-delay=".5s">			
         <div class="new-collections-grid1-image-pos">
 			  <a href={`/productdetails/${product._id}`}>Voir</a>
 			  </div>
         <ShowImage className="card-img mb-auto" item={product} url="product" />
         </div>
+    )
+  }
+  }
+
+  return (
+
+    <div className="col-md-4 mb-3 d-flex align-items-stretch row ">
+      <div className="card bg-light ">
+        {DoitRediriger(redirect)}
+        {montrerAnimation()}
+        
         <div className="card-body d-flex flex-column ">
           <div className="mt-auto ">
             <h6 className="font-weight-semibold">
