@@ -2,7 +2,11 @@ import { API } from "../config";
 import queryString from 'query-string';
 import Product from "./Product";
 
-
+/**
+ * Permets de chercher les 4 premiers produits en ordre décroissant
+ *  à partir du backend.
+ * @returns response.json()
+ */
 export const getProducts = sortBy => {
     // permet de fetch 6 produit en meme temps
     return fetch(`${API}/products?sortBy=${sortBy}&order=desc&limit=4`, {
@@ -14,7 +18,11 @@ export const getProducts = sortBy => {
         .catch(err => console.log(err));
 };
 
-// Permet d'aller chercher les categories du backend
+/**
+ * Permets de chercher tout les catégories
+ *  à partir du backend.
+ * @returns response.json()
+ */
 export const getCategories = () => {
     return fetch(`${API}/categories`, {
         method: "GET"
@@ -25,7 +33,10 @@ export const getCategories = () => {
         .catch(err => console.log(err));
 }
 
-// Vas chercher les produits dans le backend selon le filtre
+/**
+ * Vas chercher les produits dans le backend selon le filtre
+  * @returns response.json()
+ */
 export const getProduitsFiltrer = (skip, limit, filters = {}) => {
 
     const data = { limit, skip, filters };
@@ -57,7 +68,10 @@ export const list = params => {
         .catch(err => console.log(err));
 };
 
-// Get le token du backend
+/**
+ * Get le token du client backend
+  * @returns response.json()
+ */
 export const getBraintreeTokenClient = (userId, token) => {
     return fetch(`${API}/braintree/getToken/${userId}`, {
         method: "GET",
@@ -95,7 +109,10 @@ export const listRelated = (productId) => {
         .catch(err => console.log(err));
 };
 
-// envoyer requete au back end pour le paiement
+/**
+ * envoyer requete au back end pour effectuer un paiement
+  * @returns response.json()
+ */
 export const processPayment = (userId, token, paymentData) => {
     return fetch(`${API}/braintree/payment/${userId}`, {
         method: "POST",
@@ -113,6 +130,10 @@ export const processPayment = (userId, token, paymentData) => {
 
 }
 
+/**
+ * méthode qui s'occupe de la commande au niveau du backend
+ * @returns response.json()
+ */
 export const commander = (userId, token, createOrderData) => {
     return fetch(`${API}/order/create/${userId}`, {
         method: "POST",

@@ -3,7 +3,7 @@ import ChatBot from 'react-simple-chatbot';
 import { ThemeProvider } from 'styled-components';
 import '../../CSS/chatbot.css'
 
-// all available theme props
+// permet de modifier le thème du chat bot
 const config ={
     width: "400px",
     height: "500px",
@@ -25,6 +25,11 @@ const config ={
     userBubbleColor: '#fff',
     userFontColor: '#4a4a4a',
   };
+
+  /*Le corps du robot
+  * c'est la logique -> l'utilisateur clique sur une question est dépendament de ce qu'il a choisi,
+  * la réponse lui sera affiché
+  */
 class FormeSimple extends Component {
     render() {
         return (
