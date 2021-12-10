@@ -62,33 +62,25 @@ const Home = () => {
 
     return (
         <Layout title="Home Page" className="container-fluid">
+
             <section className="view ">
-
                 <div className="row">
-
                     <div className="col-md-6 " >
-
                         <div className="d-flex flex-column justify-content-center align-items-center h-100 ">
                             <h1 className="heading display-3 mt-5">C'est le moment de vous procurer toute la techno dont vous vouliez.</h1>
                             <h4 className="subheading font-weight-bold">Découvrez les aubaines magiques sur les tablettes, les portables, les écouteurs et plus encore.</h4>
                             <div className="m-auto">
                                 <Link to="/shop" className="btn btn-lily btn-margin btn-rounded mb-5 m-auto">Allons-y <i className="fas fa-caret-right ml-3"></i></Link>                 </div>
                         </div>
-
                     </div>
-
                     <div className="col-md-6">
-
                         <div className="view">
                             <img src={banner} className="img-fluid mt-5" alt="banner image" />
                             <div className="mask flex-center hm-gradient">
                             </div>
                         </div>
-
                     </div>
-
                 </div>
-
             </section>
             
             
@@ -97,13 +89,9 @@ const Home = () => {
                     <header className="section-heading   ">
                         <h3 className="section-title  mb-3 text">Les Plus Populaires</h3>
                     </header>
-
                     <div className="row">
                         {productsBySell.map((product, i) => (
-
                             <ProduitSimilaire product={product} />
-
-
                         ))}
                     </div>
                 </div>
@@ -115,42 +103,33 @@ const Home = () => {
         <div class="container py-lg-5">
             <div class="row accord-info">
                 <div class="col-lg-6 pl-md-5">
-
                     <h3 class="mb-md-5 tittle">Découvrez nos dernières offres.</h3>
-
                     <p>Naviguez parmi nos meilleurs produits. Nous offrons une variété de produits électronique choisi spécialement pour vous. Ceux-ci sont 
                         les meilleurs en rapports de qualité-prix. Ne manquez pas nos offres les plus populaires.</p>
-                    <p class="mt-3">Noubliez par jeter un coup d'oeil dans nos tout nouveaux articles
-                        </p> 
+                    <p class="mt-3">Noubliez par jeter un coup d'oeil dans nos tout nouveaux articles</p> 
                 </div>
                 <div class="col-lg-6 banner-image">
                     <div class="img-effect">
                         <img src={imageDiv} alt="" class="img-fluid image1"/>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </section>
-    
-
 
             <section className="section-content ">
                 <div className="container ">
                     <header className="section-heading  ">
                         <h3 className="section-title  mb-3 text ">Les Plus Recents</h3>
                     </header>
-
                     <div className="row">
                         {productsByArrival.map((product, i) => (
-
                             <ProduitSimilaire product={product} />
-
                         ))}
                     </div>
                 </div>
             </section>
+            
             <FormeSimple/>
         </Layout>
     );

@@ -7,15 +7,34 @@ import Paiement from "./Paiement";
 import {MisAjourItem, supprimerProduit } from "./panierHelper";
 import ShowImage from './ShowImage';
 import "../CSS/panier.css"
+
+
+/**
+ * classe qui s'occupera du panier
+ * c'est grâce à celle-ci qu'il est possible de voir 
+ * les produits disponibles dans le panier
+ * 
+ * @returns l'affichage de la page du panier
+ */
+
 const Panier = () => {
-    //on prend les item du localStorage et on vas populer dans state
+
+    /**on prend les item du localStorage et on vas populer dans state */
     const [items, setItems] = useState([])
     const [itemsCount,setItemsCount] = useState([])
     const [run, setRun] = useState(false); // utilisé pour empêcher une boucle infini
+
+
     useEffect(() => { // assure qu'il y a des item dans le state, si item existe pas = retourne empty array
         setItems(getPanier());
-    }, [run]); // Permet d'avoir un panier mis a jour (lors de la supression)
+    }, [run]); /** -> Permet d'avoir un panier mis à jour (lors de la supression) */
 
+    
+    /** Méthode qui affiche tous les items dans le panier
+     * @param {*} items 
+     * Variable items contient tous les items dans le panier
+     * @returns les produit, ainsi que les données de ceux-ci
+    */
     const AffichageItems = items => {
         return (
             <div className="column d-flex">
@@ -63,9 +82,8 @@ const Panier = () => {
     </div>
         )
     }
+    /**Affiche un message lorsque le panier s'est vidé */
     const PanierVideMessage = () => (
-
-
     <div class="row margin-cart-vide">
         <div class="col-md-12">
                     <div class="col-sm-12 empty-cart-cls text-center"> <img src="https://i.imgur.com/dCdflKN.png" width="130" height="130" class="img-fluid mb-4 mr-3"/>
@@ -73,15 +91,12 @@ const Panier = () => {
                         <h4><Link to="/shop">Continuez à magasiner !</Link></h4>
                     </div>
         </div>
-    </div>
-
-
-    )
+    </div>)
 
     
   const handleChange = IDproduit => product => event => {
-    setRun(!run); // run le useEffect dans Cart
-    // Ne laisse pas rajouter plus que la quantité disponible
+    setRun(!run); /**  run le useEffect dans Cart*/
+    /**  Ne laisse pas rajouter plus que la quantité disponible */
     if (event.target.value > product.quantity) {
          event.target.value = 0
     }
@@ -89,6 +104,7 @@ const Panier = () => {
       MisAjourItem(IDproduit, event.target.value)
     }
   }
+
 
     return (
         <Layout
