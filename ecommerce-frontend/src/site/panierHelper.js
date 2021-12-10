@@ -1,7 +1,11 @@
+
+/** 
+ * Méthode qui permet d'ajouter un item dans le panier
+ */
 export const ajoutItem = (item, next) => {
     let cart = []
     if (typeof window !== 'undefined') {
-        //Prend les item du local storage avec le nom cart
+        /* Prend les item du local storage avec le nom cart */
         if (localStorage.getItem('cart')) {
             cart = JSON.parse(localStorage.getItem('cart')) // Popule les items dans cart[]
         }
@@ -9,8 +13,9 @@ export const ajoutItem = (item, next) => {
             ...item,
             count: 1 // incemente de le count
         })
-        // evite de dupliquer le meme produit dans le cart
-        //le set enleve automatiquement la duplication
+         /*   evite de dupliquer le meme produit dans le cart
+          *   le set enleve automatiquement la duplication 
+          */
         cart = Array.from(new Set(cart.map((p) => (p._id)))).map(id => {
             return cart.find(p => p._id === id);
         });
@@ -20,7 +25,9 @@ export const ajoutItem = (item, next) => {
     }
 };
 
-// determine le nombre total de produit dans le panier
+ /** Méthode qui determine le nombre total de produit dans le panier 
+ * @returns la quantité d'items en JSON
+ */
 export const itemAuTotal = () => {
     if (typeof window !== 'undefined') {
         if (localStorage.getItem('cart')) {
@@ -29,7 +36,9 @@ export const itemAuTotal = () => {
     }
     return 0;
 }
-// Get le panier du localStorage 
+/**  Méthode qui Get le panier du localStorage 
+ *   @returns le panier en JSON
+ */
 export const getPanier = () => {
     if (typeof window !== 'undefined') {
         if (localStorage.getItem('cart')) {
@@ -39,7 +48,7 @@ export const getPanier = () => {
     return [];
 }
 
-// permet de changer la quantite de chaque item dans le panier
+/* Méthode qui permet de changer la quantite de chaque item dans le panier */
 export const MisAjourItem = (IDproduit, count) => {
     let cart = []
     if (typeof window !== 'undefined') {
@@ -56,7 +65,9 @@ export const MisAjourItem = (IDproduit, count) => {
 }
 
 
-// Permet de supprimer un article dans le panier
+/** Méthode qui permet de supprimer un article dans le panier 
+ *  @returns le contenue d'un panier
+ */
 export const supprimerProduit = (IDproduit) => {
     let cart = []
     if (typeof window !== 'undefined') {
@@ -65,7 +76,7 @@ export const supprimerProduit = (IDproduit) => {
         }
         cart.map((product, i) => {
             if (product._id === IDproduit) {
-                cart.splice(i, 1) // enleve un 
+                cart.splice(i, 1)  /* décrémente de un */ 
             }
         })
         localStorage.setItem('cart', JSON.stringify(cart));
@@ -73,7 +84,7 @@ export const supprimerProduit = (IDproduit) => {
     return cart;
 };
 
-
+/* méthode qui permet de vider le panier après un paiement */
 export const viderPanier = next => {
     if (typeof window !== 'undefined') {
         localStorage.removeItem('cart');

@@ -8,6 +8,19 @@ import { getBraintreeTokenClient, processPayment, commander } from "../site/apiS
 import { Redirect } from "react-router-dom";
 import "../CSS/panier.css"
 
+/**
+ * classe qui s'occupera du processus de paiement
+ * 
+ * @param {*} product 
+ * Variable product qui prendre en paramètre le produit que l'usager désire acheter.
+* @param {*} run 
+ * Variable run permet useEffect ne mettra à jour le composant que lorsque l'état d'exécution change
+ * @param {*} setRun 
+ * Variable setRun permet d'informez le composant parent en l'exécutant
+ * une fois le paiement effectué
+ * @returns l'affichage du méthode de paiement
+ */
+
 const Paiement = ({ product, setRun = f => f, run = undefined }) => {
 
 
@@ -21,7 +34,7 @@ const Paiement = ({ product, setRun = f => f, run = undefined }) => {
 
     const [adresse, setAdresse] = useState('')
 
-    //requete au backend
+    /** requête au backend */
     const userId = estAuthentifier() && estAuthentifier().user._id
     const token = estAuthentifier() && estAuthentifier().token
 
@@ -39,8 +52,12 @@ const Paiement = ({ product, setRun = f => f, run = undefined }) => {
         getToken(userId, token)
     }, [])
 
-    // calcule du prix avant taxes
-    //Affichage du prix avant taxes
+
+    /**
+     * calcule du prix avant taxes
+     * Affichage du prix avant taxes
+     * @returns le prix à payer avant taxes
+     */
     const getTotal = () => {
         return product.reduce((valeurActuelle, prochaineValeur) => {
             return valeurActuelle + prochaineValeur.count * prochaineValeur.price;
@@ -51,6 +68,10 @@ const Paiement = ({ product, setRun = f => f, run = undefined }) => {
         return product.count
     }
 
+    /**
+     * méthode qui affiche l'entièreté de la partie du paiement
+     * @returns l'interface de paiement seulement si l'utilisateur est connecté
+     */
     const AfficherPaiement = () => {
 
         return estAuthentifier() ? (
@@ -68,8 +89,10 @@ const Paiement = ({ product, setRun = f => f, run = undefined }) => {
     const handleChange = event => {
         setAdresse(event.target.value);
     }
+
+    /**  méthode qui affiche le Drop-in */
     const AfficherDropIn = () => (
-        // permet de faire disparairtre le message d'erreur en cliquant nimporte ou sur la page 
+        /**  permet de faire disparairtre le message d'erreur en cliquant nimporte ou sur la page */
         <div onBlur={() => setData({ ...data, error: "" })}>
 
 
@@ -85,7 +108,8 @@ const Paiement = ({ product, setRun = f => f, run = undefined }) => {
         </div>
 
     );
-
+    
+    /**  Méthode qui permet de saisir l'adresse entré du client */
     const AfficherEntreeAdresse = () => (
         <div className="form-group mb-2">
             <label className="text-muted">Adresse de livraison</label>
@@ -98,7 +122,7 @@ const Paiement = ({ product, setRun = f => f, run = undefined }) => {
         </div>
     )
 
-    // requete au backend
+    /**Méthode qui contient une grosse partie de la logique du processus du paiement*/
     const Acheter = () => {
         setData({ loading: true });
         let nonce;
@@ -142,15 +166,15 @@ const Paiement = ({ product, setRun = f => f, run = undefined }) => {
                 setData({ ...data, error: error.message });
             });
     };
-
+    /** méthode qui permet d'afficher un message d'erreur si la transaction a échoué  */
     const montrerErreur = error => (
-        // si il ya a erreur, montrer le message d'erreur
+        // 
         <div className="alert alert-danger" style={{ display: error ? '' : "none" }}>
             {error}
         </div>
 
     )
-    // montre le message si la transaction est succes 
+    /** méthode qui permet d'afficher un message de succèes si la transaction a réussie */ 
     const montrerSuccess = success => (
         <div className="alert alert-info"
             style={{ display: success ? '' : "none" }}>

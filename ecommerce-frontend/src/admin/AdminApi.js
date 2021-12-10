@@ -1,5 +1,9 @@
 import { API } from "../config";
 
+/**
+ * Permet de créer une catégorie dans la bd
+ */
+
 export const createCategory = (userId, token, category) => {
     return fetch(`${API}/category/create/${userId}`, {
         mode: "cors",
@@ -17,6 +21,10 @@ export const createCategory = (userId, token, category) => {
             console.log(err)
         });
 };
+
+/**
+ * Permet de créer un produit dans la bd
+ */
 
 export const createProduct = (userId, token, product) => {
     return fetch(`${API}/product/create/${userId}`, {
@@ -113,12 +121,12 @@ export const updateEtatCommande = (userId, token, commandeId, statut) => {
 /* effectuer crud sur produtits
 get tout les produits
 get un produit precis
-besoin de update un produit precis
-besoin mettre a jour un produit precis
+besoin de update un produit précis
+besoin mettre a jour un produit précis
 
 */
 
-// vas chercher tout les produits
+// vas chercher tout les produits de la bd
 export const getProduits = () => {
     return fetch(`${API}/products?limit=2000000000`, {
         method: 'GET'
@@ -145,7 +153,7 @@ export const effacerProduit = (productId, userId, token) => {
         .catch(err => console.log(err));
 };
 
-// va chercher un seul produit
+// vas chercher un seul produit dans le backend
 export const getSingleProduits = productId => {
     return fetch(`${API}/product/${productId}`, {
         method: 'GET'

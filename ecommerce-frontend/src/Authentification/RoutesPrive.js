@@ -9,8 +9,10 @@ import { estAuthentifier } from "./index";
  * @param {*} param0 
  */
 const RoutePrive = ({ component: Component, ...rest }) => (
-    //On retourne le route après avoir verifié l'authentification et que ca soit un usager regulier
-    //Si ça passe , le component est retourné ,  si non, il est redirigé à la page de connexion
+    /**
+    *On retourne le route après avoir verifié l'authentification et que ca soit un usager regulier
+    *Si ça passe , le component est retourné ,  si non, il est redirigé à la page de connexion
+    */
     <Route
         {...rest}
         render={props =>
