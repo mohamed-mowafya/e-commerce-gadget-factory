@@ -7,6 +7,10 @@ import { ajoutItem } from "./panierHelper";
 import moment from "moment";
 import ProduitSimilaire from "./ProduitSimilaire";
 
+/**
+ * Permet d'afficher tout les détails en lien avec le produit selectionné par l'utilisateur. 
+ * @returns Retourne l'affichage d'un seul produit.
+ */
 const ProductDetails = (props) => {
     const [product, setProduct] = useState({});
     const [relatedProduct, setRelatedProduct] = useState([]);

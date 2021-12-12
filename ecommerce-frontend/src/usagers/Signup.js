@@ -4,6 +4,10 @@ import { Link } from 'react-router-dom';
 import '../CSS/login_signup.css';
 import { signupAPI } from '../Authentification';
 import imageInscription from '../images/image_inscription.png'
+/**
+ * Cette classe permet d'afficher la page signup et permettre à l'utilisateur de s'inscire.
+ * @returns Retourne l'aspect de la page signup.
+ */
 const Signup = () => {
     const [valeursUsager, setValeursUsager] = useState({
         nom: '',
@@ -14,6 +18,10 @@ const Signup = () => {
         succes: false
     });
     useEffect(() => { document.body.style.backgroundColor = '#ededed' })
+
+    /**
+     * Permettre d'envoyer la requete à l'API.
+     */
     const submitValeurs = (event) => {
         event.preventDefault(); // Methode qui permets d'interdire le refresh.
         //setValeursUsager({...valeursUsager,erreur:false})

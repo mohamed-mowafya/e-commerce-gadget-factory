@@ -3,6 +3,11 @@ import { useLocation } from "react-router-dom";
 import '../CSS/navbar.css';
 import Layout from "./Layout";
 import React, { useState, useEffect } from 'react';
+
+/**
+ * Cette permet d'afficher les produits en lien avec la recherche de l'utilisateur.
+ * @returns Retourne l'affichage de la page de recherche.
+ */
 const PageRecherche = () => {
     const location = useLocation();
     const params = location.state.params;
