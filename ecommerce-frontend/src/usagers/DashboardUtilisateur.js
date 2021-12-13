@@ -9,7 +9,7 @@ import "../CSS/Dashboard.css"
 const Dashboard = () => {
     const [historique, setHistorique] = useState([])
 
-    //Pour pouvoir update le profile 
+    //Recevoir les variables de l'utilisateur à partir de la méthod estAuthentifier() 
     const { user: { _id, nom, prenom, email, role } } = estAuthentifier();
 
     const token = estAuthentifier().token

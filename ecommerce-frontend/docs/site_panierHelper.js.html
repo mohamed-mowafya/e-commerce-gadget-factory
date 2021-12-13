@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: site/panierHelper.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: site/panierHelper.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+/** 
+ * Méthode qui permet d'ajouter un item dans le panier
+ */
+export const ajoutItem = (item, next) => {
+    let cart = []
+    if (typeof window !== 'undefined') {
+        /* Prend les item du local storage avec le nom cart */
+        if (localStorage.getItem('cart')) {
+            cart = JSON.parse(localStorage.getItem('cart')) // Popule les items dans cart[]
+        }
+        cart.push({
+            ...item,
+            count: 1 // incemente de le count
+        })
+         /*   evite de dupliquer le meme produit dans le cart
+          *   le set enleve automatiquement la duplication 
+          */
+        cart = Array.from(new Set(cart.map((p) => (p._id)))).map(id => {
+            return cart.find(p => p._id === id);
+        });
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        next();// -> execute la fonction
+    }
+};
+
+ /** Méthode qui determine le nombre total de produit dans le panier 
+ * @returns la quantité d'items en JSON
+ */
+export const itemAuTotal = () => {
+    if (typeof window !== 'undefined') {
+        if (localStorage.getItem('cart')) {
+            return JSON.parse(localStorage.getItem('cart')).length;
+        }
+    }
+    return 0;
+}
+/**  Méthode qui Get le panier du localStorage 
+ *   @returns le panier en JSON
+ */
+export const getPanier = () => {
+    if (typeof window !== 'undefined') {
+        if (localStorage.getItem('cart')) {
+            return JSON.parse(localStorage.getItem('cart'));
+        }
+    }
+    return [];
+}
+
+/* Méthode qui permet de changer la quantite de chaque item dans le panier */
+export const MisAjourItem = (IDproduit, count) => {
+    let cart = []
+    if (typeof window !== 'undefined') {
+        if (localStorage.getItem('cart')) {
+            cart = JSON.parse(localStorage.getItem('cart'))
+        }
+        cart.map((product, i) => {
+            if (product._id === IDproduit) {
+                cart[i].count = count
+            }
+        })
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+}
+
+
+/** Méthode qui permet de supprimer un article dans le panier 
+ *  @returns le contenue d'un panier
+ */
+export const supprimerProduit = (IDproduit) => {
+    let cart = []
+    if (typeof window !== 'undefined') {
+        if (localStorage.getItem('cart')) {
+            cart = JSON.parse(localStorage.getItem('cart'))
+        }
+        cart.map((product, i) => {
+            if (product._id === IDproduit) {
+                cart.splice(i, 1)  /* décrémente de un */ 
+            }
+        })
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+    return cart;
+};
+
+/* méthode qui permet de vider le panier après un paiement */
+export const viderPanier = next => {
+    if (typeof window !== 'undefined') {
+        localStorage.removeItem('cart');
+        next();
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ajoutItem">ajoutItem</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#commander">commander</a></li><li><a href="global.html#createCategory">createCategory</a></li><li><a href="global.html#createProduct">createProduct</a></li><li><a href="global.html#getBraintreeTokenClient">getBraintreeTokenClient</a></li><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#getPanier">getPanier</a></li><li><a href="global.html#getProducts">getProducts</a></li><li><a href="global.html#getProduitsFiltrer">getProduitsFiltrer</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#itemAuTotal">itemAuTotal</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#Paiement">Paiement</a></li><li><a href="global.html#Panier">Panier</a></li><li><a href="global.html#processPayment">processPayment</a></li><li><a href="global.html#ProduitSimilaire">ProduitSimilaire</a></li><li><a href="global.html#RadioBox">RadioBox</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li><li><a href="global.html#Shop">Shop</a></li><li><a href="global.html#ShowImage">ShowImage</a></li><li><a href="global.html#supprimerProduit">supprimerProduit</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sun Dec 12 2021 20:08:49 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

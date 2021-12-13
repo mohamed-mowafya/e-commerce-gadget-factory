@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: models/commandes.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,59 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: models/commandes.js</h1>
 
     
 
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const { ObjectId } = mongoose.Schema;
+ 
+/**
+ * Moel pour le panier
+ */
+const SchemaChariot = new mongoose.Schema(
+  {
+    product: { type: ObjectId, ref: "Product" },
+    name: String,
+    price: Number,
+    count: Number
+  },
+  { timestamps: true }
+);
+ 
+const ItemChariot = mongoose.model("ItemChariot", SchemaChariot);
+ 
+/**
+ * Model pour commande
+ */
+const SchemaCommande = new mongoose.Schema(
+  {
+    products: [SchemaChariot],
+    transaction_id: {},
+    montant_total: { type: Number },
+    address: String,
+    statut: {
+      type: String,
+      default: "En attente",
+      enum: ["En attente", "En traitement", "Envoyé", "Livré", "Annulé"]
+    },
+    updated: Date,
+    user: { type: ObjectId, ref: "User" }
+  },
+  { timestamps: true }
+);
+ 
+const Commande = mongoose.model("Commande", SchemaCommande);
+ 
+module.exports = {Commande , ItemChariot };</code></pre>
+        </article>
+    </section>
 
 
 

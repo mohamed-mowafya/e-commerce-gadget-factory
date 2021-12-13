@@ -31,6 +31,8 @@ import Layout from "../site/Layout";
 import { estAuthentifier } from "../Authentification";
 import { Link, Redirect } from "react-router-dom";
 import { read, update, updateUser } from "./apiUsager"
+import { loginAPI, authentifier } from "../Authentification";
+import "../CSS/profile.css"
 const Profile = ({ match }) => {
     const [values, setValues] = useState({
         nom: "",
@@ -38,14 +40,17 @@ const Profile = ({ match }) => {
         email: "",
         mdp: "",
         mdp2: "",
+        mdp_a:"",
         hashed_password: "",
         error: false,
+        ancien_mdp_err:false,
         succes: false
     }
     );
     const { token } = estAuthentifier()
     const [visible, setVisible] = useState(false); // Permets d'afficher et cacher le message d'erreur
-    var { nom, prenom, email, hashed_password, error, succes, mdp, mdp2 } = values;
+    const [estAuth,setEstAuth] = useState(false);
+    var { nom, prenom, email, hashed_password, error, succes, mdp, mdp2,mdp_a,ancien_mdp_err} = values;
 
     /**
      * Méthode qui permets d'initialiser les informations de l'usager
@@ -70,7 +75,7 @@ const Profile = ({ match }) => {
      * @param {*} name 
      */
     const handleChange = name => (event) => {
-        setValues({ ...values, [name]: event.target.value },)
+        setValues({ ...values, [name]: event.target.value ,error:false})
     }
 
     /**
@@ -82,52 +87,55 @@ const Profile = ({ match }) => {
      * @param {*} hashed_password  
      */
     const modifierProfile = (nom, prenom, email, hashed_password) => (
-        &lt;form>
-            &lt;div className="form-group">
-                &lt;label className="text-muted">Nom&lt;/label>
-                &lt;input type="text" onChange={handleChange('nom')} className="form-control" value={nom} />
+        &lt;div class="wrapper bg-white mt-sm-5">
+        &lt;h4 class="pb-4 border-bottom mt-auto d-flex justify-content-center profile-titre">Modifier votre profile&lt;/h4>
+        &lt;div class="py-2">
+            &lt;div class="column py-2">
+                &lt;div class="col-md-12"> &lt;label for="firstname">Nom&lt;/label> &lt;input type="text" class="bg-light form-control" value={nom} onChange={handleChange("nom")}/> &lt;/div>
+                &lt;div class="col-md-12 pt-md-0 pt-3"> &lt;label for="lastname">Prénom&lt;/label> &lt;input type="text" class="bg-light form-control"value={prenom} onChange={handleChange("prenom")}/> &lt;/div>
+                &lt;div class="col-md-12"> &lt;label for="email">Email Address&lt;/label> &lt;input type="text" class="bg-light form-control" value={email} onChange={handleChange("email")}/> &lt;/div>
+                &lt;label for="password">Ancien mot de passe&lt;/label> &lt;input type="password" class="bg-light form-control" onChange={handleChange("mdp_a")}/>
+                &lt;label for="password">Mot de passe&lt;/label> &lt;input type="password" class="bg-light form-control" onChange={handleChange("mdp")}/>
+                &lt;label for="password">Confirmer&lt;/label> &lt;input type="password" class="bg-light form-control" onChange={handleChange("mdp2")}/>
             &lt;/div>
-            &lt;div className="form-group">
-                &lt;label className="text-muted">Prenom&lt;/label>
-                &lt;input required type="text" onChange={handleChange('prenom')} className="form-control" value={prenom} />
-            &lt;/div>
-            &lt;div className="form-group">
-                &lt;label className="text-muted">Email&lt;/label>
-                &lt;input required type="email" onChange={handleChange('email')} className="form-control" value={email} />
-            &lt;/div>
-            &lt;div className="form-group">
-                &lt;label className="text-muted">Mot de passe&lt;/label>
-                &lt;input id="mdp" type="password" onChange={handleChange('mdp')} className="form-control" />
-            &lt;/div>
-            &lt;div className="form-group">
-                &lt;label className="text-muted">Confirmer mot de passe&lt;/label>
-                &lt;input id="mdp2" type="password" onChange={handleChange('mdp2')} className="form-control" />
-            &lt;/div>
-            &lt;button onClick={envoyerInformations} className="btn btn-primary">Modifier&lt;/button>
-        &lt;/form>
+            &lt;div class="py-3 pb-4 d-flex justify-content-center me-2"> &lt;button class="btn btn-primary ms-auto me-auto" onClick={envoyerInformations}>Sauvegarder&lt;/button>&lt;/div>
+        &lt;/div>
+    &lt;/div>
     )
 
     /***
-     * Méthode qui va envoyer les informations changés par l'utilisateur
+     * Méthode qui va envoyer les informations changés par l'utilisateur et s'assurer
+     * qu'il connaît son ancien mdp.
      * vers le backend
      * */
     const envoyerInformations = event => {
         event.preventDefault()
+        setValues({...values,error:false})
         verifierMDP()
-        if (!error) {
-            update(match.params.userId, token, { nom, prenom, email, hashed_password }).then(data => {
-
+        loginAPI({ email, mdp: mdp_a })
+        .then(data => {
                 if (data.error) {
-                    console.log(data.error);
+                    setVisible(true)
+                    setValues({ ...values, error: true, succes: false })
+                    document.getElementById("erreurMDP").innerHTML = "Votre ancienne mot de passe est incorrecte!";
+                } else {
+                    if (!error) {
+                        update(match.params.userId, token, { nom, prenom, email, hashed_password }).then(data => {
+                            if (data.error) {
+                                console.log(data.error);
+                            }
+                            else {
+                                updateUser(data, () => {
+                                    setValues({ ...values, nom: data.nom, email: data.email,succes: true })
+                                })
+                            }
+                        })
+                    }
                 }
-                else {
-                    updateUser(data, () => {
-                        setValues({ ...values, nom: data.nom, email: data.email })
-                    })
-                }
-            })
+            });
         }
-    }
+ 
+
 
     /***
      * Méthode qui va permettre de vérifier si le nouveau mot de passe
@@ -135,27 +143,28 @@ const Profile = ({ match }) => {
      * Source : https://stackoverflow.com/questions/12090077/javascript-regular-expression-password-validation-having-special-characters
      */
     const verifierMDP = () => {
+
         if (mdp == mdp2 &amp;&amp; mdp.length > 0) {
             var regexMDP = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9_]).{8,}");
             if (!regexMDP.test(mdp)) {
                 setVisible(true)
-                setValues({ ...values, error: true, succes: false })
+                setValues({ ...values, error: true })
                 document.getElementById("erreurMDP").innerHTML = "Votre mot de passe doit contenir au moins 8 caractères, "
                     + "un chiffre, une lettre en majuscule et un symbole."
             }
             else {
                 setVisible(false)
-                setValues({ ...values, error: false, succes: true })
+                setValues({ ...values, error: false })
                 hashed_password = mdp;
             }
         }
-        else {
-
-            setValues({ ...values, error: true, succes: false })
+        else{
+            setValues({ ...values, error: true })
             setVisible(true)
             document.getElementById("erreurMDP").innerHTML = "Les deux champs de mot de passe doivent être pareils et remplis."
 
         }
+
 
     }
 
@@ -163,6 +172,7 @@ const Profile = ({ match }) => {
      * Méthode qui réderige l'utilisateur apres'il a changer ses informations.
      */
     const rediriger = (succes) => {
+  
         if (succes) {
             return &lt;Redirect to="/" />
         }
@@ -178,10 +188,9 @@ const Profile = ({ match }) => {
 
     useEffect(() => {
         initaliser(match.params.userId)
-    }, [])
+    }, [error])
     return (
         &lt;Layout title="Modification de profile" description="Modifier votre profile" className="container-fluid">
-            &lt;h2 className="mb-4">Modifier votre profile&lt;/h2>
             {erreurMDP()}
             {modifierProfile(nom, prenom, email, hashed_password)}
             {rediriger(succes)}
@@ -200,13 +209,13 @@ export default Profile;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Card">Card</a></li><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#ProduitSimilaire">ProduitSimilaire</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li><li><a href="global.html#ShowImage">ShowImage</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ajoutItem">ajoutItem</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#commander">commander</a></li><li><a href="global.html#createCategory">createCategory</a></li><li><a href="global.html#createProduct">createProduct</a></li><li><a href="global.html#getBraintreeTokenClient">getBraintreeTokenClient</a></li><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#getPanier">getPanier</a></li><li><a href="global.html#getProducts">getProducts</a></li><li><a href="global.html#getProduitsFiltrer">getProduitsFiltrer</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#itemAuTotal">itemAuTotal</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#Paiement">Paiement</a></li><li><a href="global.html#Panier">Panier</a></li><li><a href="global.html#processPayment">processPayment</a></li><li><a href="global.html#ProduitSimilaire">ProduitSimilaire</a></li><li><a href="global.html#RadioBox">RadioBox</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li><li><a href="global.html#Shop">Shop</a></li><li><a href="global.html#ShowImage">ShowImage</a></li><li><a href="global.html#supprimerProduit">supprimerProduit</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Nov 25 2021 23:45:55 GMT-0500 (Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sun Dec 12 2021 20:08:49 GMT-0500 (Eastern Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

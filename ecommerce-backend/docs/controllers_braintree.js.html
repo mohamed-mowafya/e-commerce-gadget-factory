@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: controllers/braintree.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,73 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: controllers/braintree.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const User = require("../models/user");
+const braintree = require('braintree');
+require('dotenv').config();
+     
 
+/**
+ * Connexion à braintree
+ */
+const gateway = new braintree.BraintreeGateway({
+    environment : braintree.Environment.Sandbox,
+    merchantId : process.env.BRAINTREE_MERCHANT_ID,
+    publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+    privateKey : process.env.BRAINTREE_PRIVATE_KEY
+});
 
-    <h3> </h3>
+/**
+ * génère un token
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.generateToken = async (req, res) => {
+    gateway.clientToken.generate({}, function(err, reponse){
+        if(err){
+            res.status(500).send(err);
+        } else {
+            res.send(reponse);
+        }
+    });
+};
 
+/**
+ * Methode pour le payement 
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.processPayment = async (req, res) => {
+    let nonceFromClient = req.body.paymentMethodNonce
+    let amountFromClient = req.body.amount
 
+    //(gateawaypermet de connecter a braintree)
+    let newTransaction = gateway.transaction.sale({
+        amount: amountFromClient,
+        paymentMethodNonce: nonceFromClient,
+        options :{
+            submitForSettlement : true
+        }
+    }, (error, result) => {
+        if(error) {
+            res.status(500).json(error);
+        } else {
+            res.json(result);
+        }
+    })
+}
 
-
-
-
-
-
-
-
-    
-
-
-
-
-
+</code></pre>
+        </article>
+    </section>
 
 
 

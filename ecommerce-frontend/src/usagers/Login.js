@@ -74,21 +74,6 @@ const Login = () => {
                 </div>
             </div>
         </section>
-        // <div className="section-inscription-login">
-        //     <p className="header-inscription">Connectez-vous</p>
-        //     <p className="paragraph-inscription">Quel plaisir de vous revoir!</p>
-        //     <form action="POST" className="flex-inscription">
-        //         <div className="form-group form-inscription">
-        //             <label className="text-muted">Email</label>
-        //             <input onChange={changementValeurs('email')} type="email" className="form-control" value={email}/>
-        //         </div>
-        //         <div className="form-group form-inscription">
-        //             <label className="text-muted">Mot de passe</label>
-        //             <input onChange={changementValeurs('mdp')} type="password" className="form-control" value={mdp}/>
-        //         </div>
-        //         <button type="button" class="btn btn-dark btn-inscription" onClick={submitValeurs}>Se Connecter</button>
-        //     </form>
-        // </div>
     )
 
     const affichageErreur = () => (

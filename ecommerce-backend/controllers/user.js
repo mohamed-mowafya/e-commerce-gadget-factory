@@ -40,7 +40,6 @@ exports.userById = (req, res, next, id) => {
  * Methode pour lire les donnes du user
  * @param {*} req 
  * @param {*} res 
- * @returns 
  */
 exports.read = (req, res) => {
   req.profile.hashed_password = undefined;

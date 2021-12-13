@@ -36,6 +36,19 @@ import { getBraintreeTokenClient, processPayment, commander } from "../site/apiS
 import { Redirect } from "react-router-dom";
 import "../CSS/panier.css"
 
+/**
+ * classe qui s'occupera du processus de paiement
+ * 
+ * @param {*} product 
+ * Variable product qui prendre en paramètre le produit que l'usager désire acheter.
+* @param {*} run 
+ * Variable run permet useEffect ne mettra à jour le composant que lorsque l'état d'exécution change
+ * @param {*} setRun 
+ * Variable setRun permet d'informez le composant parent en l'exécutant
+ * une fois le paiement effectué
+ * @returns l'affichage du méthode de paiement
+ */
+
 const Paiement = ({ product, setRun = f => f, run = undefined }) => {
 
 
@@ -49,7 +62,7 @@ const Paiement = ({ product, setRun = f => f, run = undefined }) => {
 
     const [adresse, setAdresse] = useState('')
 
-    //requete au backend
+    /** requête au backend */
     const userId = estAuthentifier() &amp;&amp; estAuthentifier().user._id
     const token = estAuthentifier() &amp;&amp; estAuthentifier().token
 
@@ -67,8 +80,12 @@ const Paiement = ({ product, setRun = f => f, run = undefined }) => {
         getToken(userId, token)
     }, [])
 
-    // calcule du prix avant taxes
-    //Affichage du prix avant taxes
+
+    /**
+     * calcule du prix avant taxes
+     * Affichage du prix avant taxes
+     * @returns le prix à payer avant taxes
+     */
     const getTotal = () => {
         return product.reduce((valeurActuelle, prochaineValeur) => {
             return valeurActuelle + prochaineValeur.count * prochaineValeur.price;
@@ -79,6 +96,10 @@ const Paiement = ({ product, setRun = f => f, run = undefined }) => {
         return product.count
     }
 
+    /**
+     * méthode qui affiche l'entièreté de la partie du paiement
+     * @returns l'interface de paiement seulement si l'utilisateur est connecté
+     */
     const AfficherPaiement = () => {
 
         return estAuthentifier() ? (
@@ -96,8 +117,10 @@ const Paiement = ({ product, setRun = f => f, run = undefined }) => {
     const handleChange = event => {
         setAdresse(event.target.value);
     }
+
+    /**  méthode qui affiche le Drop-in */
     const AfficherDropIn = () => (
-        // permet de faire disparairtre le message d'erreur en cliquant nimporte ou sur la page 
+        /**  permet de faire disparairtre le message d'erreur en cliquant nimporte ou sur la page */
         &lt;div onBlur={() => setData({ ...data, error: "" })}>
 
 
@@ -113,7 +136,8 @@ const Paiement = ({ product, setRun = f => f, run = undefined }) => {
         &lt;/div>
 
     );
-
+    
+    /**  Méthode qui permet de saisir l'adresse entré du client */
     const AfficherEntreeAdresse = () => (
         &lt;div className="form-group mb-2">
             &lt;label className="text-muted">Adresse de livraison&lt;/label>
@@ -126,7 +150,7 @@ const Paiement = ({ product, setRun = f => f, run = undefined }) => {
         &lt;/div>
     )
 
-    // requete au backend
+    /**Méthode qui contient une grosse partie de la logique du processus du paiement*/
     const Acheter = () => {
         setData({ loading: true });
         let nonce;
@@ -170,15 +194,15 @@ const Paiement = ({ product, setRun = f => f, run = undefined }) => {
                 setData({ ...data, error: error.message });
             });
     };
-
+    /** méthode qui permet d'afficher un message d'erreur si la transaction a échoué  */
     const montrerErreur = error => (
-        // si il ya a erreur, montrer le message d'erreur
+        // 
         &lt;div className="alert alert-danger" style={{ display: error ? '' : "none" }}>
             {error}
         &lt;/div>
 
     )
-    // montre le message si la transaction est succes 
+    /** méthode qui permet d'afficher un message de succèes si la transaction a réussie */ 
     const montrerSuccess = success => (
         &lt;div className="alert alert-info"
             style={{ display: success ? '' : "none" }}>
@@ -223,13 +247,13 @@ export default Paiement;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Card">Card</a></li><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#ProduitSimilaire">ProduitSimilaire</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li><li><a href="global.html#ShowImage">ShowImage</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ajoutItem">ajoutItem</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#commander">commander</a></li><li><a href="global.html#createCategory">createCategory</a></li><li><a href="global.html#createProduct">createProduct</a></li><li><a href="global.html#getBraintreeTokenClient">getBraintreeTokenClient</a></li><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#getPanier">getPanier</a></li><li><a href="global.html#getProducts">getProducts</a></li><li><a href="global.html#getProduitsFiltrer">getProduitsFiltrer</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#itemAuTotal">itemAuTotal</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#Paiement">Paiement</a></li><li><a href="global.html#Panier">Panier</a></li><li><a href="global.html#processPayment">processPayment</a></li><li><a href="global.html#ProduitSimilaire">ProduitSimilaire</a></li><li><a href="global.html#RadioBox">RadioBox</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li><li><a href="global.html#Shop">Shop</a></li><li><a href="global.html#ShowImage">ShowImage</a></li><li><a href="global.html#supprimerProduit">supprimerProduit</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Nov 25 2021 23:45:55 GMT-0500 (Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sun Dec 12 2021 20:08:49 GMT-0500 (Eastern Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

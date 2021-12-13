@@ -24,11 +24,9 @@ const Signup = () => {
      */
     const submitValeurs = (event) => {
         event.preventDefault(); // Methode qui permets d'interdire le refresh.
-        //setValeursUsager({...valeursUsager,erreur:false})
         signupAPI({ nom, prenom, email, mdp })
             .then(data => {
                 if (data.error) {
-                    console.log(data.json + "data")
                     setValeursUsager(({ ...valeursUsager, erreur: data.error, succes: false }))
 
                 }

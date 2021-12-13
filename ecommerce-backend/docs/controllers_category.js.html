@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: controllers/category.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,119 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: controllers/category.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const Category = require("../models/category");
+const { errorHandler } = require("../helpers/dbErrorHandler");
 
 
-    <h3> </h3>
+/**
+ * chercher category 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @param {*} id 
+ */
+exports.categoryById = (req, res, next, id) => {
+  Category.findById(id).exec((err, category) => {
+    if (err || !category) {
+      return res.status(400).json({
+        error: "Category introuvable",
+      });
+    }
+    req.category = category;
+    next();
+  });
+};
 
+/**
+ * Cree une nouvelle categorie
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.create = (req, res) => {
+  const category = new Category(req.body);
+  category.save((err, data) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler(err),
+      });
+    }
+    res.json({ data });
+  });
+};
 
+/**
+ * chercher une category by id
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.read = (req, res) => {
+  return res.json(req.category);
+};
 
+/**
+ * changer le nom de la category
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.update = (req, res) => {
+  const category = req.category;
+  category.name = req.body.name;
+  category.save((err, data) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler(err),
+      });
+    }
+    res.json(data);
+  });
+};
 
+/**
+ * supprimer une category
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.remove = (req, res) => {
+  const category = req.category;
+  category.remove((err, data) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler(err),
+      });
+    }
+    res.json({
+      message: "Category supprimer",
+    });
+  });
+};
 
-
-
-
-
-
-    
-
-
-
-
-
+/**
+ * lister toutes les categories 
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.list = (req, res) => {
+  Category.find().exec((err, data) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler(err),
+      });
+    }
+    res.json(data);
+  });
+};
+</code></pre>
+        </article>
+    </section>
 
 
 

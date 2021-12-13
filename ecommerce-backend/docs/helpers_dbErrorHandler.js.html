@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: helpers/dbErrorHandler.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,67 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: helpers/dbErrorHandler.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+
+/**
+ * Get unique error field name
+ * @param {*} error 
+ */
+const uniqueMessage = error => {
+    let output;
+    try {
+        let fieldName = error.message.substring(
+            error.message.lastIndexOf(".$") + 2,
+            error.message.lastIndexOf("_1")
+        );
+        output =
+            fieldName.charAt(0).toUpperCase() +
+            fieldName.slice(1) +
+            " already exists";
+    } catch (ex) {
+        output = "Un champ unique existe déjà";
+    }
+
+    return output;
+};
 
 
-    <h3> </h3>
+/**
+ * Get the erroror message from error object
+ * @param {*} error 
+ */
+exports.errorHandler = error => {
+    let message = "";
 
+    if (error.code) {
+        switch (error.code) {
+            case 11000:
+            case 11001:
+                message = uniqueMessage(error);
+                break;
+            default:
+                message = "Un problème est survenu";
+        }
+    } else {
+        for (let errorName in error.errorors) {
+            if (error.errorors[errorName].message)
+                message = error.errorors[errorName].message;
+        }
+    }
 
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+    return message;
+};</code></pre>
+        </article>
+    </section>
 
 
 

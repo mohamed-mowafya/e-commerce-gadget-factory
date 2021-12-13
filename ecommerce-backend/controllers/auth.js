@@ -88,7 +88,6 @@ exports.requireSignin = expressJwt({
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
- * @returns 
  */
 exports.isAuth = (req, res, next) => {
     let user = req.profile && req.auth && req.profile._id == req.auth._id;
@@ -107,7 +106,6 @@ exports.isAuth = (req, res, next) => {
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
- * @returns 
  */
 exports.isAdmin = (req, res, next) => {
     if (req.profile.role === 0) {

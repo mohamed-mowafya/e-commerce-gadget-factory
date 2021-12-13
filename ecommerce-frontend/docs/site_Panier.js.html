@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: site/Panier.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: site/Panier.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from "react";
+import Layout from "../site/Layout";
+import { Link } from "react-router-dom";
+import { getPanier } from "../site/panierHelper";
+import Card from "../site/Card";
+import Paiement from "./Paiement";
+import {MisAjourItem, supprimerProduit } from "./panierHelper";
+import ShowImage from './ShowImage';
+import "../CSS/panier.css"
+
+
+/**
+ * classe qui s'occupera du panier
+ * c'est grâce à celle-ci qu'il est possible de voir 
+ * les produits disponibles dans le panier
+ * 
+ * @returns l'affichage de la page du panier
+ */
+
+const Panier = () => {
+
+    /**on prend les item du localStorage et on vas populer dans state */
+    const [items, setItems] = useState([])
+    const [run, setRun] = useState(false); // utilisé pour empêcher une boucle infini
+
+
+    useEffect(() => { // assure qu'il y a des item dans le state, si item existe pas = retourne empty array
+        setItems(getPanier());
+    }, [run]); /** -> Permet d'avoir un panier mis à jour (lors de la supression) */
+
+    
+    /** Méthode qui affiche tous les items dans le panier
+     * @param {*} items 
+     * Variable items contient tous les items dans le panier
+     * @returns les produit, ainsi que les données de ceux-ci
+    */
+    const AffichageItems = items => {
+      return (
+        &lt;div>
+        &lt;div className=" d-flex justify-content-center align-items-center mb-4">
+        &lt;h3 className="fw-normal mb-0 text-black font-chariot mt-1">Votre panier&lt;/h3>
+          &lt;/div>
+        &lt;div className="d-flex mb-auto mt-auto">
+                &lt;div className="ms-4 me-auto col-md-5 mt-4 panier-div">
+                &lt;div className="panier-grid d-flex row">
+                    {items.map((product, i) =>
+                    
+                    (&lt;Card
+                        key={i} product={product}
+                        montrerBoutonAjouterPanier={false}
+                        PanierUpdate={true}
+                        MontrerSupprimerProduitBouton={true}
+                        setRun={setRun}
+                        run={run}
+                    />
+                  
+                    )
+                    )}
+                    &lt;/div>
+                &lt;/div>
+            &lt;div className="me-4 ms-auto mt-2">
+            &lt;Paiement product={items} />
+            &lt;/div>
+        &lt;/div>
+        &lt;/div>
+    )
+}
+
+    /**Affiche un message lorsque le panier s'est vidé */
+    const PanierVideMessage = () => (
+    &lt;div class="row margin-cart-vide">
+        &lt;div class="col-md-12">
+                    &lt;div class="col-sm-12 empty-cart-cls text-center"> &lt;img src="https://i.imgur.com/dCdflKN.png" width="130" height="130" class="img-fluid mb-4 mr-3"/>
+                        &lt;h3>&lt;strong>Votre chariot est vide!&lt;/strong>&lt;/h3>
+                        &lt;h4>&lt;Link to="/shop">Continuez à magasiner !&lt;/Link>&lt;/h4>
+                    &lt;/div>
+        &lt;/div>
+    &lt;/div>)
+
+    
+  const handleChange = IDproduit => product => event => {
+    setRun(!run); /**  run le useEffect dans Cart*/
+    /**  Ne laisse pas rajouter plus que la quantité disponible */
+    if (event.target.value > product.quantity) {
+         event.target.value = 0
+    }
+    if (event.target.value >= 1) {
+      MisAjourItem(IDproduit, event.target.value)
+    }
+  }
+
+
+    return (
+        &lt;Layout
+            title="Panier"
+            descritpion="">
+            {items.length > 0 ? AffichageItems(items)  : PanierVideMessage()}
+        &lt;/Layout>
+    );
+};
+
+export default Panier;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ajoutItem">ajoutItem</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#commander">commander</a></li><li><a href="global.html#createCategory">createCategory</a></li><li><a href="global.html#createProduct">createProduct</a></li><li><a href="global.html#getBraintreeTokenClient">getBraintreeTokenClient</a></li><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#getPanier">getPanier</a></li><li><a href="global.html#getProducts">getProducts</a></li><li><a href="global.html#getProduitsFiltrer">getProduitsFiltrer</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#itemAuTotal">itemAuTotal</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#Paiement">Paiement</a></li><li><a href="global.html#Panier">Panier</a></li><li><a href="global.html#processPayment">processPayment</a></li><li><a href="global.html#ProduitSimilaire">ProduitSimilaire</a></li><li><a href="global.html#RadioBox">RadioBox</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li><li><a href="global.html#Shop">Shop</a></li><li><a href="global.html#ShowImage">ShowImage</a></li><li><a href="global.html#supprimerProduit">supprimerProduit</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sun Dec 12 2021 20:08:49 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

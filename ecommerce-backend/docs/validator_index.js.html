@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: validator/index.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,48 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: validator/index.js</h1>
 
     
 
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+// Aide : https://express-validator.github.io/docs/
+/**
+ * user sign up validator
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+exports.userSignupValidator = (req, res, next) => {
+    req.check('nom', 'Le nom est requis').notEmpty();
+    req.check('prenom','Le prenom est requis').notEmpty();
+    req.check('email', 'Email doit comporter entre 3 et 32 ​​caractères')
+        .matches(/.+\@.+\..+/)
+        .withMessage('Email doit comporter  @')
+        .isLength({
+            min: 4,
+            max: 32
+        });
+    req.check('mdp', 'Mot de passe requis').notEmpty();
+    req.check('mdp')
+        .isLength({ min: 6 })
+        .withMessage('Le mot de passe doit contenir au moins 6 caractères')
+        .matches(/\d/)
+        .withMessage('Le mot de passe doit contenir un nombre');
+    const errors = req.validationErrors();
+    if (errors) {
+        const firstError = errors.map(error => error.msg)[0];
+        return res.status(400).json({ error: firstError });
+    }
+    next();
+};</code></pre>
+        </article>
+    </section>
 
 
 

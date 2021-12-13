@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: site/ProduitSimilaire.js</title>
+    <title>JSDoc: Source: site/RadioBox.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: site/ProduitSimilaire.js</h1>
+    <h1 class="page-title">Source: site/RadioBox.js</h1>
 
     
 
@@ -27,42 +27,38 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
-import ShowImage from './ShowImage';
+
 
 /**
- * Cette classe englobe l'entièreté d'une carte d'un produit similaire.
- * @returns Retourne l'affichage d'un produit similaire.
+ * Cette classe permet d'avoir un filtre par prix dans la page des produits
+ * @returns Retourne l'affichage et le fonctionnement du filtre par prix.
  */
-const ProduitSimilaire = ({
-    product,
-    montrerBoutonAjouterPanier = true,
-    showViewProductButton = true,
-    PanierUpdate = false,
-    MontrerSupprimerProduitBouton = false,
-    setRun = f => f,
-    run = undefined
-}) => {
 
-    return (
-        &lt;div class="col-md-6 col-lg-3 mb-5">
+const RadioBox = ({ prices, handleFilters }) => {
 
-            &lt;div class="view zoom overlay z-depth-2 rounded">
-                &lt;ShowImage className="card-img" item={product} url="product" />
-            &lt;/div>
+    const [value, setValue] = useState(0);
 
-            &lt;div class="d-flex flex-column pt-4 justify-content-center">
+    const handleChange = event => {
+        handleFilters(event.target.value); /*-> tous ce qu'on get sur le handelFilters qui vient de Shop(perent subcomponent) */
+        setValue(event.target.value); /*-> update */
+    };
 
-                &lt;h5>&lt;a href={`/productdetails/${product._id}`} className="" data-abc="true">{product.name}&lt;/a>&lt;/h5>
-                &lt;h6>${product.price}&lt;/h6>
-            &lt;/div>
+    /* -> a chaque changement dans input, sera envoyer au parent (Shop)*/
+    return prices.map((p, i) => (
+        &lt;div key={i} className="form-inline d-flex align-items-center py-1">
+            &lt;label className="tick">{p.name}
+                &lt;input onChange={handleChange}
+                    value={`${p._id}`}
+                    name={p}  /* -> Permet de cocher 1 choix parmis les prix */
+                    type="radio" />
+                &lt;span className="check">&lt;/span>
+            &lt;/label>
         &lt;/div>
-
-    );
-
+    ));
 };
 
-export default ProduitSimilaire;</code></pre>
+
+export default RadioBox;</code></pre>
         </article>
     </section>
 

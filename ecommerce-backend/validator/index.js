@@ -5,7 +5,6 @@
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
- * @returns 
  */
 exports.userSignupValidator = (req, res, next) => {
     req.check('nom', 'Le nom est requis').notEmpty();

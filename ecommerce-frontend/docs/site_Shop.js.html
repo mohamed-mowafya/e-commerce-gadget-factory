@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: site/Shop.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: site/Shop.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+import React, { useState, useEffect } from "react";
+import Card from "./Card";
+import Layout from "./Layout";
+import { getCategories, getProduitsFiltrer } from "./apiSite";
+import Checkbox from "./CheckBox";
+import { prix } from "./PrixFix";
+import RadioBox from "./RadioBox";
+import "../CSS/shop.css"
+import "../CSS/animationImage.css"
+import ProductDetails from "./ProductDetails";
+import FormeSimple from "./chatbot/FormSimple";
+import bck from "../images/bck2.png"
+
+/**
+ * Cette classe englobe l'entièreté de la page Shop ce qui permet de gerer l'affichage des cartes et des differents filtres.
+ * @returns Retourne l'affichage de la page Shop.
+ */
+const Shop = () => {
+
+    const [myFilters, setMyFilters] = useState({
+        filters: { category: [], price: [] }
+    });
+    const [categories, setCategories] = useState([]);
+    const [error, setError] = useState(false);
+    const [limit, setLimit] = useState(12); //limiter 12 produits a chaque request
+    const [skip, setSkip] = useState(0);
+    const [size, setSize] = useState(0);
+    const [filteredResults, setFilteredResults] = useState([]);
+
+
+    /**
+     * Cette méthode permet d'obtenir les produits selon le filtre choisis par l'utilisateur.
+     */
+    const ChargerResultatFiltres = (nouveauFiltres) => {
+        getProduitsFiltrer(skip, limit, nouveauFiltres).then(data => {
+            if (data.error) {
+                setError(data.error);
+            } else {
+                setFilteredResults(data.data);
+                setSize(data.size); // le nombre de produits qu'on affiche
+                setSkip(0);
+            }
+        })
+
+    };
+
+
+    /**
+     * Cette méthode permet de pouvoir charger un certain nombre de produit avant d'afficher le boutton "Plus".
+     */
+    const chargerPlus = () => {
+        let toSkip = skip + limit;
+
+        getProduitsFiltrer(toSkip, limit, myFilters.filters).then(data => {
+            if (data.error) {
+                setError(data.error);
+            } else {
+                setFilteredResults([...filteredResults, ...data.data]);
+                setSize(data.size);
+                setSkip(toSkip);
+            }
+        });
+    };
+
+
+    /**
+     * Cette méthode permet de changer l'allure du bouton.
+     * @returns Cette méthode retourne l'affichage du boutton Plus.
+     */
+    const bouttonChargerPlus = () => {
+        return (
+            size > 0 &amp;&amp;
+            size >= limit &amp;&amp; (
+                &lt;button onClick={chargerPlus} className="btn btn-warning mb-5">
+                    PLUS +
+                &lt;/button>
+            )
+        );
+    };
+
+    // sera untitilise quand le component sera mount
+    const init = () => {
+        getCategories().then(data => {
+            if (data.error) {
+                setError(data.error);
+            } else {
+                setCategories(data);
+            }
+        });
+    };
+
+    useEffect(() => {
+        init();
+        ChargerResultatFiltres(skip, limit, myFilters.filters);
+    },
+        []);
+
+    
+    /**
+     * Cette méthode permet d'afficher les filtres existants selon la catégorie.
+     */
+    const handleFilters = (filters, filterBy) => {
+        const newFilters = { ...myFilters };
+        newFilters.filters[filterBy] = filters;
+
+        //extract la valeur de l'array de la clé
+        if (filterBy === "price") {
+            let priceValues = handlePrice(filters);
+            newFilters.filters[filterBy] = priceValues;
+        }
+        ChargerResultatFiltres(myFilters.filters);
+
+        setMyFilters(newFilters)
+    };
+
+    /**
+     *  Cette méthode permet d'obtenir les prix qu'on veut afficher comme filtre.
+     */
+    const handlePrice = valeur => {
+        const data = prix;
+        let array = [];
+
+        // extrait la valeur qui match avec le key._id qu'il y a dans PrixFixe
+        for (let key in data) {
+            if (data[key]._id === parseInt(valeur)) {
+                array = data[key].array;
+            }
+        }
+        return array;
+    };
+
+    return (
+        &lt;Layout
+            title=""
+            description=""
+            className="container-fluid "
+        >
+
+            &lt;div class="products-right-grids-position animated wow slideInRight" data-wow-delay=".5s">
+						&lt;img src={bck} alt=" " class="img-responsive img1" />
+						&lt;div class="products-right-grids-position1">
+							&lt;h4>Trouvez ce dont vous cherchez&lt;/h4>
+							&lt;p>Découvrez les aubaines magiques sur les tablettes, les portables, les écouteurs et plus encore.&lt;/p>
+						&lt;/div>
+					&lt;/div>
+
+            &lt;div className="row">
+
+                &lt;section id="sidebar" className="">
+                    &lt;div className="py-3">
+                        &lt;h5 className="font-weight-bold d-flex justify-content-start">Categories&lt;/h5>
+                        &lt;ul className="list-group d-flex justify-content-start">
+                            &lt;Checkbox categories={categories} handleFilters={filters => handleFilters(filters, "category")} />
+                        &lt;/ul>
+                    &lt;/div>
+                    &lt;div className="py-3">
+                        &lt;h5 className="font-weight-bold d-flex justify-content-start">Prix&lt;/h5>
+                        &lt;form className="brand d-flex justify-content-start flex-column">
+                            &lt;RadioBox prices={prix} handleFilters={filters => handleFilters(filters, "price")} />
+                        &lt;/form>
+                    &lt;/div>
+                &lt;/section>
+                &lt;div className="col-8">
+                    &lt;div className="container mt-50 mb-50">
+                        &lt;div className="row d-flex justify-content-between">
+                            {filteredResults.map((product, i) => (
+
+
+                                &lt;Card product={product} />
+
+
+                            ))}
+                            {bouttonChargerPlus()}
+
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+            &lt;FormeSimple/>
+        &lt;/Layout>
+    );
+};
+
+export default Shop;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ajoutItem">ajoutItem</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#commander">commander</a></li><li><a href="global.html#createCategory">createCategory</a></li><li><a href="global.html#createProduct">createProduct</a></li><li><a href="global.html#getBraintreeTokenClient">getBraintreeTokenClient</a></li><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getCommandes">getCommandes</a></li><li><a href="global.html#getPanier">getPanier</a></li><li><a href="global.html#getProducts">getProducts</a></li><li><a href="global.html#getProduitsFiltrer">getProduitsFiltrer</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#itemAuTotal">itemAuTotal</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#pageActive">pageActive</a></li><li><a href="global.html#Paiement">Paiement</a></li><li><a href="global.html#Panier">Panier</a></li><li><a href="global.html#processPayment">processPayment</a></li><li><a href="global.html#ProduitSimilaire">ProduitSimilaire</a></li><li><a href="global.html#RadioBox">RadioBox</a></li><li><a href="global.html#RouteAdministarteur">RouteAdministarteur</a></li><li><a href="global.html#RoutePrive">RoutePrive</a></li><li><a href="global.html#Shop">Shop</a></li><li><a href="global.html#ShowImage">ShowImage</a></li><li><a href="global.html#supprimerProduit">supprimerProduit</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sun Dec 12 2021 20:08:49 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

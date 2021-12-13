@@ -42,7 +42,6 @@ exports.create = (req, res) => {
  * chercher une category by id
  * @param {*} req 
  * @param {*} res 
- * @returns 
  */
 exports.read = (req, res) => {
   return res.json(req.category);
