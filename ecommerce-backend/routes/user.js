@@ -17,10 +17,10 @@ router.get("/secret/:userId", requireSignin, isAdmin, isAuth, (req, res) => {
     user: req.profile,
   });
 });
-router.get("/users", listAllUsers);
-router.get("/user/:userId", read); //requireSignin, isAuth
-router.get("/orders/by/user/:userId", historiqueAchat);//requireSignin
-router.put("/user/:userId", update);//requireSignin, isAuth
+router.get("/users",requireSignin, isAuth, listAllUsers);
+router.get("/user/:userId",requireSignin, isAuth, read); 
+router.get("/orders/by/user/:userId",requireSignin, historiqueAchat);
+router.put("/user/:userId",requireSignin, isAuth, update);
 
 router.param("userId", userById);
 

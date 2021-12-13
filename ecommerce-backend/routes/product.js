@@ -11,9 +11,9 @@ const { userById} = require('../controllers/user');
 router.get('/products', list);
 router.get("/products/search", listSearch);
 router.get('/products/related/:productId', listRelated),
-router.get('/products/categories', listCategories)//marche pas
+router.get('/products/categories', listCategories)
 router.get('/product/:productId', read)
-router.get('/product/photo/:productId', photo)//marche pas
+router.get('/product/photo/:productId', photo)
 router.post("/product/create/:userId",requireSignin, isAuth,isAdmin,create);
 router.delete('/product/:productId/:userId',requireSignin, isAuth,isAdmin, remove);
 router.put('/product/:productId/:userId',requireSignin, isAuth,isAdmin, update);
