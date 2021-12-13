@@ -92,11 +92,13 @@ const Profile = ({ match }) => {
                     document.getElementById("erreurMDP").innerHTML = "Votre ancienne mot de passe est incorrecte!";
                 } else {
                     if (!error) {
+                    // Update l'utilisateur dans la bd.
                         update(match.params.userId, token, { nom, prenom, email, hashed_password }).then(data => {
                             if (data.error) {
                                 console.log(data.error);
                             }
                             else {
+                                // Update son token (si non il devra se reconnecter pour voir les changements.)
                                 updateUser(data, () => {
                                     setValues({ ...values, nom: data.nom, email: data.email,succes: true })
                                 })
