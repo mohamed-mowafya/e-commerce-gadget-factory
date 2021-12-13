@@ -87,7 +87,7 @@ const Signup = () => {
 
                                             <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                                 <button onClick={submitValeurs} type="button" className="btn btn-primary btn-lg"
-                                                    style={{ paddingLeft: "2.5rem;", paddingRight: "2.5rem;", backgroundColor: "#ed6436" }} onClick={submitValeurs}>S'inscrire</button>
+                                                    style={{ paddingLeft: "2.5rem;", paddingRight: "2.5rem;", backgroundColor: "#ed6436" }}>S'inscrire</button>
 
                                             </div>
 
