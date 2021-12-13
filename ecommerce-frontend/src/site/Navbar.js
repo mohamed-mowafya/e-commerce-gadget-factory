@@ -54,10 +54,11 @@ const NavBar = ({ history }) => (
           {estAuthentifier() && estAuthentifier().user.role == 1 && (
             <Link className="nav-link" style={pageActive(history, '/admin/dashboard')} to="/admin/dashboard">Dashboard</Link>
           )}
-          <Link className="nav-link" style={pageActive(history, '/cart')} to="/cart"> <i class="fas fa-shopping-cart"></i><sup><small className="cart-badge">{itemAuTotal()}</small></sup></Link>
-          {estAuthentifier() && (
+             {estAuthentifier() && (
             <Link className="nav-link" style={{ cursor: 'pointer', color: '#ffffff' }} onClick={() => signout(() => { history.push("/"); })} to="/">Déconnexion</Link>
           )}
+          <Link className="nav-link" style={pageActive(history, '/cart')} to="/cart"> <i class="fas fa-shopping-cart"></i><sup><small className="cart-badge">{itemAuTotal()}</small></sup></Link>
+       
         </div>
       </div>
     </div>
