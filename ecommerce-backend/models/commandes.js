@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const { ObjectId } = mongoose.Schema;
  
 /**
- * Moel pour le panier
+ * Model pour le panier
  */
 const SchemaChariot = new mongoose.Schema(
   {
