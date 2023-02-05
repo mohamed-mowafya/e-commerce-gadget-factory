@@ -1,4 +1,0 @@
-TVcfB9WLgAhbb6s
-TeamCloud
-
-mongodb+srv://TeamCloud:<password>@teamcluster.fmeba.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
